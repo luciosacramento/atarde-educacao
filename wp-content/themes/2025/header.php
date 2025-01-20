@@ -50,7 +50,7 @@
 <![endif]-->
     <!-- ./Making stripe menu navigation -->
    <!-- Header Section -->
-  <header class="bg-primary text-white py-3">
+  <header class=" text-white">
     <div class="container">
       <nav class="navbar navbar-expand-lg navbar-dark">
         <a class="navbar-brand" href="#">A Tarde Educação</a>
@@ -59,13 +59,24 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
           <ul class="navbar-nav ms-auto">
-            <li class="nav-item"><a class="nav-link" href="#">O Programa</a></li>
-            <li class="nav-item"><a class="nav-link" href="#">Cursos</a></li>
-            <li class="nav-item"><a class="nav-link" href="#">Áreas de Atuação</a></li>
-            <li class="nav-item"><a class="nav-link" href="#">Notícias</a></li>
-            <li class="nav-item"><a class="nav-link" href="#">Eventos</a></li>
-            <li class="nav-item"><a class="nav-link" href="#">Contato</a></li>
+            <?php
+                $menuItens = wp_get_nav_menu_items("Menu Principal");   
+
+                $str = "";
+
+                foreach ( $menuItens as $menuItem ) {
+                    $str .= "<li class='nav-item'><a class='nav-link' href='".$menuItem->url."'>".$menuItem->title."</a></li>";
+                }
+
+                echo $str;
+            ?>
           </ul>
+          <?php get_search_form(); ?>
+          <div class="d-flex flex-row">
+            <div class="p-2">1</div>
+            <div class="p-2">2</div>
+            <div class="p-2">3</div>
+          </div>
         </div>
       </nav>
     </div>

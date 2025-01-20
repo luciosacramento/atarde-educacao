@@ -1,5 +1,5 @@
 <!-- Footer Section -->
-<footer class="bg-dark text-white py-4">
+<footer class="py-4">
     <div class="container">
       <div class="row">
         <div class="col-md-3">
@@ -8,27 +8,27 @@
           <p>Email: exemplo@atardeeducacao.com</p>
           <p>Telefone: +55 85 9876 1234</p>
           <div class="mt-3">
-            <a href="#" class="text-white me-3"><i class="bi bi-facebook"></i></a>
-            <a href="#" class="text-white me-3"><i class="bi bi-twitter"></i></a>
-            <a href="#" class="text-white"><i class="bi bi-instagram"></i></a>
+            <a href="#" class=" me-3"><i class="bi bi-facebook"></i></a>
+            <a href="#" class=" me-3"><i class="bi bi-twitter"></i></a>
+            <a href="#" class=""><i class="bi bi-instagram"></i></a>
           </div>
         </div>
         <div class="col-md-3">
           <h5>Mapa do site</h5>
           <ul class="list-unstyled">
-            <li><a href="#" class="text-white">Home</a></li>
-            <li><a href="#" class="text-white">Cursos</a></li>
-            <li><a href="#" class="text-white">Áreas de Atuação</a></li>
-            <li><a href="#" class="text-white">Contato</a></li>
+            <li><a href="#" >Home</a></li>
+            <li><a href="#" >Cursos</a></li>
+            <li><a href="#" >Áreas de Atuação</a></li>
+            <li><a href="#" >Contato</a></li>
           </ul>
         </div>
         <div class="col-md-3">
           <h5>Título extra</h5>
           <ul class="list-unstyled">
-            <li><a href="#" class="text-white">Texto 1</a></li>
-            <li><a href="#" class="text-white">Texto 2</a></li>
-            <li><a href="#" class="text-white">Texto 3</a></li>
-            <li><a href="#" class="text-white">Texto 4</a></li>
+            <li><a href="#" >Texto 1</a></li>
+            <li><a href="#" >Texto 2</a></li>
+            <li><a href="#" >Texto 3</a></li>
+            <li><a href="#" >Texto 4</a></li>
           </ul>
         </div>
         <div class="col-md-3">

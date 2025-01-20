@@ -66,8 +66,10 @@ get_header();
                                 <div class="card-body">
                                 <h5 class="card-title"><?php echo get_the_title(); ?></h5>
                                 <p class="card-text"><?php echo get_the_excerpt(); ?></p>
-                                <em class="d-inline"><?php echo get_the_date('d/m/Y'); ?></em>
-                                <a class="d-inline" href="<?php echo get_permalink(); ?>" class="btn btn-link">Leia mais</a>
+                                <div class="row">
+                                    <em class="col-6"><?php echo get_the_date('d/m/Y'); ?></em>
+                                    <a class="col-6 text-end" href="<?php echo get_permalink(); ?>" class="btn btn-link">Leia mais</a>
+                                </div>
                                 </div>
                             </div>
                             </div>

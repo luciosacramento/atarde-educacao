@@ -1,4 +1,16 @@
 <?php
+
+function registrar_menus() {
+    // Registra o menu principal
+    register_nav_menus(
+        array(
+            'menu-principal' => 'Menu Principal', // Nome interno para referência
+            'menu-footer'    => 'Menu do Rodapé'  // Nome interno para referência
+        )
+    );
+}
+add_action('after_setup_theme', 'registrar_menus');
+
 add_action( 'after_setup_theme', 'theme_setup' );
 
 function theme_setup() {
