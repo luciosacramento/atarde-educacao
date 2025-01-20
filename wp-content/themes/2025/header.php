@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="pt-BR">
+    <head>        
+
+        <title><?php
+            if (is_single()) {
+                single_post_title();
+            } elseif (is_home() || is_front_page()) {
+                bloginfo('name');
+                print ' | ';
+                bloginfo('description');
+            } elseif (is_page()) {
+                bloginfo('name');
+                print ' | ';
+                single_post_title('');
+            } elseif (is_search()) {
+                bloginfo('name');
+                print ' | Busca por ' . wp_specialchars($s);
+            } elseif (is_404()) {
+                bloginfo('name');
+                print ' | Não encontrado';
+            } else {
+                bloginfo('name');
+                wp_title('|');
+            }
+            ?>
+        </title>
+       
+        <meta charset="<?php bloginfo('charset'); ?>" />
+        <meta http-equiv="content-type" content="<?php bloginfo('html_type'); ?>; charset=<?php bloginfo('charset'); ?>" />
+        <meta http-equiv="x-ua-compatible" content="IE=9" >
+        <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width,initial-scale=1"><!-- Place favicon.ico in the root directory -->
+        <link rel="apple-touch-icon" href="apple-touch-icon.png">
+        <link rel="icon" href="favicon.ico">
+        
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+        <link rel="stylesheet" href="<?php bloginfo('template_url'); ?>/js/owlcarousel/assets/owl.carousel.min.css">
+        <link rel="stylesheet" href="<?php bloginfo('template_url'); ?>/js/owlcarousel/assets/owl.theme.default.min.css">
+        <!-- Styles -->
+        <link rel="stylesheet" href="<?php bloginfo('stylesheet_url'); ?>?<?php echo strtotime(date('Y-m-d h:i:s')); ?>" type="text/css" media="screen" id="color-style"/>
+        </head>
+
+<body>
+    <!--[if lt IE 8]>
+<p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+<![endif]-->
+    <!-- ./Making stripe menu navigation -->
+   <!-- Header Section -->
+  <header class="bg-primary text-white py-3">
+    <div class="container">
+      <nav class="navbar navbar-expand-lg navbar-dark">
+        <a class="navbar-brand" href="#">A Tarde Educação</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav ms-auto">
+            <li class="nav-item"><a class="nav-link" href="#">O Programa</a></li>
+            <li class="nav-item"><a class="nav-link" href="#">Cursos</a></li>
+            <li class="nav-item"><a class="nav-link" href="#">Áreas de Atuação</a></li>
+            <li class="nav-item"><a class="nav-link" href="#">Notícias</a></li>
+            <li class="nav-item"><a class="nav-link" href="#">Eventos</a></li>
+            <li class="nav-item"><a class="nav-link" href="#">Contato</a></li>
+          </ul>
+        </div>
+      </nav>
+    </div>
+  </header>
