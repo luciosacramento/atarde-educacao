@@ -11,6 +11,16 @@ function registrar_menus() {
 }
 add_action('after_setup_theme', 'registrar_menus');
 
+add_filter('template_include', function($template) {
+    if (is_page('noticias')) { // Substitua "noticias" pelo slug da página
+        $new_template = locate_template(array('page-noticias.php'));
+        if (!empty($new_template)) {
+            return $new_template;
+        }
+    }
+    return $template;
+});
+
 add_action( 'after_setup_theme', 'theme_setup' );
 
 function theme_setup() {
@@ -1498,3 +1508,67 @@ function criar_galerias_de_videos() {
 add_action('init', 'criar_galerias_de_videos');
 
 /*******************FIM tipo de conteudo GALERIA DE VIDEOS************************ */
+
+/*************************************AJAX INFINITE SCROOL**********************************************/
+// Adicionar o script para AJAX
+
+function carregar_jquery_no_tema() {
+    wp_enqueue_script('jquery');
+}
+add_action('wp_enqueue_scripts', 'carregar_jquery_no_tema');
+
+
+// Função AJAX para carregar mais notícias
+function carregar_mais_noticias() {
+    // Verifique se a página está sendo passada
+    if (isset($_POST['paged'])) {
+        $paged = intval($_POST['paged']);
+    } else {
+        wp_send_json_error('Parâmetro de página não encontrado.');
+    }
+
+    // Consulta de posts
+    $args = array(
+        'post_type'      => 'noticias',
+        'posts_per_page' => 9,
+        'paged'          => $paged,
+    );
+
+    $query = new WP_Query($args);
+
+    if ($query->have_posts()) {
+        ob_start(); // Inicia o buffer de saída
+        while ($query->have_posts()) {
+            $query->the_post();
+            $imagem_destaque = get_the_post_thumbnail_url(get_the_ID(), 'full'); // URL da imagem em destaque (tamanho completo)
+        if (!$imagem_destaque) {
+            $imagem_destaque = 'https://placehold.co/600x400/png'; // URL padrão (imagem de placeholder)
+        }
+        
+        ?>
+
+            <div class="col-md-4 p-3 noticia">
+                            <div class="card">
+                                <img src="<?php echo $imagem_destaque;?>" class="card-img-top" alt="<?php echo get_the_title(); ?>">
+                                <div class="card-body">
+                                <h5 class="card-title"><?php echo get_the_title(); ?></h5>
+                                <p class="card-text"><?php echo get_the_excerpt(); ?></p>
+                                <div class="row">
+                                    <em class="col-6"><?php echo get_the_date('d/m/Y'); ?></em>
+                                    <a class="col-6 text-end" href="<?php echo get_permalink(); ?>" class="btn btn-link">Leia mais</a>
+                                </div>
+                                </div>
+                            </div>
+            </div>
+            <?php
+        }
+        wp_reset_postdata();
+
+        $output = ob_get_clean(); // Obtém o conteúdo do buffer
+        wp_send_json_success($output);
+    } else {
+        wp_send_json_error('Sem mais notícias.');
+    }
+}
+add_action('wp_ajax_carregar_mais_noticias', 'carregar_mais_noticias');
+add_action('wp_ajax_nopriv_carregar_mais_noticias', 'carregar_mais_noticias');

@@ -93,10 +93,51 @@ a{
 }
 /*Busca fim*/
 
+#barra_azul{
+    padding: 10px;
+    background: url(img/logo_educacao.png) #0972B3 no-repeat ;
+    background-position: 50%;
+    width: 100%;
+    display: block;
+}
+
 footer{
   background: #EBEFF0;
 }
 
 footer h5{
   color: #0972B3;
+}
+
+#mais-noticias {
+  display: block;
+  margin: 20px auto;
+  padding: 10px 20px;
+  font-size: 16px;
+  background-color: #0073aa;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  text-align: center;
+}
+
+#mais-noticias:hover {
+  background-color: #005177;
+}
+
+.noticia {
+  margin-bottom: 20px;
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+}
+
+.noticia {
+  display: block;
+  opacity: 0;
+  transition: opacity 0.4s ease-in-out;
+}
+
+.noticia.visible {
+  opacity: 1;
 }

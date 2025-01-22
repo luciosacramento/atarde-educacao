@@ -1,4 +1,5 @@
 <!-- Footer Section -->
+<div id="barra_azul"></div>
 <footer class="py-4">
     <div class="container">
       <div class="row">
@@ -47,6 +48,23 @@
     <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
     <script src="<?php bloginfo('template_url'); ?>/js/owlcarousel/owl.carousel.min.js"></script>
 
+    <?php 
+    wp_enqueue_script(
+        'carregar-mais-noticias',
+        get_template_directory_uri() . '/js/carregar-mais-noticias.js', // Verifique este caminho
+        array('jquery'),
+        null,
+        true
+    );
+
+    // Passar a URL de admin-ajax.php para o JavaScript
+    wp_localize_script('carregar-mais-noticias', 'ajax_obj', array(
+        'ajax_url' => admin_url('admin-ajax.php')
+    ));
+    
+    ?>
+
+    
     <script>
         $('.owl-carousel').owlCarousel({
             loop:true,
