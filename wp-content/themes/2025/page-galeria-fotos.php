@@ -1,8 +1,8 @@
 <?php
 /**
- * Template Name: Página interna Notícias
+ * Template Name: Página interna Galeria
  *
- * Description: Template criado para exibir Notícias
+ * Description: Template criado para exibir Galeria
  *
  * @package WordPress
  * @subpackage atarde
@@ -24,8 +24,8 @@
         <?php
                 // Configuração da consulta para buscar os posts do tipo 'post'
                 $args = array(
-                    'post_type'      => 'noticias',      // Tipo de conteúdo 'post' (padrão para notícias)
-                    'posts_per_page' => 9,         // Quantidade de posts (notícias)
+                    'post_type'      => 'galeria_fotos',      // Tipo de conteúdo 'post' (padrão para notícias)
+                    'posts_per_page' => 18,         // Quantidade de posts (notícias)
                     'post_status'    => 'publish',  // Apenas posts publicados
                     'orderby'        => 'date',     // Ordenar por data
                     'order'          => 'DESC',     // Ordem decrescente (mais recentes primeiro)
@@ -46,20 +46,14 @@
                             $imagem_destaque = 'https://placehold.co/600x400/png'; // URL padrão (imagem de placeholder)
                         }
 
+                        //$media_link = get_post_meta(get_the_ID(), 'media_link', true);
+
                         ?>
                             <div class="col-md-4 p-3">
                             <div class="card">
-                                <a  href="<?php echo get_permalink(); ?>" >
+                                <a  href="#" class="abrir-modal" data-url="<?php echo esc_url($imagem_destaque); ?>" >
                                     <img src="<?php echo $imagem_destaque;?>" class="card-img-top" alt="<?php echo get_the_title(); ?>">
-                                </a>
-                                <div class="card-body">
-                                <h5 class="card-title"><?php echo get_the_title(); ?></h5>
-                                <p class="card-text"><?php echo get_the_excerpt(); ?></p>
-                                <div class="row">
-                                    <em class="col-6"><?php echo get_the_date('d/m/Y'); ?></em>
-                                    <a class="col-6 text-end btn btn-link" href="<?php echo get_permalink(); ?>" >Leia mais</a>
-                                </div>
-                                </div>
+                                </a>                                
                             </div>
                             </div>
 
@@ -83,13 +77,22 @@
         ?>
 
       </div>
-      <button id="mais-noticias" data-paged="1">Carregar mais</button>
+      <button id="mais-noticias" data-paged="1" tipo="galeria_fotos" >Carregar mais</button>
       <script>
          var ajaxurl = "<?php echo admin_url('admin-ajax.php'); ?>";
       </script>
       
     </div>
   </section>
+
+<div id="modal" style="display: none;">
+    <div id="modal-content">
+        <span id="fechar-modal">&times;</span>
+        <div id="modal-body">
+            <!-- O conteúdo será carregado dinamicamente -->
+        </div>
+    </div>
+</div>
   
 
   <!-- Fim Conteúdo -->

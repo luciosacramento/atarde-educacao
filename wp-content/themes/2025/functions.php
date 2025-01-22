@@ -1527,10 +1527,23 @@ function carregar_mais_noticias() {
         wp_send_json_error('Parâmetro de página não encontrado.');
     }
 
+    $tipo = "noticias";
+
+    if (isset($_POST['tipo'])) {
+        $tipo = $_POST['tipo'];
+    }
+
+    $posts_per_page = 9;
+
+    if($tipo == "galeria_fotos"){
+        $posts_per_page = 18;
+    }
+    
+
     // Consulta de posts
     $args = array(
-        'post_type'      => 'noticias',
-        'posts_per_page' => 9,
+        'post_type'      => $tipo,
+        'posts_per_page' => $posts_per_page,
         'paged'          => $paged,
     );
 
@@ -1544,30 +1557,63 @@ function carregar_mais_noticias() {
         if (!$imagem_destaque) {
             $imagem_destaque = 'https://placehold.co/600x400/png'; // URL padrão (imagem de placeholder)
         }
-        
-        ?>
 
-            <div class="col-md-4 p-3 noticia">
-                            <div class="card">
+            if($tipo == 'noticias'){
+            
+            ?>
+
+                <div class="col-md-4 p-3 noticia">
+                                <div class="card">
+                                    <a  href="<?php echo get_permalink(); ?>" >
+                                        <img src="<?php echo $imagem_destaque;?>" class="card-img-top" alt="<?php echo get_the_title(); ?>">
+                                    </a>
+                                    <div class="card-body">
+                                    <h5 class="card-title"><?php echo get_the_title(); ?></h5>
+                                    <p class="card-text"><?php echo get_the_excerpt(); ?></p>
+                                    <div class="row">
+                                        <em class="col-6"><?php echo get_the_date('d/m/Y'); ?></em>
+                                        <a class="col-6 text-end" href="<?php echo get_permalink(); ?>" class="btn btn-link">Leia mais</a>
+                                    </div>
+                                    </div>
+                                </div>
+                </div>
+                <?php
+            }elseif($tipo == 'galeria_fotos'){
+
+                ?>
+                    <div class="col-md-4 p-3 noticia">
+                        <div class="card">
+                            <a  href="#" class="abrir-modal" data-url="<?php echo esc_url($imagem_destaque); ?>" >
                                 <img src="<?php echo $imagem_destaque;?>" class="card-img-top" alt="<?php echo get_the_title(); ?>">
-                                <div class="card-body">
+                            </a>
+                        </div>
+                    </div>
+                <?php
+
+            }elseif($tipo == 'galeria_videos'){
+
+                ?>
+                    <div class="col-md-4 p-3 noticia">
+                        <div class="card">
+                            <a  href="<?php echo get_permalink(); ?>" >
+                                <img src="<?php echo $imagem_destaque;?>" class="card-img-top" alt="<?php echo get_the_title(); ?>">
+                            </a>
+                            <div class="card-body">
                                 <h5 class="card-title"><?php echo get_the_title(); ?></h5>
                                 <p class="card-text"><?php echo get_the_excerpt(); ?></p>
-                                <div class="row">
-                                    <em class="col-6"><?php echo get_the_date('d/m/Y'); ?></em>
-                                    <a class="col-6 text-end" href="<?php echo get_permalink(); ?>" class="btn btn-link">Leia mais</a>
-                                </div>
-                                </div>
                             </div>
-            </div>
-            <?php
+                        </div>
+                    </div>
+                <?php
+
+            }
         }
         wp_reset_postdata();
 
         $output = ob_get_clean(); // Obtém o conteúdo do buffer
         wp_send_json_success($output);
     } else {
-        wp_send_json_error('Sem mais notícias.');
+        wp_send_json_error('Sem mais dados.');
     }
 }
 add_action('wp_ajax_carregar_mais_noticias', 'carregar_mais_noticias');
