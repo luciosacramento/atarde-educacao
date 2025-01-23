@@ -38,6 +38,7 @@
         <link rel="icon" href="favicon.ico">
         
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
         <link rel="stylesheet" href="<?php bloginfo('template_url'); ?>/js/owlcarousel/assets/owl.carousel.min.css">
         <link rel="stylesheet" href="<?php bloginfo('template_url'); ?>/js/owlcarousel/assets/owl.theme.default.min.css">
         <!-- Styles -->

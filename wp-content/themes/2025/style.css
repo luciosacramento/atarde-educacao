@@ -225,4 +225,15 @@ footer h5{
   font-weight: bold;
 }
 
+/*Notícia single*/
+.social-icons a {
+  margin-right: 10px;
+  text-decoration: none;
+}
+.news-images img {
+  width: 100%;
+  height: auto;
+  margin-bottom: 10px;
+}
+
 
