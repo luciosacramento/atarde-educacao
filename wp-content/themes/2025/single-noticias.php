@@ -36,26 +36,12 @@
         </div>
 
         <!-- Imagem Principal -->
-        <?php the_post_thumbnail('large', ['class' => 'img-fluid']); ?>
+        <?php the_post_thumbnail('topo-noticias', ['class' => 'img-fluid w-100']); ?>
 
         <!-- Texto da Notícia -->
-        <?php the_content(); ?>
-
-        <!-- Imagens Relacionadas -->
-        <div class="row news-images">
-            <div class="col-6 col-md-4">
-                <img src="image1.jpg" alt="Imagem 1">
-            </div>
-            <div class="col-6 col-md-4">
-                <img src="image2.jpg" alt="Imagem 2">
-            </div>
-            <div class="col-6 col-md-4">
-                <img src="image3.jpg" alt="Imagem 3">
-            </div>
-            <div class="col-6 col-md-4">
-                <img src="image4.jpg" alt="Imagem 4">
-            </div>
-        </div>
+         <div class="container-noticias">
+             <?php the_content(); ?>
+         </div>
 
         <?php
         endwhile;
@@ -76,7 +62,7 @@
                 }
                 ?>
             </div>
-            <button onclick="window.scrollTo({ top: 0, behavior: 'smooth' });" class="btn btn-secondary">Voltar ao Topo</button>
+            <button onclick="window.scrollTo({ top: 0, behavior: 'smooth' });" class="bt-padrao">Voltar ao Topo</button>
             <div>
                 <?php
                 if (get_next_post()) {
@@ -90,6 +76,44 @@
       
     </div>
   </section>
+
+    <!-- Modal para visualização de imagens -->
+    <div id="image-modal" class="image-modal">
+        <span class="close-modal">&times;</span>
+        <img class="modal-content" id="modal-image">
+    </div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const modal = document.getElementById("image-modal");
+        const modalImg = document.getElementById("modal-image");
+        const closeModal = document.querySelector(".close-modal");
+
+        // Adiciona evento de clique nas imagens da galeria
+        document.querySelectorAll(".gallery-item a").forEach(image => {
+            image.addEventListener("click", function (e) {
+                e.preventDefault(); // Impede o comportamento padrão do link
+                const src = this.getAttribute("href");
+                modal.style.display = "block";
+                modalImg.src = src;
+            });
+        });
+
+        // Fecha o modal ao clicar no "X"
+        closeModal.addEventListener("click", function () {
+            modal.style.display = "none";
+            modalImg.src = "";
+        });
+
+        // Fecha o modal ao clicar fora da imagem
+        modal.addEventListener("click", function (e) {
+            if (e.target === modal) {
+                modal.style.display = "none";
+                modalImg.src = "";
+            }
+        });
+    });
+</script>
   
 
   <!-- Fim Conteúdo -->

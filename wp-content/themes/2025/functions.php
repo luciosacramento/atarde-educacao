@@ -11,6 +11,33 @@ function registrar_menus() {
 }
 add_action('after_setup_theme', 'registrar_menus');
 
+// Adicionar tamanhos personalizados de imagens
+function registrar_cortes_personalizados_imagens() {
+    // 1166x455 - Topo Notícias
+    add_image_size('topo-noticias', 1166, 455, true);
+
+    // 270x200 - Galeria Notícias
+    add_image_size('galeria-noticias', 270, 200, true);
+
+    // 295x200 - Notícias Home Chamada
+    add_image_size('noticias-home-chamada', 295, 200, true);
+
+    // 364x248 - Notícias List
+    add_image_size('noticias-list', 364, 248, true);
+}
+add_action('after_setup_theme', 'registrar_cortes_personalizados_imagens');
+
+// Tornar os tamanhos customizados disponíveis no editor (opcional)
+function adicionar_tamanhos_no_seletor_midia($sizes) {
+    return array_merge($sizes, array(
+        'topo-noticias' => __('Topo Notícias (1166x455)'),
+        'galeria-noticias' => __('Galeria Notícias (270x200)'),
+        'noticias-home-chamada' => __('Notícias Home Chamada (295x200)'),
+        'noticias-list' => __('Notícias List (364x248)'),
+    ));
+}
+add_filter('image_size_names_choose', 'adicionar_tamanhos_no_seletor_midia');
+
 add_filter('template_include', function($template) {
     if (is_page('noticias')) { // Substitua "noticias" pelo slug da página
         $new_template = locate_template(array('page-noticias.php'));
