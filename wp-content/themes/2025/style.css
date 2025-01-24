@@ -286,4 +286,46 @@ footer h5{
   }
 }
 
+/*Cursos*/
+
+.video-card {
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease-in-out;
+}
+.video-card:hover {
+  transform: scale(1.02);
+}
+.video-card img {
+  width: 100%;
+  height: auto;
+}
+.video-card .card-body {
+  padding: 1.5rem;
+}
+.video-card h5 {
+  color: #0056b3;
+}
+.video-card .category {
+  color: #f39200;
+  font-weight: bold;
+}
+.video-card .details i {
+  color: #0056b3;
+  margin-right: 0.5rem;
+}
+.video-card .details {
+  margin-top: 1rem;
+  font-size: 0.9rem;
+}
+.video-card .details p {
+  margin: 0.5rem 0;
+}
+.video-card .description {
+  margin-top: 1rem;
+  font-size: 0.95rem;
+  color: #666;
+}
 

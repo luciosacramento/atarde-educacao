@@ -436,6 +436,7 @@ function renderizar_metabox_cursos($post) {
     $duracao = get_post_meta($post->ID, '_curso_duracao', true);
     $publico = get_post_meta($post->ID, '_curso_publico', true);
     $nivel = get_post_meta($post->ID, '_curso_nivel', true);
+    $categoria = get_post_meta($post->ID, '_curso_categoria', true);
 
     // Campos do formulário
     echo '<label for="curso_duracao">Duração:</label>';
@@ -446,6 +447,9 @@ function renderizar_metabox_cursos($post) {
 
     echo '<label for="curso_nivel">Nível:</label>';
     echo '<input type="text" id="curso_nivel" name="curso_nivel" value="' . esc_attr($nivel) . '" style="width:100%; margin-bottom:10px;" placeholder="Ex: Iniciante, Intermediário, Avançado">';
+
+    echo '<label for="curso_categoria">Categoria:</label>';
+    echo '<input type="text" id="curso_categoria" name="curso_categoria" value="' . esc_attr($categoria) . '" style="width:100%; margin-bottom:10px;" >';
 }
 
 // Salvar os campos personalizados
@@ -466,6 +470,10 @@ function salvar_metabox_cursos($post_id) {
 
     if (isset($_POST['curso_nivel'])) {
         update_post_meta($post_id, '_curso_nivel', sanitize_text_field($_POST['curso_nivel']));
+    }
+
+    if (isset($_POST['curso_categoria'])) {
+        update_post_meta($post_id, '_curso_categoria', sanitize_text_field($_POST['curso_categoria']));
     }
 }
 add_action('save_post', 'salvar_metabox_cursos');
@@ -1562,8 +1570,12 @@ function carregar_mais_noticias() {
 
     $posts_per_page = 9;
 
+    //curso
+
     if($tipo == "galeria_fotos"){
         $posts_per_page = 18;
+    }elseif($tipo == "curso"){
+        $posts_per_page = 12;
     }
     
 
@@ -1631,6 +1643,29 @@ function carregar_mais_noticias() {
                             </div>
                         </div>
                     </div>
+                <?php
+
+            }elseif($tipo == 'curso'){
+
+                ?>
+                   <div class="col-md-3 p-3">
+                        <div class="video-card">
+                            <img src="<?php echo $imagem_destaque;?>" alt="<?php echo get_the_title(); ?>">
+                            <div class="card-body">
+                                <h5 class="card-title"><?php echo get_the_title(); ?></h5>
+                                <p class="category"><?php echo get_post_meta(get_the_ID(), '_curso_categoria', true) ?></p>
+                                <div class="details">
+                                <p><i class="bi bi-clock"></i><?php echo get_post_meta(get_the_ID(), '_curso_duracao', true) ?></p>
+                                <p><i class="bi bi-people"></i><?php echo get_post_meta(get_the_ID(), '_curso_publico', true) ?></p>
+                                <p><i class="bi bi-bar-chart"></i><?php echo get_post_meta(get_the_ID(), '_curso_nivel', true) ?></p>
+                                </div>
+                                <p class="description">
+                                    <?php echo get_the_excerpt(); ?>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    
                 <?php
 
             }
