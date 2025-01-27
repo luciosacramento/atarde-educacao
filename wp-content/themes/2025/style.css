@@ -336,3 +336,42 @@ footer h5{
   background: none;
 }
 
+/*******Eventos********/
+
+.event-title {
+  font-size: 1.8rem;
+  font-weight: bold;
+}
+.event-date {
+  font-size: 1rem;
+  color: #777;
+}
+.event-content img {
+  width: 100%;
+  border-radius: 8px;
+}
+.thumbnail img {
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+  cursor: pointer;
+}
+.thumbnail img:hover {
+  transform: scale(1.02);
+  transition: 0.3s;
+}
+.event-details {
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  padding: 1rem;
+  font-size: 0.9rem;
+}
+.event-details h5 {
+  font-size: 1rem;
+  font-weight: bold;
+  color: #0056b3;
+}
+.event-details p {
+  margin: 0;
+}
+
