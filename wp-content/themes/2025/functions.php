@@ -1576,6 +1576,8 @@ function carregar_mais_noticias() {
         $posts_per_page = 18;
     }elseif($tipo == "curso"){
         $posts_per_page = 12;
+    }elseif($tipo == "evento"){
+        $posts_per_page = 6;
     }
     
 
@@ -1597,7 +1599,7 @@ function carregar_mais_noticias() {
             $imagem_destaque = 'https://placehold.co/600x400/png'; // URL padrão (imagem de placeholder)
         }
 
-            if($tipo == 'noticias'){
+            if($tipo == 'noticias' || $tipo == 'evento'){
             
             ?>
 
@@ -1665,7 +1667,7 @@ function carregar_mais_noticias() {
                             </div>
                         </div>
                     </div>
-                    
+
                 <?php
 
             }
