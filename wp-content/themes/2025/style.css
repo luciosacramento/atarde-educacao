@@ -375,3 +375,82 @@ footer h5{
   margin: 0;
 }
 
+/* header - Fundo com efeito ondulado */
+.wave-section {
+  background: linear-gradient(to right, #fff 50%, #ffc107 50%);
+  position: relative;
+  overflow: hidden;
+}
+
+.wave-section::before {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 150px;
+  background: #ffc107;
+  clip-path: ellipse(70% 100% at 50% 100%);
+  z-index: 1;
+}
+
+.content-wrapper {
+  z-index: 2;
+  position: relative;
+}
+
+.wave-image img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 10px;
+}
+
+.title-text {
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: #1b6dc1;
+}
+
+.subtitle-text {
+  font-size: 1.25rem;
+  color: #ff6f00;
+}
+
+.eventos-section {
+  position: relative;
+  padding: 2rem 0;
+  background-color: #f5f5f5;
+  overflow: hidden;
+}
+
+.eventos-title {
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: #2165c6;
+  margin-bottom: 1rem;
+}
+
+.eventos-subtitle {
+  font-size: 1.2rem;
+  color: #f37226;
+}
+
+.eventos-image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  max-width: 100%;
+  height: auto;
+  z-index: 1;
+}
+
+.ondas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+  background: linear-gradient(to right, #ffcc33 30%, rgba(255, 204, 51, 0) 60%);
+  clip-path: polygon(0 25%, 100% 0%, 100% 75%, 0% 100%);
+}

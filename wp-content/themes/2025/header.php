@@ -80,5 +80,30 @@
           </div>
         </div>
       </nav>
+      
     </div>
+    <?php 
+      global $post;
+      if ($post->post_name != "home"){?>
+      <section class="eventos-section">
+        <div class="container">
+          <div class="row align-items-center">
+            <div class="col-md-6">
+              <h1 class="eventos-title">Eventos</h1>
+              <p class="eventos-subtitle">
+                Aqui você encontrará todos os nossos eventos e como participar.
+              </p>
+            </div>
+            <div class="col-md-6 position-relative">
+              <img
+                src="http://localhost/atarde-educacao-1/wp-content/uploads/2025/01/a-statue-of-medusa-with-snakes-for-hair-_AEY-OUzORWin4U6s7dRNYQ_0m0Md5RYT9eTP3g8PViQKA-1-1024x455.jpeg"
+                alt="Imagem de crianças"
+                class="eventos-image img-fluid"
+              />
+              <div class="ondas"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+    <?php }?>
   </header>
