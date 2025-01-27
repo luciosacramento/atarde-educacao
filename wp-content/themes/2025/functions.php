@@ -113,9 +113,10 @@ function registrar_custom_post_type_noticias() {
         'publicly_queryable'  => true,
         'capability_type'     => 'post',
         'show_in_rest'        => true, // Habilita o editor de blocos (Gutenberg)
+        'rewrite' => array('slug' => 'noticias_post'),
     );
 
-    register_post_type('noticias', $args);
+    register_post_type('noticias_post', $args);
 }
 
 add_action('init', 'registrar_custom_post_type_noticias');
@@ -177,9 +178,10 @@ function criar_tipo_conteudo_equipe() {
         'publicly_queryable'  => true,
         'capability_type'     => 'post', // Comportamento semelhante ao tipo "post"
         'show_in_rest'        => true, // Habilita a API REST
+        'rewrite' => array('slug' => 'equipe_post'),
     );
 
-    register_post_type('equipe', $args);
+    register_post_type('equipe_post', $args);
 }
 add_action('init', 'criar_tipo_conteudo_equipe', 0);
 
@@ -320,7 +322,7 @@ function registrar_tipo_conteudo_parceiro() {
         'show_ui'            => true,
         'show_in_menu'       => true,
         'query_var'          => true,
-        'rewrite'            => array('slug' => 'parceiro'),
+        'rewrite'            => array('slug' => 'parceiro_post'),
         'capability_type'    => 'post',
         'has_archive'        => true,
         'hierarchical'       => false,
@@ -329,9 +331,10 @@ function registrar_tipo_conteudo_parceiro() {
         'supports'           => array('title', 'thumbnail'), // Suporte a título e imagem destacada
     );
 
-    register_post_type('parceiro', $args);
+    register_post_type('parceiro_post', $args);
 }
 add_action('init', 'registrar_tipo_conteudo_parceiro');
+
 
 // Adicionar o metabox para o campo "Link"
 function adicionar_metabox_parceiro() {
@@ -401,7 +404,7 @@ function registrar_tipo_conteudo_cursos() {
         'show_ui'            => true,
         'show_in_menu'       => true,
         'query_var'          => true,
-        'rewrite'            => array('slug' => 'curso'),
+        'rewrite'            => array('slug' => 'curso_post'),
         'capability_type'    => 'post',
         'has_archive'        => true,
         'hierarchical'       => false,
@@ -410,9 +413,10 @@ function registrar_tipo_conteudo_cursos() {
         'supports'           => array('title', 'editor', 'thumbnail', 'excerpt'), // Suporte a título, descrição, imagem destacada e resumo
     );
 
-    register_post_type('curso', $args);
+    register_post_type('curso_post', $args);
 }
 add_action('init', 'registrar_tipo_conteudo_cursos');
+
 
 // Adicionar metaboxes para os campos personalizados
 function adicionar_metabox_cursos() {
@@ -650,7 +654,7 @@ function registrar_tipo_conteudo_depoimento() {
         'show_ui'            => true,
         'show_in_menu'       => true,
         'query_var'          => true,
-        'rewrite'            => array('slug' => 'depoimentos'),
+        'rewrite'            => array('slug' => 'depoimentos_post'),
         'capability_type'    => 'post',
         'has_archive'        => true,
         'hierarchical'       => false,
@@ -659,9 +663,10 @@ function registrar_tipo_conteudo_depoimento() {
         'supports'           => array('title', 'editor', 'excerpt', 'thumbnail'), // Título, descrição, resumo, imagem destacada
     );
 
-    register_post_type('depoimento', $args);
+    register_post_type('depoimentos_post', $args);
 }
 add_action('init', 'registrar_tipo_conteudo_depoimento');
+
 
 // Adicionar o campo personalizado "Link para vídeo"
 function adicionar_campos_personalizados_depoimento() {
@@ -697,12 +702,12 @@ function salvar_campo_link_video($post_id) {
 }
 add_action('save_post', 'salvar_campo_link_video');
 
-/*CONTEÚDO:
+/*CONTEÚDO:*
 
 // Script para criar 9 depoimentos
 function criar_depoimentos_automaticos() {
     // Certifique-se de que o tipo de conteúdo "depoimento" está registrado
-    if (!post_type_exists('depoimento')) {
+    if (!post_type_exists('depoimentos_post')) {
         return;
     }
 
@@ -775,14 +780,14 @@ function criar_depoimentos_automaticos() {
 
     foreach ($depoimentos as $depoimento) {
         // Verificar se o depoimento já existe pelo título
-        if (!get_page_by_title($depoimento['titulo'], OBJECT, 'depoimento')) {
+        if (!get_page_by_title($depoimento['titulo'], OBJECT, 'depoimentos_post')) {
             // Criar o depoimento
             $post_id = wp_insert_post([
                 'post_title'   => $depoimento['titulo'],
                 'post_excerpt' => $depoimento['resumo'], // Resumo
                 'post_content' => $depoimento['descricao'], // Descrição
                 'post_status'  => 'publish',
-                'post_type'    => 'depoimento',
+                'post_type'    => 'depoimentos_post',
             ]);
 
             if ($post_id) {
@@ -851,7 +856,7 @@ function registrar_tipo_conteudo_evento() {
         'show_ui'            => true,
         'show_in_menu'       => true,
         'query_var'          => true,
-        'rewrite'            => array('slug' => 'eventos'),
+        'rewrite'            => array('slug' => 'eventos_post'),
         'capability_type'    => 'post',
         'has_archive'        => true,
         'hierarchical'       => false,
@@ -860,9 +865,10 @@ function registrar_tipo_conteudo_evento() {
         'supports'           => array('title', 'editor', 'excerpt', 'thumbnail'), // Título, descrição, resumo, imagem destacada
     );
 
-    register_post_type('evento', $args);
+    register_post_type('eventos_post', $args);
 }
 add_action('init', 'registrar_tipo_conteudo_evento');
+
 
 // Função para adicionar os campos personalizados ao tipo de conteúdo "Evento"
 function adicionar_campos_personalizados_evento() {
@@ -1099,7 +1105,7 @@ function registrar_tipo_conteudo_faq() {
         'show_ui'            => true,
         'show_in_menu'       => true,
         'query_var'          => true,
-        'rewrite'            => array('slug' => 'faq'),
+        'rewrite'            => array('slug' => 'faq_post'),
         'capability_type'    => 'post',
         'has_archive'        => true,
         'hierarchical'       => false,
@@ -1109,9 +1115,10 @@ function registrar_tipo_conteudo_faq() {
     );
 
     // Registrar o tipo de post FAQ
-    register_post_type('faq', $args);
+    register_post_type('faq_post', $args);
 }
 add_action('init', 'registrar_tipo_conteudo_faq');
+
 
 // Função para adicionar o campo personalizado "Resposta"
 function adicionar_campos_personalizados_faq() {
@@ -1562,7 +1569,7 @@ function carregar_mais_noticias() {
         wp_send_json_error('Parâmetro de página não encontrado.');
     }
 
-    $tipo = "noticias";
+    $tipo = "noticias_post";
 
     if (isset($_POST['tipo'])) {
         $tipo = $_POST['tipo'];
@@ -1574,9 +1581,9 @@ function carregar_mais_noticias() {
 
     if($tipo == "galeria_fotos"){
         $posts_per_page = 18;
-    }elseif($tipo == "curso"){
+    }elseif($tipo == "curso_post"){
         $posts_per_page = 12;
-    }elseif($tipo == "evento"){
+    }elseif($tipo == "eventos_post"){
         $posts_per_page = 6;
     }
     
@@ -1599,7 +1606,7 @@ function carregar_mais_noticias() {
             $imagem_destaque = 'https://placehold.co/600x400/png'; // URL padrão (imagem de placeholder)
         }
 
-            if($tipo == 'noticias' || $tipo == 'evento'){
+            if($tipo == 'noticias_post' || $tipo == 'eventos_post'){
             
             ?>
 
@@ -1647,7 +1654,7 @@ function carregar_mais_noticias() {
                     </div>
                 <?php
 
-            }elseif($tipo == 'curso'){
+            }elseif($tipo == 'curso_post'){
 
                 ?>
                    <div class="col-md-3 p-3">

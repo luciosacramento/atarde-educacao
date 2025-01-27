@@ -40,7 +40,7 @@
             <?php
                     // Configuração da consulta para buscar os posts do tipo 'post'
                     $args = array(
-                        'post_type'      => 'FAQ',      // Tipo de conteúdo 'post' (padrão para notícias)
+                        'post_type'      => 'faq_post',      // Tipo de conteúdo 'post' (padrão para notícias)
                         'posts_per_page' => -1,         // Quantidade de posts (notícias)
                         'post_status'    => 'publish',  // Apenas posts publicados
                         'orderby'        => 'date',     // Ordenar por data

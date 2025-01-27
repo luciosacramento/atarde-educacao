@@ -89,14 +89,14 @@
         <div class="container">
           <div class="row align-items-center">
             <div class="col-md-6">
-              <h1 class="eventos-title">Eventos</h1>
+              <h1 class="eventos-title"><?php echo $post->post_title; ?></h1>
               <p class="eventos-subtitle">
-                Aqui você encontrará todos os nossos eventos e como participar.
+                <?php echo $post->post_excerpt; ?>               
               </p>
             </div>
             <div class="col-md-6 position-relative">
               <img
-                src="http://localhost/atarde-educacao-1/wp-content/uploads/2025/01/a-statue-of-medusa-with-snakes-for-hair-_AEY-OUzORWin4U6s7dRNYQ_0m0Md5RYT9eTP3g8PViQKA-1-1024x455.jpeg"
+                src="<?php the_post_thumbnail('full', true); ?>"
                 alt="Imagem de crianças"
                 class="eventos-image img-fluid"
               />

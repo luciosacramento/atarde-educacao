@@ -24,7 +24,7 @@
         <?php
                 // Configuração da consulta para buscar os posts do tipo 'post'
                 $args = array(
-                    'post_type'      => 'curso',      // Tipo de conteúdo 'post' (padrão para notícias)
+                    'post_type'      => 'curso_post',      // Tipo de conteúdo 'post' (padrão para notícias)
                     'posts_per_page' => 12,         // Quantidade de posts (notícias)
                     'post_status'    => 'publish',  // Apenas posts publicados
                     'orderby'        => 'date',     // Ordenar por data
@@ -87,7 +87,7 @@
         ?>
 
       </div>
-      <button id="mais-noticias" data-paged="1" tipo="curso">Carregar mais</button>
+      <button id="mais-noticias" data-paged="1" tipo="curso_post">Carregar mais</button>
       <script>
          var ajaxurl = "<?php echo admin_url('admin-ajax.php'); ?>";
       </script>
