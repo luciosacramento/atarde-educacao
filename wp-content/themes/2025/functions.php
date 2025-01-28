@@ -27,6 +27,24 @@ function registrar_cortes_personalizados_imagens() {
 }
 add_action('after_setup_theme', 'registrar_cortes_personalizados_imagens');
 
+function get_resized_image_url($original_url, $size = 'noticias-home-chamada') {
+    global $wpdb;
+
+    $query = $wpdb->prepare("
+        SELECT ID FROM $wpdb->posts
+        WHERE guid = %s AND post_type = 'attachment'
+    ", $original_url);
+
+    $image_id = $wpdb->get_var($query);
+
+    if ($image_id) {
+        $image_src = wp_get_attachment_image_src($image_id, $size);
+        return $image_src ? $image_src[0] : $original_url;
+    }
+
+    return $original_url;
+}
+
 // Tornar os tamanhos customizados disponíveis no editor (opcional)
 function adicionar_tamanhos_no_seletor_midia($sizes) {
     return array_merge($sizes, array(
