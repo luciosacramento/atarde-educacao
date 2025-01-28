@@ -454,3 +454,57 @@ footer h5{
   background: linear-gradient(to right, #ffcc33 30%, rgba(255, 204, 51, 0) 60%);
   clip-path: polygon(0 25%, 100% 0%, 100% 75%, 0% 100%);
 }
+
+/*O Programa*/
+
+.section-title {
+  font-size: 1.8rem;
+  font-weight: bold;
+  color: #0056b3;
+}
+.history-section, .mission-section {
+  padding: 2rem 0;
+}
+.history-section img, .mission-section img {
+  width: 100%;
+  border-radius: 8px;
+}
+.thumbnails img {
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+  cursor: pointer;
+}
+.thumbnails img:hover {
+  transform: scale(1.02);
+  transition: 0.3s;
+}
+.team-section {
+  background-color: #f8c01c;
+  padding: 2rem 0;
+}
+.team-box {
+  background-color: white;
+  border-radius: 8px;
+  padding: 1rem;
+  text-align: center;
+  min-height: 200px;
+}
+.partners-section {
+  text-align: center;
+  padding: 2rem 0;
+}
+.partners-section img {
+  max-width: 150px;
+  margin: 10px;
+}
+.btn-partners {
+  background-color: #0056b3;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 5px;
+  text-decoration: none;
+  display: inline-block;
+  margin-top: 1rem;
+}
+

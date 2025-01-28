@@ -1551,6 +1551,180 @@ add_action('init', 'criar_galerias_de_videos');
 
 /*******************FIM tipo de conteudo GALERIA DE VIDEOS************************ */
 
+/*******************O PROGRAMA************************ */
+
+// Adiciona os metaboxes à página "O Programa"
+function adicionar_campos_o_programa() {
+    global $post;
+
+    if ($post && get_post($post)->post_name === 'o-programa') {
+        add_meta_box(
+            'galeria_fotos',
+            'Galeria de Fotos',
+            'exibir_campo_galeria_fotos',
+            'page',
+            'normal',
+            'high'
+        );
+
+        add_meta_box(
+            'nossa_missao_texto',
+            'Nossa Missão - Texto',
+            'exibir_campo_nossa_missao',
+            'page',
+            'normal',
+            'high'
+        );
+
+        add_meta_box(
+            'nossa_missao_imagem',
+            'Nossa Missão - Imagem de Destaque',
+            'exibir_campo_nossa_missao_imagem',
+            'page',
+            'side',
+            'low'
+        );
+    }
+}
+add_action('add_meta_boxes', 'adicionar_campos_o_programa');
+
+// Exibir Galeria de Fotos
+function exibir_campo_galeria_fotos($post) {
+    $galeria = get_post_meta($post->ID, 'galeria_fotos', true);
+    ?>
+    <div>
+        <button class="button button-primary" id="adicionar-imagens">Adicionar Imagens</button>
+        <ul id="galeria-preview">
+            <?php if (!empty($galeria)) {
+                foreach ($galeria as $imagem) {
+                    echo '<li><img src="' . esc_url($imagem) . '" width="100"><input type="hidden" name="galeria_fotos[]" value="' . esc_url($imagem) . '"><button class="remover-imagem">X</button></li>';
+                }
+            } ?>
+        </ul>
+    </div>
+    <script>
+        jQuery(document).ready(function($) {
+            var frame;
+            $('#adicionar-imagens').click(function(e) {
+                e.preventDefault();
+                if (frame) {
+                    frame.open();
+                    return;
+                }
+                frame = wp.media({
+                    title: 'Selecione Imagens',
+                    button: { text: 'Adicionar à Galeria' },
+                    multiple: true
+                });
+                frame.on('select', function() {
+                    var selection = frame.state().get('selection');
+                    selection.map(function(attachment) {
+                        attachment = attachment.toJSON();
+                        $('#galeria-preview').append('<li><img src="'+attachment.url+'" width="100"><input type="hidden" name="galeria_fotos[]" value="'+attachment.url+'"><button class="remover-imagem">X</button></li>');
+                    });
+                });
+                frame.open();
+            });
+            $(document).on('click', '.remover-imagem', function() {
+                $(this).parent().remove();
+            });
+        });
+    </script>
+    <?php
+}
+
+// Exibir Nossa Missão (Campo de Texto)
+function exibir_campo_nossa_missao($post) {
+    $missao = get_post_meta($post->ID, 'nossa_missao_texto', true);
+    ?>
+    <label for="nossa_missao_texto">Digite o conteúdo da missão:</label>
+    <textarea id="nossa_missao_texto" name="nossa_missao_texto" rows="5" style="width:100%;"><?php echo esc_textarea($missao); ?></textarea>
+    <?php
+}
+
+// Exibir Nossa Missão - Imagem de Destaque
+function exibir_campo_nossa_missao_imagem($post) {
+    $imagem = get_post_meta($post->ID, 'nossa_missao_imagem', true);
+    ?>
+    <div>
+        <img id="preview-imagem" src="<?php echo esc_url($imagem); ?>" width="100">
+        <input type="hidden" name="nossa_missao_imagem" id="nossa_missao_imagem" value="<?php echo esc_url($imagem); ?>">
+        <button class="button button-secondary" id="selecionar-imagem">Selecionar Imagem</button>
+    </div>
+    <script>
+        jQuery(document).ready(function($) {
+            var frame;
+            $('#selecionar-imagem').click(function(e) {
+                e.preventDefault();
+                if (frame) {
+                    frame.open();
+                    return;
+                }
+                frame = wp.media({
+                    title: 'Selecione uma Imagem',
+                    button: { text: 'Usar essa imagem' },
+                    multiple: false
+                });
+                frame.on('select', function() {
+                    var attachment = frame.state().get('selection').first().toJSON();
+                    $('#preview-imagem').attr('src', attachment.url);
+                    $('#nossa_missao_imagem').val(attachment.url);
+                });
+                frame.open();
+            });
+        });
+    </script>
+    <?php
+}
+
+// Salvar os campos personalizados
+function salvar_campos_o_programa($post_id) {
+    if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) return;
+
+    if (isset($_POST['galeria_fotos'])) {
+        update_post_meta($post_id, 'galeria_fotos', $_POST['galeria_fotos']);
+    }
+
+    if (isset($_POST['nossa_missao_texto'])) {
+        update_post_meta($post_id, 'nossa_missao_texto', $_POST['nossa_missao_texto']);
+    }
+
+    if (isset($_POST['nossa_missao_imagem'])) {
+        update_post_meta($post_id, 'nossa_missao_imagem', $_POST['nossa_missao_imagem']);
+    }
+}
+add_action('save_post', 'salvar_campos_o_programa');
+
+// Exibir os campos personalizados na página
+function exibir_campos_o_programa() {
+    if (is_page('o-programa')) {
+        $missao_texto = get_post_meta(get_the_ID(), 'nossa_missao_texto', true);
+        $missao_imagem = get_post_meta(get_the_ID(), 'nossa_missao_imagem', true);
+        $galeria = get_post_meta(get_the_ID(), 'galeria_fotos', true);
+
+        echo '<div class="nossa-missao">';
+        if (!empty($missao_texto)) {
+            echo '<div class="nossa-nossa_missao_texto"><h2>Nossa Missão</h2><p>' . esc_html($missao_texto) . '</p></div>';
+        }
+        if (!empty($missao_imagem)) {
+            echo '<img src="' . esc_url($missao_imagem) . '" alt="Nossa Missão">';
+        }
+        echo '</div>';
+
+        if (!empty($galeria)) {
+            echo '<div class="galeria">';
+            foreach ($galeria as $imagem) {
+                echo '<img src="' . esc_url($imagem) . '" width="200">';
+            }
+            echo '</div>';
+        }
+    }
+}
+add_action('the_content', 'exibir_campos_o_programa');
+
+
+/*******************FIM O PROGRAMA************************ */
+
 /*************************************AJAX INFINITE SCROOL**********************************************/
 // Adicionar o script para AJAX
 
