@@ -86,24 +86,16 @@
       global $post;
       if ($post->post_name != "home"){?>
       <section class="eventos-section">
-        <div class="container">
           <div class="row align-items-center">
-            <div class="col-md-6">
+            <div class="col-md-12 cont-imagem" >
+            <?php the_post_thumbnail('full', ['class' => 'img-fluid w-100 eventos-image']); ?>
+              <div class="ondas"></div>
               <h1 class="eventos-title"><?php echo $post->post_title; ?></h1>
               <p class="eventos-subtitle">
                 <?php echo $post->post_excerpt; ?>               
               </p>
             </div>
-            <div class="col-md-6 position-relative">
-              <img
-                src="<?php the_post_thumbnail('full', true); ?>"
-                alt="Imagem de crianças"
-                class="eventos-image img-fluid"
-              />
-              <div class="ondas"></div>
-            </div>
           </div>
-        </div>
       </section>
     <?php }?>
   </header>
