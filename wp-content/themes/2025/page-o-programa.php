@@ -114,16 +114,7 @@
         </div>
     </div>
 
-    <div class="partners-section">
-        <h3>Parceiros</h3>
-        <div class="row justify-content-center">
-            <div class="col-md-2"><img src="https://via.placeholder.com/120x50" alt="Parceiro 1"></div>
-            <div class="col-md-2"><img src="https://via.placeholder.com/120x50" alt="Parceiro 2"></div>
-            <div class="col-md-2"><img src="https://via.placeholder.com/120x50" alt="Parceiro 3"></div>
-            <div class="col-md-2"><img src="https://via.placeholder.com/120x50" alt="Parceiro 4"></div>
-            <div class="col-md-2"><img src="https://via.placeholder.com/120x50" alt="Parceiro 5"></div>
-        </div>
-    </div>
+
 
       <script>
          var ajaxurl = "<?php echo admin_url('admin-ajax.php'); ?>";
