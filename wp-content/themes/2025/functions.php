@@ -24,6 +24,9 @@ function registrar_cortes_personalizados_imagens() {
 
     // 364x248 - Notícias List
     add_image_size('noticias-list', 364, 248, true);
+
+    // 364x248 - Notícias List
+    add_image_size('header-image', 1920, 585, true);
 }
 add_action('after_setup_theme', 'registrar_cortes_personalizados_imagens');
 

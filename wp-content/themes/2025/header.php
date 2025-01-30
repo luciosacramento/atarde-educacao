@@ -95,9 +95,10 @@
       <section class="header-section">
           <div class="row align-items-center">
             <div class="col-md-12 cont-imagem" >
-            <?php the_post_thumbnail('full', ['class' => 'img-fluid w-100 header-image']); ?>
+            <?php the_post_thumbnail('header-image', ['class' => 'img-fluid w-100 header-image']); ?>
               <div class="ondas"></div>
               <h1 class="header-title bree-serif-regular"><?php echo $post->post_title; ?></h1>
+              <h1 class="header-title-2 bree-serif-regular"><?php echo $post->post_title; ?></h1>
               <p class="header-subtitle">
                 <?php echo $post->post_excerpt; ?>               
               </p>
