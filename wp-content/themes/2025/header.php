@@ -37,13 +37,20 @@
         <link rel="apple-touch-icon" href="apple-touch-icon.png">
         <link rel="icon" href="favicon.ico">
         
+        <!-- Styles -->
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
         <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
         <link rel="stylesheet" href="<?php bloginfo('template_url'); ?>/js/owlcarousel/assets/owl.carousel.min.css">
         <link rel="stylesheet" href="<?php bloginfo('template_url'); ?>/js/owlcarousel/assets/owl.theme.default.min.css">
-        <!-- Styles -->
+
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Bree+Serif&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Bree+Serif&family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
+
         <link rel="stylesheet" href="<?php bloginfo('stylesheet_url'); ?>?<?php echo strtotime(date('Y-m-d h:i:s')); ?>" type="text/css" media="screen" id="color-style"/>
-        </head>
+        
+      </head>
 
 <body>
     <!--[if lt IE 8]>
@@ -85,13 +92,13 @@
     <?php 
       global $post;
       if ($post->post_name != "home"){?>
-      <section class="eventos-section">
+      <section class="header-section">
           <div class="row align-items-center">
             <div class="col-md-12 cont-imagem" >
-            <?php the_post_thumbnail('full', ['class' => 'img-fluid w-100 eventos-image']); ?>
+            <?php the_post_thumbnail('full', ['class' => 'img-fluid w-100 header-image']); ?>
               <div class="ondas"></div>
-              <h1 class="eventos-title"><?php echo $post->post_title; ?></h1>
-              <p class="eventos-subtitle">
+              <h1 class="header-title bree-serif-regular"><?php echo $post->post_title; ?></h1>
+              <p class="header-subtitle">
                 <?php echo $post->post_excerpt; ?>               
               </p>
             </div>

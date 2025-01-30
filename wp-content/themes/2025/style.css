@@ -8,6 +8,16 @@
  Tags: three-columns, four-columns, widgets. 
  ----  */
 
+ *{
+  font-family: "Open Sans", serif;
+ }
+
+.bree-serif-regular {
+  font-family: "Bree Serif", serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
 .card-body{
   padding: 0;
 }
@@ -415,30 +425,33 @@ footer h5{
   color: #ff6f00;
 }
 
-.eventos-section {
+/*HEADER*/
+
+.header-section {
   position: relative;
   padding: 0 0 2rem 0;
   background-color: #f5f5f5;
   overflow: hidden;
 }
 
-.eventos-section .cont-imagem{
+.header-section .cont-imagem{
   height: 451px;
 }
 
-.eventos-title {
-  font-size: 2.5rem;
-  font-weight: bold;
-  color: #2165c6;
-  margin-bottom: 1rem;
+.header-title {
+  color: #0972b2;
+  -webkit-text-fill-color: white; /* Will override color (regardless of order) */
+  -webkit-text-stroke: 3px #fff;
+  font-size: 98px;
 }
 
-.eventos-subtitle {
-  font-size: 1.2rem;
-  color: #f37226;
+.header-subtitle {
+  font-family: "Open Sans", serif;
+  font-size: 24px;
+  color: #f58220;
 }
 
-.eventos-image {
+.header-image {
   position: absolute;
   top: 0;
   left: 0;
