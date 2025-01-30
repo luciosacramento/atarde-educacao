@@ -18,25 +18,36 @@ get_header();
   </section>
   
   <!-- Objective Section -->
-  <section class="bg-light py-5">
-    <div class="container text-center">
-      <h2>Nosso Objetivo</h2>
-      <p class="mt-3">A Tarde Educação tem como objetivo capacitar todas os públicos das escolas. Lorem ipsum dolor sit amet consectetur.</p>
+
+  <section class="py-5 nosso-objetivo-area">
+    
+    <div class="publico professores"><img src="<?php bloginfo('template_url'); ?>/img/user_professores.png"></div>
+    <div class="publico gestores"><img src="<?php bloginfo('template_url'); ?>/img/user_gestores.png"></div>
+    <div class="publico estudantes"><img src="<?php bloginfo('template_url'); ?>/img/user_estudante.png"></div>
+    <div class="caneta"></div>
+    
+    <div class="container  cont-nossoobjetivo ">
+      <h2 class="bree-serif-regular">Nosso Objetivo</h2>
+      <p class="mt-3"><?php echo $post->post_content; ?></p>
       <a href="#" class="btn btn-primary mt-3">Saiba Mais</a>
     </div>
+
+    <iframe class="video" width="499" height="319" src="https://www.youtube.com/embed/g43TplVtTKE?si=MllbbOiwG-VEJBzp" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
   </section>
+
 
   <!-- News Section -->
   <section class="py-5">
     <div class="container">
-      <h2 class="text-center">Notícias</h2>
+      <h2 class="text-center subtitle_center subtitle-icon"><span class="icon-noticias"></span><div class="bree-serif-regular">Notícias</div></h2>
       <div class="row mt-4 owl-carousel">
 
 
         <?php
                 // Configuração da consulta para buscar os posts do tipo 'post'
                 $args = array(
-                    'post_type'      => 'noticias',      // Tipo de conteúdo 'post' (padrão para notícias)
+                    'post_type'      => 'noticias_post',      // Tipo de conteúdo 'post' (padrão para notícias)
                     'posts_per_page' => 10,         // Quantidade de posts (notícias)
                     'post_status'    => 'publish',  // Apenas posts publicados
                     'orderby'        => 'date',     // Ordenar por data
@@ -53,7 +64,7 @@ get_header();
                     while ($query->have_posts()) {
                         $query->the_post(); // Configura o post atual
 
-                        $imagem_destaque = get_the_post_thumbnail_url(get_the_ID(), 'full'); // URL da imagem em destaque (tamanho completo)
+                        $imagem_destaque = get_the_post_thumbnail_url(get_the_ID(), 'noticias-home-chamada'); // URL da imagem em destaque (tamanho completo)
                         if (!$imagem_destaque) {
                             $imagem_destaque = 'https://placehold.co/600x400/png'; // URL padrão (imagem de placeholder)
                         }
@@ -67,7 +78,7 @@ get_header();
                                 <p class="card-text"><?php echo get_the_excerpt(); ?></p>
                                 <div class="row">
                                     <em class="col-6"><?php echo get_the_date('d/m/Y'); ?></em>
-                                    <a class="col-6 text-right" href="<?php echo get_permalink(); ?>" class="btn btn-link">Leia mais</a>
+                                    <a class="col-6" href="<?php echo get_permalink(); ?>" class="btn btn-link">VEJA MAIS +</a>
                                 </div>
                                 </div>
                             </div>
@@ -95,54 +106,59 @@ get_header();
       </div>
     </div>
   </section>
+  <a href="#" class="btn btn-primary m-auto d-table mb-5">veja todas</a>
 
-  <!-- Area de Atuação Section -->
-  <section class="bg-light py-5">
-    <div class="container">
-      <h2 class="text-center">Área de Atuação</h2>
-      <div class="row mt-4">
-        <div class="col-md-4 text-center">
-          <img src="icon1.png" alt="Icon 1" class="mb-3">
-          <h5>Socioeducacional</h5>
-          <p>Lorem ipsum dolor sit amet consectetur adipiscing elit.</p>
-        </div>
-        <div class="col-md-4 text-center">
-          <img src="icon2.png" alt="Icon 2" class="mb-3">
-          <h5>Empreendedorismo</h5>
-          <p>Lorem ipsum dolor sit amet consectetur adipiscing elit.</p>
-        </div>
-        <div class="col-md-4 text-center">
-          <img src="icon3.png" alt="Icon 3" class="mb-3">
-          <h5>Socioambiental</h5>
-          <p>Lorem ipsum dolor sit amet consectetur adipiscing elit.</p>
+  <div class="cont-areaatuacao">
+    <!-- Area de Atuação Section -->
+    <section class="py-5 atuacao">
+      <div class="globo"></div>
+      <div class="container">
+        <h2 class="text-center subtitle_center"></span><div class="bree-serif-regular">Área de Atuação</div></h2>
+        <div class="row mt-4">
+          <div class="col-md-4 text-center">
+            <img src="icon1.png" alt="Icon 1" class="mb-3">
+            <h5>Socioeducacional</h5>
+            <p>Lorem ipsum dolor sit amet consectetur adipiscing elit.</p>
+          </div>
+          <div class="col-md-4 text-center">
+            <img src="icon2.png" alt="Icon 2" class="mb-3">
+            <h5>Empreendedorismo</h5>
+            <p>Lorem ipsum dolor sit amet consectetur adipiscing elit.</p>
+          </div>
+          <div class="col-md-4 text-center">
+            <img src="icon3.png" alt="Icon 3" class="mb-3">
+            <h5>Socioambiental</h5>
+            <p>Lorem ipsum dolor sit amet consectetur adipiscing elit.</p>
+          </div>
         </div>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- Números do Programa Section -->
-  <section class="py-5">
-    <div class="container">
-      <h2 class="text-center">Números do Programa</h2>
-      <div class="row text-center mt-4">
-        <div class="col-md-3">
-          <h3>50+</h3>
-          <p>Municípios</p>
-        </div>
-        <div class="col-md-3">
-          <h3>200+</h3>
-          <p>Professores</p>
-        </div>
-        <div class="col-md-3">
-          <h3>3000+</h3>
-          <p>Alunos</p>
-        </div>
-        <div class="col-md-3">
-          <h3>100+</h3>
-          <p>Escolas</p>
+    <!-- Números do Programa Section -->
+    <section class="py-5">
+      <div class="container">
+        <h2 class="text-center">Números do Programa</h2>
+        <div class="row text-center mt-4">
+          <div class="col-md-3">
+            <h3>50+</h3>
+            <p>Municípios</p>
+          </div>
+          <div class="col-md-3">
+            <h3>200+</h3>
+            <p>Professores</p>
+          </div>
+          <div class="col-md-3">
+            <h3>3000+</h3>
+            <p>Alunos</p>
+          </div>
+          <div class="col-md-3">
+            <h3>100+</h3>
+            <p>Escolas</p>
+          </div>
         </div>
       </div>
-    </div>
-  </section>
+    </section>
+
+  </div>
 
 <?php get_footer(); ?>

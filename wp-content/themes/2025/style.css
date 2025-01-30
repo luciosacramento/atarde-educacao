@@ -18,6 +18,127 @@
   font-style: normal;
 }
 
+.btn{
+  background: #0971b1;
+  font-weight: bold;
+  text-transform: uppercase;
+  font-size: 16px;
+  border-radius: 19px;
+  padding: 8px 30px;
+  border: 0;
+}
+
+.subtitle_center div{
+  display: table;
+  margin: 0 auto;
+  border-bottom: 1px solid #f39200;
+  padding-bottom: 60px;
+  font-size: 42px;
+  color: #0056b3;
+}
+
+.subtitle_center.subtitle-icon .icon-noticias {
+  width: 281px;
+  height: 423px;
+  background: url(img/icon_noticias.png) no-repeat;
+  position: absolute;
+  margin-right: 10px;
+  display: block;
+  margin-top: -289px;
+  margin-left: 162px;
+}
+
+/*Home*/
+
+.nosso-objetivo-area{
+  background: url(img/mulher_pc.jpg) no-repeat;
+  background-position: 50% 0;
+  height: 1322px;
+}
+
+.nosso-objetivo-area .publico{
+  position: absolute;
+  left: 50%;
+}
+
+.nosso-objetivo-area .publico.professores{
+  margin-left: -107px;
+  margin-top: 39px;
+}
+
+.nosso-objetivo-area .publico.gestores{
+  margin-left: -302px;
+  margin-top: 104px;
+}
+
+.nosso-objetivo-area .publico.estudantes{
+  margin-left: -460px;
+  margin-top: 256px;
+}
+
+.nosso-objetivo-area .caneta{
+  position: absolute;
+  background: url(img/caneta.png) no-repeat;
+  width: 302px;
+  height: 443px;
+  left: 50%;
+  margin-left: 359px;
+  margin-top: -225px;
+}
+
+.nosso-objetivo-area .cont-nossoobjetivo {
+  margin: 500px 0 0 -503px;
+  width: 364px;
+  position: absolute;
+  left: 50%;
+}
+
+.nosso-objetivo-area .cont-nossoobjetivo h2{
+ font-size: 38px;
+ color: #0972b2;
+}
+
+.nosso-objetivo-area .video {
+  position: absolute;
+  left: 50%;
+  margin-left: -29px;
+  margin-top: 708px;
+}
+
+.cont-areaatuacao {
+  background: #33a3dc;
+  border-top-right-radius: 200px;
+  border-bottom-right-radius: 200px;
+  margin-right: 5%;
+  overflow: hidden;
+}
+
+.cont-areaatuacao .atuacao{
+  padding: 50px;
+  text-align: center;
+  color: #fff;
+  background: #fff;
+  border-top-left-radius: 200px;
+  border-bottom-left-radius: 200px;
+  margin-left: 290px;
+  margin-top: 50px;
+}
+
+.cont-areaatuacao .globo {
+  background: url(img/globo.png);
+  width: 386px;
+  height: 477px;
+  position: absolute;
+  margin-left: -300px;
+  margin-top: -94px;
+}
+
+/*fim home*/
+
+.card, .owl-carousel .owl-item img{
+  border-radius: 0 !important;
+}
+
 .card-body{
   padding: 0;
 }
@@ -38,21 +159,39 @@
   margin: 0;
 }
 
-.card-body .row em, .card-body .row a{
-  background: #ccc;
-  padding: 0;
-  margin: 0;
-  border-radius: 0;
+.card-body .row div:last-child {
+ text-align: right;
 }
 
-.owl-carousel .owl-nav button.owl-next, .owl-carousel .owl-nav button.owl-prev, .owl-carousel button.owl-dot {
-  background: #ccc;
-  color: inherit;
+.card-body .row em, .card-body .row a{
+  background: #f5f5f5;
+  padding: 15px;
+  margin: 0;
+  border-radius: 0;
+  font-weight: bold;
+  text-transform: uppercase;
+  color: #6e808a;
+}
+
+.card-body .row a{
+  color: #3baafe;
+  text-decoration: none;
+  text-align: right;
+}
+
+.owl-carousel .owl-nav button.owl-next, .owl-carousel .owl-nav button.owl-prev  {
+  background: #0773b5;
+  color: #fff;
   border: none;
-  padding: 0 !important;
+  padding: 0px 4px 2px 5px !important;
   font: inherit;
   border-radius: 100%;
   width: 25px;
+  margin: 0 2px;
+}
+
+.owl-nav{
+  padding-left: 25px;
 }
 
 header{
@@ -105,8 +244,8 @@ a{
 /*Busca fim*/
 
 #barra_azul{
-    padding: 10px;
-    background: url(img/logo_educacao.png) #0972B3 no-repeat ;
+    height: 110px;
+    background: url(img/logo_atarde-rodape.jpg) #0972B3 no-repeat ;
     background-position: 50%;
     width: 100%;
     display: block;
@@ -537,4 +676,5 @@ footer h5{
   display: inline-block;
   margin-top: 1rem;
 }
+
 
