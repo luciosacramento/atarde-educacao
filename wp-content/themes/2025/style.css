@@ -33,9 +33,38 @@
   display: table;
   margin: 0 auto;
   border-bottom: 1px solid #f39200;
-  padding-bottom: 60px;
+  
+}
+
+.subtitle_center.branco div{
+  border-bottom: 1px solid #167ac7;  
+}
+
+.subtitle_center div span{
   font-size: 42px;
-  color: #0056b3;
+  color: #33a3dc;
+}
+
+.subtitle_center.branco div span{
+  color: #fff;
+}
+
+.subtitle_center .label{
+  padding-bottom: 60px;
+  display: block;
+}
+
+.subtitle_center span.sub {
+  text-transform: uppercase;
+  font-size: 20px;
+  position: relative;
+  margin-top: -44px;
+  display: block;
+  color: #6e808a;
+}
+
+.subtitle_center.branco span.sub {
+  color: #fff;
 }
 
 .subtitle_center.subtitle-icon .icon-noticias {
@@ -47,6 +76,53 @@
   display: block;
   margin-top: -289px;
   margin-left: 162px;
+}
+.cont-numero-programa{
+  width: 50%;
+  margin: 0 auto;
+}
+.col-12.item-numero-programa:nth-of-type(odd) {
+  background: #167ac7;
+  border-radius: 0px 150px 150px 0px;
+  color: #fff;
+  text-align: left;
+  margin-bottom: 30px;
+  padding: 10px 10px 10px 64px;
+  margin-left: -77px;
+}
+
+.col-12.item-numero-programa {
+  background: #167ac7;
+  color: #fff;
+  border-radius: 150px 0px 0px 150px;
+  text-align: right;
+  margin-left: 0px;
+  margin-bottom: 30px;
+  padding: 10px 103px 10px 10px;
+}
+
+.col-12.item-numero-programa:nth-of-type(odd) p{
+  text-align: left;
+  color: #fff;
+}
+
+.col-12.item-numero-programa p{
+  text-align: right;
+  color: #fff;
+}
+
+
+.col-12.item-numero-programa:nth-of-type(odd) img {
+  position: absolute;
+  margin-left: -154px;
+  margin-top: -98px;
+}
+
+
+.col-12.item-numero-programa img {
+  position: absolute;
+  margin-left: 13px;
+  margin-top: -99px;
 }
 
 /*Home*/
@@ -108,11 +184,12 @@
 
 .cont-areaatuacao {
   background: url(img/mulher_02.png) no-repeat #33a3dc;
-  border-top-right-radius: 200px;
-  border-bottom-right-radius: 200px;
+  border-top-right-radius: 600px;
+  border-bottom-right-radius: 600px;
   margin-right: 5%;
   overflow: hidden;
   background-position: 130% 100%;
+  margin-bottom: 50px;
 }
 
 .cont-areaatuacao .atuacao{

@@ -1786,16 +1786,49 @@ add_action('the_content', 'exibir_campos_o_programa');
     }
     add_action('init', 'registrar_area_atuacao_post_type');
 
-    function migrar_posts_para_novo_tipo() {
-        global $wpdb;
-        
-        $wpdb->query("
-            UPDATE {$wpdb->posts}
-            SET post_type = 'area-atuacao-post'
-            WHERE post_type = 'area-atuacao'
-        ");
-    }
-    add_action('init', 'migrar_posts_para_novo_tipo');
+/*******************FIM tipo de conteudo Area de Atuação************************ */
+
+
+/*******************tipo de conteudo Area de Atuação************************ */
+// Função para registrar o tipo de post personalizado "Área de Atuação"
+function registrar_numero_programa_post_type() {
+    $labels = array(
+        'name'               => 'Números do Programa',
+        'singular_name'      => 'Número do programa',
+        'menu_name'          => 'Números do Programa',
+        'name_admin_bar'     => 'Número do programa',
+        'add_new'            => 'Adicionar Nova',
+        'add_new_item'       => 'Adicionar Nova Número do programa',
+        'new_item'           => 'Nova Número do programa',
+        'edit_item'          => 'Editar Número do programa',
+        'view_item'          => 'Ver Número do programa',
+        'all_items'          => 'Todas as Números do Programa',
+        'search_items'       => 'Buscar Números do Programa',
+        'not_found'          => 'Nenhuma Número do programa encontrada.',
+        'not_found_in_trash' => 'Nenhuma Número do programa encontrada na lixeira.',
+    );
+
+    $args = array(
+        'labels'             => $labels,
+        'public'             => true,
+        'publicly_queryable' => true,
+        'show_ui'            => true,
+        'show_in_menu'       => true,
+        'query_var'          => true,
+        'rewrite'            => array('slug' => 'numero-programa-post'),
+        'capability_type'    => 'post',
+        'has_archive'        => true,
+        'hierarchical'       => false,
+        'menu_position'      => 5,
+        'menu_icon'          => 'dashicons-portfolio', // Ícone do menu
+        'supports'           => array('title', 'editor', 'thumbnail'),
+        'taxonomies'         => array('category', 'post_tag') // Usa categorias e tags padrões do WordPress
+    );
+
+    register_post_type('numero-programa-post', $args);
+}
+add_action('init', 'registrar_numero_programa_post_type');
+
 /*******************FIM tipo de conteudo Area de Atuação************************ */
 
 /*************************************AJAX INFINITE SCROOL**********************************************/

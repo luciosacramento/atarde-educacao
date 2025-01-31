@@ -40,7 +40,7 @@ get_header();
   <!-- News Section -->
   <section class="py-5">
     <div class="container">
-      <h2 class="text-center subtitle_center subtitle-icon"><span class="icon-noticias"></span><div class="bree-serif-regular">Notícias</div></h2>
+      <h2 class="text-center subtitle_center subtitle-icon"><span class="icon-noticias"></span><div><span class="label bree-serif-regular">Notícias</span></div></h2>
       <div class="row mt-4 owl-carousel">
 
 
@@ -113,7 +113,12 @@ get_header();
     <section class="py-5 atuacao">
       <div class="globo"></div>
       <div class="container ps-4">
-        <h2 class="text-center subtitle_center"></span><div class="bree-serif-regular">Área de Atuação</div></h2>
+
+        <h2 class="text-center subtitle_center">
+          <div><span class="label bree-serif-regular">Área de Atuação</span></div>
+          <span class="sub">Confira os nossos eixos de trabalho</span>
+        </h2>
+
         <div class="row mt-4 mr-4">
 
         <?php
@@ -181,24 +186,60 @@ get_header();
     <!-- Números do Programa Section -->
     <section class="py-5">
       <div class="container">
-        <h2 class="text-center">Números do Programa</h2>
-        <div class="row text-center mt-4">
-          <div class="col-md-3">
-            <h3>50+</h3>
-            <p>Municípios</p>
-          </div>
-          <div class="col-md-3">
-            <h3>200+</h3>
-            <p>Professores</p>
-          </div>
-          <div class="col-md-3">
-            <h3>3000+</h3>
-            <p>Alunos</p>
-          </div>
-          <div class="col-md-3">
-            <h3>100+</h3>
-            <p>Escolas</p>
-          </div>
+
+        <h2 class="text-center subtitle_center branco">
+          <div><span class="label bree-serif-regular">Área de Atuação</span></div>
+          <span class="sub">Confira os nossos eixos de trabalho</span>
+        </h2>
+
+        <div class="row text-center mt-5 cont-numero-programa">
+
+        <?php
+          // Configuração da WP_Query para buscar posts do tipo "area-atuacao-post"
+          $args = array(
+              'post_type' => 'numero-programa-post', // Tipo de post
+              'posts_per_page' => -1, // Retorna todos os posts
+              'order' => 'ASC', // Ordem crescente
+          );
+
+          $query = new WP_Query($args);
+
+          // Verifica se há posts
+          if ($query->have_posts()) {
+
+          
+              $post_count = 0; // Contador de posts
+          
+              while ($query->have_posts()) {
+                  $query->the_post();
+                  $post_count++;
+          
+                  // Recupera o link do post
+                  $post_link = get_permalink();
+          
+                  // Recupera a imagem em destaque (thumbnail)
+                  $featured_image = get_the_post_thumbnail_url(get_the_ID(), 'full');
+          
+                  // Recupera o título e o resumo do post
+                  $post_title = get_the_title();
+                  $post_content = get_the_content();
+          
+                  // Estrutura HTML para o primeiro post
+                  echo '
+                  <div class="col-12 item-numero-programa">
+                      <img src="'.$featured_image.'"/><h3>' . esc_html($post_title) . '</h3>
+                      <p>' . esc_html($post_content) . '</p>
+                  </div>';
+              }
+
+          } else {
+              // Mensagem caso não haja posts
+              echo '<p>Nenhum post encontrado.</p>';
+          }
+
+          // Reseta a query
+          wp_reset_postdata();
+          ?>
         </div>
       </div>
     </section>
