@@ -112,24 +112,68 @@ get_header();
     <!-- Area de Atuação Section -->
     <section class="py-5 atuacao">
       <div class="globo"></div>
-      <div class="container">
+      <div class="container ps-4">
         <h2 class="text-center subtitle_center"></span><div class="bree-serif-regular">Área de Atuação</div></h2>
-        <div class="row mt-4">
-          <div class="col-md-4 text-center">
-            <img src="icon1.png" alt="Icon 1" class="mb-3">
-            <h5>Socioeducacional</h5>
-            <p>Lorem ipsum dolor sit amet consectetur adipiscing elit.</p>
-          </div>
-          <div class="col-md-4 text-center">
-            <img src="icon2.png" alt="Icon 2" class="mb-3">
-            <h5>Empreendedorismo</h5>
-            <p>Lorem ipsum dolor sit amet consectetur adipiscing elit.</p>
-          </div>
-          <div class="col-md-4 text-center">
-            <img src="icon3.png" alt="Icon 3" class="mb-3">
-            <h5>Socioambiental</h5>
-            <p>Lorem ipsum dolor sit amet consectetur adipiscing elit.</p>
-          </div>
+        <div class="row mt-4 mr-4">
+
+        <?php
+          // Configuração da WP_Query para buscar posts do tipo "area-atuacao-post"
+          $args = array(
+              'post_type' => 'area-atuacao-post', // Tipo de post
+              'posts_per_page' => -1, // Retorna todos os posts
+              'order' => 'ASC', // Ordem crescente
+          );
+
+          $query = new WP_Query($args);
+
+          // Verifica se há posts
+          if ($query->have_posts()) {
+              echo '<div class="row">'; // Inicia a linha
+          
+              $post_count = 0; // Contador de posts
+          
+              while ($query->have_posts()) {
+                  $query->the_post();
+                  $post_count++;
+          
+                  // Recupera o link do post
+                  $post_link = get_permalink();
+          
+                  // Recupera a imagem em destaque (thumbnail)
+                  $featured_image = get_the_post_thumbnail_url(get_the_ID(), 'full');
+          
+                  // Recupera o título e o resumo do post
+                  $post_title = get_the_title();
+                  $post_excerpt = get_the_excerpt();
+          
+                  // Estrutura HTML para o primeiro post
+                  if ($post_count === 1) {
+                      echo '
+                      <div class="col-md-3 text-start">
+                          <strong>' . esc_html($post_title) . '</strong>
+                          <p>' . esc_html($post_excerpt) . '</p>
+                      </div>';
+                  } else {
+                      // Estrutura HTML para os demais posts
+                      echo '
+                      <div class="col-md-3 text-center">
+                          <a href="' . esc_url($post_link) . '">
+                              <img src="' . esc_url($featured_image) . '" alt="' . esc_attr($post_title) . '" class="mb-3">
+                          </a>
+                      </div>';
+                  }
+              }
+          
+              echo '</div>'; // Fecha a linha
+          } else {
+              // Mensagem caso não haja posts
+              echo '<p>Nenhum post encontrado.</p>';
+          }
+
+          // Reseta a query
+          wp_reset_postdata();
+          ?>
+          
         </div>
       </div>
     </section>

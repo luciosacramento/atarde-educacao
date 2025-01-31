@@ -1746,6 +1746,58 @@ add_action('the_content', 'exibir_campos_o_programa');
 
 /*******************FIM O PROGRAMA************************ */
 
+/*******************tipo de conteudo Area de Atuação************************ */
+// Função para registrar o tipo de post personalizado "Área de Atuação"
+    function registrar_area_atuacao_post_type() {
+        $labels = array(
+            'name'               => 'Áreas de Atuação',
+            'singular_name'      => 'Área de Atuação',
+            'menu_name'          => 'Áreas de Atuação',
+            'name_admin_bar'     => 'Área de Atuação',
+            'add_new'            => 'Adicionar Nova',
+            'add_new_item'       => 'Adicionar Nova Área de Atuação',
+            'new_item'           => 'Nova Área de Atuação',
+            'edit_item'          => 'Editar Área de Atuação',
+            'view_item'          => 'Ver Área de Atuação',
+            'all_items'          => 'Todas as Áreas de Atuação',
+            'search_items'       => 'Buscar Áreas de Atuação',
+            'not_found'          => 'Nenhuma área de atuação encontrada.',
+            'not_found_in_trash' => 'Nenhuma área de atuação encontrada na lixeira.',
+        );
+
+        $args = array(
+            'labels'             => $labels,
+            'public'             => true,
+            'publicly_queryable' => true,
+            'show_ui'            => true,
+            'show_in_menu'       => true,
+            'query_var'          => true,
+            'rewrite'            => array('slug' => 'area-atuacao-post'),
+            'capability_type'    => 'post',
+            'has_archive'        => true,
+            'hierarchical'       => false,
+            'menu_position'      => 5,
+            'menu_icon'          => 'dashicons-portfolio', // Ícone do menu
+            'supports'           => array('title', 'editor', 'thumbnail', 'excerpt'),
+            'taxonomies'         => array('category', 'post_tag') // Usa categorias e tags padrões do WordPress
+        );
+
+        register_post_type('area-atuacao-post', $args);
+    }
+    add_action('init', 'registrar_area_atuacao_post_type');
+
+    function migrar_posts_para_novo_tipo() {
+        global $wpdb;
+        
+        $wpdb->query("
+            UPDATE {$wpdb->posts}
+            SET post_type = 'area-atuacao-post'
+            WHERE post_type = 'area-atuacao'
+        ");
+    }
+    add_action('init', 'migrar_posts_para_novo_tipo');
+/*******************FIM tipo de conteudo Area de Atuação************************ */
+
 /*************************************AJAX INFINITE SCROOL**********************************************/
 // Adicionar o script para AJAX
 
