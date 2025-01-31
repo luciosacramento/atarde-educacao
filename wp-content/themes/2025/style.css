@@ -107,11 +107,12 @@
 }
 
 .cont-areaatuacao {
-  background: #33a3dc;
+  background: url(img/mulher_02.png) no-repeat #33a3dc;
   border-top-right-radius: 200px;
   border-bottom-right-radius: 200px;
   margin-right: 5%;
   overflow: hidden;
+  background-position: 130% 100%;
 }
 
 .cont-areaatuacao .atuacao{
