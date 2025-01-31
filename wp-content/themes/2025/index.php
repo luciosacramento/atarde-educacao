@@ -2,7 +2,7 @@
 get_header(); 
 ?>
 
-       <!-- Hero Section -->
+       <!-- Hero Section --
   <section class="hero-section text-center py-5">
     <div class="container">
       <div class="row align-items-center">

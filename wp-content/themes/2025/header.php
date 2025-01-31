@@ -105,5 +105,15 @@
             </div>
           </div>
       </section>
+    <?php }else{?>
+      <section class="header-section home">
+          <div class="row align-items-center">
+            <div class="col-md-12" >
+              <img src="<?php bloginfo('template_url'); ?>/img/header_home.jpg" />
+              <div class="logo"><img src="<?php bloginfo('template_url'); ?>/img/title_header_home.png" /></div>
+            </div>
+          </div>
+      </section>
+
     <?php }?>
   </header>

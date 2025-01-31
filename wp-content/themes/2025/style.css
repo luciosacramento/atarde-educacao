@@ -645,11 +645,23 @@ footer h5{
 
 /*HEADER*/
 
+.header-section.home img{
+  width: 100%;
+}
+
+.header-section.home .logo{
+  position: absolute;
+  bottom: 0;
+  /* left: 50%; */
+  margin-bottom: -100px;
+  margin-left: 137px;
+}
+
 .header-section {
   position: relative;
   padding: 0 0 2rem 0;
   background-color: #fff;
-  margin-bottom: 90px;
+  margin-bottom: 123px;
 }
 
 .header-section .cont-imagem{
