@@ -106,7 +106,11 @@ get_header();
       </div>
     </div>
   </section>
-  <a href="#" class="btn btn-primary m-auto d-table mb-5">veja todas</a>
+  <?php 
+    $page = get_page_by_path('noticias');
+    $page_link = get_permalink($page->ID);
+  ?>
+  <a href="<?php echo $page_link; ?>" class="btn btn-primary m-auto d-table mb-5">veja todas</a>
 
   <div class="cont-areaatuacao">
     <!-- Area de Atuação Section -->
@@ -243,6 +247,8 @@ get_header();
         </div>
       </div>
     </section>
+
+    <div class="cont-areaatuacao-mulher"></div>
 
   </div>
 

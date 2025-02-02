@@ -59,9 +59,13 @@
     <!-- ./Making stripe menu navigation -->
    <!-- Header Section -->
   <header class=" text-white">
-    <div class="container">
+    <div class="container cont-nav-heade">
       <nav class="navbar navbar-expand-lg navbar-dark">
-        <a class="navbar-brand" href="#">A Tarde Educação</a>
+        <?php 
+        $page = get_page_by_path('home');
+        $page_link = get_permalink($page->ID);
+        ?>
+       <?php if ($post->post_name != "home"){?> <a class="navbar-brand" href="<?php echo $page_link; ?>">A Tarde Educação</a><?php } ?>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
           <span class="navbar-toggler-icon"></span>
         </button>
@@ -81,39 +85,52 @@
           </ul>
           <?php get_search_form(); ?>
           <div class="d-flex flex-row">
-            <div class="p-2">1</div>
-            <div class="p-2">2</div>
-            <div class="p-2">3</div>
+            <div class="p-2"><img src="<?php bloginfo('template_url'); ?>/img/icon-ava.png" alt="AVA"></div>
+            <div class="p-2"><img src="<?php bloginfo('template_url'); ?>/img/icon-insta.png" alt="Instagam"></div>
+            <div class="p-2"><img src="<?php bloginfo('template_url'); ?>/img/icon_face.png" alt="Facebook"></div>
+            <div class="p-2"><img src="<?php bloginfo('template_url'); ?>/img/icon-youtube.png" alt="Youtube"></div>
           </div>
         </div>
       </nav>
       
     </div>
+    </header>
     <?php 
       global $post;
       if ($post->post_name != "home"){?>
       <section class="header-section">
           <div class="row align-items-center">
-            <div class="col-md-12 cont-imagem" >
-            <?php the_post_thumbnail('header-image', ['class' => ' header-image']); ?>
-              <div class="ondas"></div>
-              <h1 class="header-title bree-serif-regular"><?php echo $post->post_title; ?></h1>
+            <div class="col-md-12 cont-imagem no-padding-lr" >
+              <?php the_post_thumbnail('header-image', ['class' => ' header-image']); ?>
+              <img class="ondas" src="<?php bloginfo('template_url'); ?>/img/onda.png" alt="">
+              <!--div class="ondas"></div-->
+             
+            </div>
+          </div>
+      </section>
+
+      <div class="container d-table bg-transparent">
+      <h1 class="header-title bree-serif-regular"><?php echo $post->post_title; ?></h1>
               <h1 class="header-title-2 bree-serif-regular"><?php echo $post->post_title; ?></h1>
               <p class="header-subtitle">
                 <?php echo $post->post_excerpt; ?>               
               </p>
-            </div>
-          </div>
-      </section>
+              <?php
+              $imagem_personalizada = get_post_meta(get_the_ID(), '_imagem_personalizada', true);
+              if (!empty($imagem_personalizada)) {
+                  echo '<img src="' . esc_url($imagem_personalizada) . '" alt="Imagem Personalizada" class="header-icon">';
+              }
+              ?>
+      </div>
     <?php }else{?>
       <section class="header-section home">
           <div class="row align-items-center">
             <div class="col-md-12" >
               <img src="<?php bloginfo('template_url'); ?>/img/header_home.jpg" />
-              <div class="logo"><img src="<?php bloginfo('template_url'); ?>/img/title_header_home.png" /></div>
             </div>
+            <div class="logo"><img src="<?php bloginfo('template_url'); ?>/img/title_header_home.png" /></div>
           </div>
       </section>
 
     <?php }?>
-  </header>
+  

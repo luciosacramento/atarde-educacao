@@ -1969,3 +1969,87 @@ function carregar_mais_noticias() {
 }
 add_action('wp_ajax_carregar_mais_noticias', 'carregar_mais_noticias');
 add_action('wp_ajax_nopriv_carregar_mais_noticias', 'carregar_mais_noticias');
+
+
+/**ADICIONAR MAIS UM CAMPO DE IMAGEM DE DESTAQUE  */
+
+function adicionar_campo_imagem_personalizada() {
+    add_meta_box(
+        'imagem_personalizada_meta_box', // ID do metabox
+        'Imagem Personalizada', // Título do metabox
+        'renderizar_campo_imagem_personalizada', // Função que renderiza o campo
+        'page', // Onde será exibido (páginas)
+        'side', // Localização do metabox
+        'low' // Prioridade
+    );
+}
+add_action('add_meta_boxes', 'adicionar_campo_imagem_personalizada');
+
+function renderizar_campo_imagem_personalizada($post) {
+    wp_nonce_field('salvar_imagem_personalizada', 'imagem_personalizada_nonce');
+
+    $imagem_url = get_post_meta($post->ID, '_imagem_personalizada', true);
+
+    ?>
+    <div>
+        <img id="preview-imagem-personalizada" src="<?php echo esc_url($imagem_url); ?>" style="max-width:100%; height:auto; <?php echo empty($imagem_url) ? 'display:none;' : ''; ?>">
+        <input type="hidden" id="imagem_personalizada" name="imagem_personalizada" value="<?php echo esc_url($imagem_url); ?>">
+        <br>
+        <button type="button" class="button" id="upload-imagem-personalizada">Selecionar Imagem</button>
+        <button type="button" class="button" id="remover-imagem-personalizada" style="<?php echo empty($imagem_url) ? 'display:none;' : ''; ?>">Remover Imagem</button>
+    </div>
+
+    <script>
+        jQuery(document).ready(function($) {
+            var frame;
+            $('#upload-imagem-personalizada').on('click', function(e) {
+                e.preventDefault();
+                if (frame) {
+                    frame.open();
+                    return;
+                }
+                frame = wp.media({
+                    title: 'Selecionar Imagem',
+                    button: { text: 'Usar esta imagem' },
+                    multiple: false
+                });
+                frame.on('select', function() {
+                    var attachment = frame.state().get('selection').first().toJSON();
+                    $('#imagem_personalizada').val(attachment.url);
+                    $('#preview-imagem-personalizada').attr('src', attachment.url).show();
+                    $('#remover-imagem-personalizada').show();
+                });
+                frame.open();
+            });
+
+            $('#remover-imagem-personalizada').on('click', function() {
+                $('#imagem_personalizada').val('');
+                $('#preview-imagem-personalizada').hide();
+                $(this).hide();
+            });
+        });
+    </script>
+    <?php
+}
+
+function salvar_imagem_personalizada($post_id) {
+    if (!isset($_POST['imagem_personalizada_nonce']) || !wp_verify_nonce($_POST['imagem_personalizada_nonce'], 'salvar_imagem_personalizada')) {
+        return;
+    }
+
+    if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) {
+        return;
+    }
+
+    if (!current_user_can('edit_post', $post_id)) {
+        return;
+    }
+
+    if (isset($_POST['imagem_personalizada'])) {
+        update_post_meta($post_id, '_imagem_personalizada', esc_url($_POST['imagem_personalizada']));
+    } else {
+        delete_post_meta($post_id, '_imagem_personalizada');
+    }
+}
+add_action('save_post', 'salvar_imagem_personalizada');
+

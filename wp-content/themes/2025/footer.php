@@ -9,9 +9,9 @@
           <p>Email: exemplo@atardeeducacao.com</p>
           <p>Telefone: +55 85 9876 1234</p>
           <div class="mt-3">
-            <a href="#" class=" me-3"><i class="bi bi-facebook"></i></a>
-            <a href="#" class=" me-3"><i class="bi bi-twitter"></i></a>
-            <a href="#" class=""><i class="bi bi-instagram"></i></a>
+            <a href="#" class=" me-3"><img src="<?php bloginfo('template_url'); ?>/img/icon_insta_footer.png" alt="Facebook"></a>
+            <a href="#" class=" me-3"><img src="<?php bloginfo('template_url'); ?>/img/icon_face_footer.png" alt="Facebook"></a>
+            <a href="#" class=""><img src="<?php bloginfo('template_url'); ?>/img/icon_youtube_footer.png" alt="Facebook"></a>
           </div>
         </div>
         <div class="col-md-3">
