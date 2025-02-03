@@ -109,7 +109,7 @@
           </div>
       </section>
 
-      <div class="container d-table bg-transparent">
+      <div class="container d-table bg-transparent titulo_icone_header">
       <h1 class="header-title bree-serif-regular"><?php echo $post->post_title; ?></h1>
               <h1 class="header-title-2 bree-serif-regular"><?php echo $post->post_title; ?></h1>
               <p class="header-subtitle">

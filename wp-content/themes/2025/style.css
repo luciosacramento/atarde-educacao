@@ -736,6 +736,13 @@ footer h5{
   float: right;
 }
 
+.titulo_icone_header{
+  position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    margin-top: -230px;
+}
+
 .ondas {
   margin-top: -250px;
   width: 100%;
