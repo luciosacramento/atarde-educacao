@@ -41,7 +41,7 @@ get_header();
   <section class="py-5">
     <div class="container">
       <h2 class="text-center subtitle_center subtitle-icon"><span class="icon-noticias"></span><div><span class="label bree-serif-regular">Notícias</span></div></h2>
-      <div class="row mt-4 owl-carousel">
+      <div id="owl-carousel" class="row mt-4 owl-carousel">
 
 
         <?php

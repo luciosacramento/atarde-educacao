@@ -760,7 +760,7 @@ footer h5{
   padding: 2rem 0;
 }
 .history-section img, .mission-section img {
-  width: 100%;
+  width: 100%; 
   border-radius: 8px;
 }
 .thumbnails img {
@@ -774,7 +774,8 @@ footer h5{
   transition: 0.3s;
 }
 .team-section {
-  background-color: #f8c01c;
+  background: url(img/bg-equipe.jpg) no-repeat #f8c01c;
+  background-size: cover;
   padding: 2rem 0;
 }
 .team-box {
@@ -802,4 +803,66 @@ footer h5{
   margin-top: 1rem;
 }
 
+.owl-nav-center .owl-nav {
+  position: absolute;
+  top: 50%;
+  width: 100%;
+  margin-top: -40px;
+}
 
+.owl-nav-center .owl-nav button.owl-prev {
+  float: left;
+  margin-left: -40px;
+}
+
+.owl-nav-center .owl-nav button.owl-next {
+  float: right;
+}
+
+.owl-nav-center .owl-nav button.owl-prev, .owl-nav-center .owl-nav button.owl-next{
+  background: transparent;
+  font-size: 40px;
+}
+
+.section-title{
+  font-weight: normal;
+  color: #0972b2;
+}
+
+.section-title.branco{
+  color: white;
+}
+
+.section-title::before {
+  content: "";
+  display: block;
+  width: 100px; /* Largura da linha */
+  height: 2px;  /* Espessura da linha */
+  background-color: #c65602; /* Cor da linha */
+  margin-bottom: 30px;
+}
+
+.section-title.linha-centralizada::before {
+  content: "";
+  display: block;
+  width: 100px; /* Largura da linha */
+  height: 2px;  /* Espessura da linha */
+  background-color: #c65602; /* Cor da linha */
+  margin: 0 auto 30px;
+}
+
+.parceiros-container {
+  display: flex;
+  flex-wrap: wrap; /* Permite que os itens quebrem para a próxima linha */
+  gap: 20px; /* Espaçamento entre os itens */
+  justify-content: space-evenly; /* Alinha os itens ao início do container */
+  align-items: flex-start; /* Alinha os itens ao topo */
+}
+
+.parceiro-item {
+  max-width: 100%; /* Garante que a imagem não ultrapasse o container */
+  height: auto; /* Altura automática para manter a proporção */
+  overflow: hidden; /* Garante que a imagem não ultrapasse o container */
+  border: 1px solid #ddd; /* Borda opcional */
+  border-radius: 10px; /* Bordas arredondadas */
+}
