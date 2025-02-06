@@ -1865,6 +1865,8 @@ function carregar_mais_noticias() {
         $posts_per_page = 12;
     }elseif($tipo == "eventos_post"){
         $posts_per_page = 6;
+    }elseif($tipo == "depoimentos_post"){
+        $posts_per_page = 6;
     }
     
 
@@ -1955,6 +1957,22 @@ function carregar_mais_noticias() {
                         </div>
                     </div>
 
+                <?php
+
+            }elseif($tipo == 'depoimentos_post'){
+
+                ?>
+                    <div class="col-md-4 p-3 noticia">
+                        <div class="card">
+                            <a  href="<?php echo get_permalink(); ?>" >
+                                <img src="<?php echo $imagem_destaque;?>" class="card-img-top" alt="<?php echo get_the_title(); ?>">
+                            </a>
+                            <div class="card-body">
+                                <h5 class="card-title"><?php echo get_the_title(); ?></h5>
+                                <p class="card-text"><?php echo get_the_excerpt(); ?></p>
+                            </div>
+                        </div>
+                    </div>
                 <?php
 
             }

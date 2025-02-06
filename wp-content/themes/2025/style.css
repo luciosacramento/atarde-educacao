@@ -866,3 +866,73 @@ footer h5{
   border: 1px solid #ddd; /* Borda opcional */
   border-radius: 10px; /* Bordas arredondadas */
 }
+
+/*Depoimento*/
+
+.depoimento-imagem .bg-placeholder {
+  width: 100%;
+  height: 200px;
+  background-color: #ccc;
+}
+
+.depoimento-info {
+  background-color: #e8edf4;
+  padding: 10px;
+  text-align: center;
+}
+
+.depoimento-texto {
+  text-align: left;
+  font-size: 1.2em;
+  font-style: italic;
+  position: relative;
+}
+
+.quote {
+  font-size: 3rem;
+  color: #999;
+  display: block;
+}
+
+.depoente {
+  font-weight: bold;
+  text-align: right;
+  font-style: italic;
+}
+
+/* Estilização dos cards */
+.card {
+  border: none;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+}
+
+.card-title {
+  font-weight: bold;
+}
+
+.card-text {
+  background-color: #e8edf4;
+  padding: 10px;
+}
+
+/* Estilização dos vídeos */
+.video-thumbnail {
+  position: relative;
+}
+
+.video-thumbnail .play-button {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: rgba(255, 255, 255, 0.8);
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  text-align: center;
+  line-height: 40px;
+  font-size: 20px;
+  font-weight: bold;
+  color: #333;
+}
