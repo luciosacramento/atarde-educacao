@@ -871,7 +871,6 @@ footer h5{
 
 .depoimento-imagem .bg-placeholder {
   width: 100%;
-  height: 200px;
   background-color: #ccc;
 }
 
@@ -888,11 +887,27 @@ footer h5{
   position: relative;
 }
 
-.quote {
-  font-size: 3rem;
-  color: #999;
+.depoimento-texto p{
+  padding: 0 100px;
+}
+
+.depoimento-texto p.depoente{
+  text-align: center;
+}
+
+.quote{
+  height: 35px;
   display: block;
 }
+.quote.inicio {
+  background: url(img/aspa_inicio.png) no-repeat;
+}
+
+.quote.fim {
+  background: url(img/aspa_fim.png) no-repeat;
+  background-position: 100% 0;;
+}
+
 
 .depoente {
   font-weight: bold;
@@ -935,4 +950,5 @@ footer h5{
   font-size: 20px;
   font-weight: bold;
   color: #333;
+  text-decoration: none;
 }
