@@ -1978,7 +1978,7 @@ function adicionar_campo_imagem_personalizada() {
         'imagem_personalizada_meta_box', // ID do metabox
         'Imagem Personalizada', // Título do metabox
         'renderizar_campo_imagem_personalizada', // Função que renderiza o campo
-        'page', // Onde será exibido (páginas)
+        array('page', 'area-atuacao-post'), // Onde será exibido (páginas)
         'side', // Localização do metabox
         'low' // Prioridade
     );

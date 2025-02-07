@@ -866,3 +866,46 @@ footer h5{
   border: 1px solid #ddd; /* Borda opcional */
   border-radius: 10px; /* Bordas arredondadas */
 }
+
+
+/**Contato*/
+
+.contato-container {
+  background: url(img/bg_contato.png) #fdb913 repeat-x;
+  background-position: 0 100%;
+  border-radius: 50% 50% 0 0;
+  padding: 50px 20px;
+  text-align: center;
+  position: relative;
+}
+
+.contato-container .descricao {
+  font-size: 1.2em;
+  max-width: 600px;
+  margin: 0 auto 20px;
+  color: #4b340b;
+}
+
+.contato-container .form-control {
+  background-color: #f9d77e;
+  border: none;
+  padding: 15px;
+  font-size: 1em;
+}
+
+.contato-container .btn-primary {
+  background-color: #007bff;
+  border: none;
+  padding: 10px 20px;
+  font-size: 1.2em;
+}
+
+.contato-container .g-recaptcha {
+  display: flex;
+  justify-content: center;
+}
+
+.contato-container form {
+  width: 80%;
+  margin: 0 auto;
+}

@@ -108,12 +108,23 @@
             </div>
           </div>
       </section>
+      
+
+      <?php 
+      $titulo = $post->post_title;
+      $resumo = $post->post_excerpt;
+
+      if($post->post_type == 'area-atuacao-post'){
+        $titulo = 'Área de Atuação';
+        $resumo = "";
+      }
+      ?>
 
       <div class="container d-table bg-transparent titulo_icone_header">
-      <h1 class="header-title bree-serif-regular"><?php echo $post->post_title; ?></h1>
-              <h1 class="header-title-2 bree-serif-regular"><?php echo $post->post_title; ?></h1>
+              <h1 class="header-title bree-serif-regular"><?php echo $titulo; ?></h1>
+              <h1 class="header-title-2 bree-serif-regular"><?php echo $titulo; ?></h1>
               <p class="header-subtitle">
-                <?php echo $post->post_excerpt; ?>               
+                <?php echo $resumo; ?>               
               </p>
               <?php
               $imagem_personalizada = get_post_meta(get_the_ID(), '_imagem_personalizada', true);

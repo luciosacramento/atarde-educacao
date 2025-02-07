@@ -149,7 +149,7 @@ get_header();
                   $post_link = get_permalink();
           
                   // Recupera a imagem em destaque (thumbnail)
-                  $featured_image = get_the_post_thumbnail_url(get_the_ID(), 'full');
+                  $featured_image = get_post_meta(get_the_ID(), '_imagem_personalizada', true);
           
                   // Recupera o título e o resumo do post
                   $post_title = get_the_title();
