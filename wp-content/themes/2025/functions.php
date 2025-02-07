@@ -22,10 +22,13 @@ function registrar_cortes_personalizados_imagens() {
     // 295x200 - Notícias Home Chamada
     add_image_size('noticias-home-chamada', 295, 200, true);
 
-    // 364x248 - Notícias List
+    // 369x248 - Notícias List
     add_image_size('noticias-list', 364, 248, true);
 
-    // 364x248 - Notícias List
+    // 577x346 - Depoimentos Destaque
+    add_image_size('depoimentos-destaque', 577, 346, true);
+
+    // 364x248 - header
     add_image_size('header-image', 1920, 585, true);
 }
 add_action('after_setup_theme', 'registrar_cortes_personalizados_imagens');
@@ -688,40 +691,59 @@ function registrar_tipo_conteudo_depoimento() {
 }
 add_action('init', 'registrar_tipo_conteudo_depoimento');
 
-
-// Adicionar o campo personalizado "Link para vídeo"
+// Adicionar os campos personalizados
 function adicionar_campos_personalizados_depoimento() {
     add_meta_box(
-        'link_video_meta_box',
-        'Link para Vídeo',
-        'renderizar_campo_link_video',
-        'depoimento',
+        'detalhes_depoimento_meta_box',
+        'Detalhes do Depoimento',
+        'renderizar_campos_personalizados_depoimento',
+        'depoimentos_post',
         'normal',
         'high'
     );
 }
 add_action('add_meta_boxes', 'adicionar_campos_personalizados_depoimento');
 
-// Renderizar o campo personalizado no painel administrativo
-function renderizar_campo_link_video($post) {
-    // Recuperar o valor salvo
+// Renderizar os campos personalizados no painel administrativo
+function renderizar_campos_personalizados_depoimento($post) {
+    // Recuperar valores salvos
     $link_video = get_post_meta($post->ID, '_link_video', true);
+    $cidade = get_post_meta($post->ID, '_cidade', true);
+    $escola = get_post_meta($post->ID, '_escola', true);
 
-    // Campo HTML
-    echo '<label for="link_video">Insira o link para o vídeo (YouTube, Vimeo, etc.):</label>';
-    echo '<input type="url" id="link_video" name="link_video" value="' . esc_attr($link_video) . '" style="width: 100%; margin-top: 10px;" placeholder="https://www.youtube.com/watch?v=xxxxxx">';
+    ?>
+    <label for="link_video"><strong>Link para Vídeo (YouTube, Vimeo, etc.):</strong></label>
+    <input type="url" id="link_video" name="link_video" value="<?php echo esc_attr($link_video); ?>" style="width: 100%; margin-top: 5px;" placeholder="https://www.youtube.com/watch?v=xxxxxx">
+    
+    <br><br>
+
+    <label for="cidade"><strong>Cidade:</strong></label>
+    <input type="text" id="cidade" name="cidade" value="<?php echo esc_attr($cidade); ?>" style="width: 100%; margin-top: 5px;" placeholder="Digite a cidade">
+
+    <br><br>
+
+    <label for="escola"><strong>Escola:</strong></label>
+    <input type="text" id="escola" name="escola" value="<?php echo esc_attr($escola); ?>" style="width: 100%; margin-top: 5px;" placeholder="Digite o nome da escola">
+    <?php
 }
 
-// Salvar o valor do campo personalizado
-function salvar_campo_link_video($post_id) {
-    // Verifica se o campo foi enviado
+// Salvar os valores dos campos personalizados
+function salvar_campos_personalizados_depoimento($post_id) {
+    // Verifica se o campo foi enviado e salva os valores
     if (isset($_POST['link_video'])) {
-        // Sanitiza e salva o valor do campo
-        $link_video = sanitize_text_field($_POST['link_video']);
-        update_post_meta($post_id, '_link_video', $link_video);
+        update_post_meta($post_id, '_link_video', sanitize_text_field($_POST['link_video']));
+    }
+
+    if (isset($_POST['cidade'])) {
+        update_post_meta($post_id, '_cidade', sanitize_text_field($_POST['cidade']));
+    }
+
+    if (isset($_POST['escola'])) {
+        update_post_meta($post_id, '_escola', sanitize_text_field($_POST['escola']));
     }
 }
-add_action('save_post', 'salvar_campo_link_video');
+add_action('save_post', 'salvar_campos_personalizados_depoimento');
+
 
 /*CONTEÚDO:*
 
@@ -1865,6 +1887,8 @@ function carregar_mais_noticias() {
         $posts_per_page = 12;
     }elseif($tipo == "eventos_post"){
         $posts_per_page = 6;
+    }elseif($tipo == "depoimentos_post"){
+        $posts_per_page = 6;
     }
     
 
@@ -1955,6 +1979,37 @@ function carregar_mais_noticias() {
                         </div>
                     </div>
 
+                <?php
+
+            }elseif($tipo == 'depoimentos_post'){
+
+                
+                    // Obtém os campos personalizados
+                $cidade = get_post_meta(get_the_ID(), '_cidade', true);
+                $escola = get_post_meta(get_the_ID(), '_escola', true);
+                $link_video = get_post_meta(get_the_ID(), '_link_video', true);
+                $imagem_destacada = get_the_post_thumbnail_url(get_the_ID(), 'noticias-list'); // Obtém a imagem destacada
+                ?>
+
+                <div class="col-md-4">
+                    <div class="card">
+                        <?php if ($link_video) : ?>
+                            <div class="card-img-top video-thumbnail">
+                                <img class="w-100" src="<?php echo esc_url($imagem_destacada); ?>" class="img-fluid">
+                                <?php if (!empty(trim($link_video))) {  ?>
+                                <a href="#"  data-url="<?php  echo esc_url($link_video);  ?>" class="play-button abrir-modal">▶</a>
+                                <?php }  ?>
+                            </div>
+                        <?php else : ?>
+                            <img class="w-100" src="<?php echo esc_url($imagem_destacada); ?>" class="card-img-top">
+                        <?php endif; ?>
+
+                        <div class="card-body text-center">
+                            <h5 class="card-title"><?php the_title(); ?></h5>
+                            <p class="card-text"><?php echo esc_html($cidade); ?><br><?php echo esc_html($escola); ?></p>
+                        </div>
+                    </div>
+                </div>
                 <?php
 
             }
