@@ -71,9 +71,7 @@
             margin:10,
             nav:true,
         })
-    </script>
 
-    <script>
        $('#owl-carousel-equipe').owlCarousel({
         loop: true,
         margin: 20,
@@ -85,6 +83,22 @@
         items: 1 // Mantemos 1 item para garantir que cada slide exiba 4 membros (2x2)
    
         })
+
+        document.addEventListener("DOMContentLoaded", function() {
+          let pageUrl = encodeURIComponent(window.location.href);
+          let pageTitle = encodeURIComponent(document.title);
+
+          document.querySelector(".twitter").href = `https://twitter.com/intent/tweet?url=${pageUrl}&text=${pageTitle}`;
+          document.querySelector(".facebook").href = `https://www.facebook.com/sharer/sharer.php?u=${pageUrl}`;
+          document.querySelector(".pinterest").href = `https://pinterest.com/pin/create/button/?url=${pageUrl}&description=${pageTitle}`;
+          document.querySelector(".linkedin").href = `https://www.linkedin.com/sharing/share-offsite/?url=${pageUrl}`;
+          document.querySelector(".buffer").href = `https://buffer.com/add?url=${pageUrl}&text=${pageTitle}`;
+          document.querySelector(".whatsapp").href = `https://api.whatsapp.com/send?text=${pageTitle}%20${pageUrl}`;
+          document.querySelector(".tumblr").href = `https://www.tumblr.com/share/link?url=${pageUrl}&name=${pageTitle}`;
+          document.querySelector(".pocket").href = `https://getpocket.com/save?url=${pageUrl}&title=${pageTitle}`;
+          document.querySelector(".telegram").href = `https://t.me/share/url?url=${pageUrl}&text=${pageTitle}`;
+          document.querySelector(".hackernews").href = `https://news.ycombinator.com/submitlink?u=${pageUrl}&t=${pageTitle}`;
+      });
     </script>
 
     <?php wp_footer(); ?>

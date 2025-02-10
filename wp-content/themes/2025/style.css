@@ -33,7 +33,7 @@
   font-family: "Bree Serif", serif;
   font-weight: 400;
   font-style: normal;
-  font-size: 26px;
+  font-size: 17px;
 }
 
 .cont-nav-heade{
@@ -250,7 +250,7 @@
 }
 
 .card-body .card-text{
-  background: #a4bce0;
+  background: #e6f1f7;
   padding: 10px;
   margin-bottom: 0;
 }
@@ -610,8 +610,7 @@ footer h5{
   transition: 0.3s;
 }
 .event-details {
-  background-color: #f8f9fa;
-  border-radius: 8px;
+  background-color: #e6f1f7;
   padding: 1rem;
   font-size: 0.9rem;
 }
@@ -623,6 +622,11 @@ footer h5{
 .event-details p {
   margin: 0;
 }
+
+.evento-cidade{
+  color: #f39200;
+}
+
 
 /* header - Fundo com efeito ondulado */
 .wave-section {
@@ -720,8 +724,6 @@ footer h5{
   font-size: 24px;
   color: #f58220;
   width: 530px;
-  position: absolute;
-  margin-top: 117px;
 }
 
 .header-image {
@@ -908,4 +910,140 @@ footer h5{
 .contato-container form {
   width: 80%;
   margin: 0 auto;
+}
+
+/*Depoimento*/
+
+.depoimento-imagem .bg-placeholder {
+  width: 100%;
+  background-color: #ccc;
+}
+
+.depoimento-info {
+  background-color: #e8edf4;
+  padding: 10px;
+  text-align: center;
+}
+
+.depoimento-texto {
+  text-align: left;
+  font-size: 1.2em;
+  font-style: italic;
+  position: relative;
+}
+
+.depoimento-texto p{
+  padding: 0 100px;
+}
+
+.depoimento-texto p.depoente{
+  text-align: center;
+}
+
+
+.quote{
+  height: 35px;
+  display: block;
+}
+.quote.inicio {
+  background: url(img/aspa_inicio.png) no-repeat;
+}
+
+.quote.fim {
+  background: url(img/aspa_fim.png) no-repeat;
+  background-position: 100% 0;;
+}
+
+
+.depoente {
+  font-weight: bold;
+  text-align: right;
+  font-style: italic;
+}
+
+/* Estilização dos cards */
+.card {
+  border: none;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+}
+
+.card-title {
+  font-weight: bold;
+}
+
+.card-text {
+  background-color: #e8edf4;
+  padding: 10px;
+}
+
+/* Estilização dos vídeos */
+.video-thumbnail {
+  position: relative;
+}
+
+.video-thumbnail .play-button {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: rgba(255, 255, 255, 0.8);
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  text-align: center;
+  line-height: 40px;
+  font-size: 20px;
+  font-weight: bold;
+  color: #333;
+  text-decoration: none;
+}
+
+/*Compartilhar*/
+
+.cont_compartilhe{
+  justify-content: flex-end;
+}
+
+
+.compartilhe {
+  font-size: 1.2em;
+  font-weight: bold;
+  margin-right: 10px;
+}
+
+.cont_compartilhe .social-btn:first-child{
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
+}
+
+.cont_compartilhe .social-btn:last-child{
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
+}
+
+.social-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 25px;
+  color: white;
+  font-size: 1.2em;
+  text-decoration: none;
+}
+
+.twitter { background: #1DA1F2; }
+.facebook { background: #1877F2; }
+.pinterest { background: #E60023; }
+.linkedin { background: #0077B5; }
+.buffer { background: #000000; }
+.whatsapp { background: #25D366; }
+.tumblr { background: #35465D; }
+.pocket { background: #EF3F56; }
+.telegram { background: #0088CC; }
+.hackernews { background: #FF6600; }
+
+.social-btn:hover {
+  opacity: 0.8;
 }

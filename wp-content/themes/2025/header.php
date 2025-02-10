@@ -122,10 +122,12 @@
 
       <div class="container d-table bg-transparent titulo_icone_header">
               <h1 class="header-title bree-serif-regular"><?php echo $titulo; ?></h1>
-              <h1 class="header-title-2 bree-serif-regular"><?php echo $titulo; ?></h1>
+              <h1 class="header-title-2 bree-serif-regular"><?php echo $titulo; ?>
               <p class="header-subtitle">
                 <?php echo $resumo; ?>               
               </p>
+            </h1>
+              
               <?php
               $imagem_personalizada = get_post_meta(get_the_ID(), '_imagem_personalizada', true);
               if (!empty($imagem_personalizada)) {

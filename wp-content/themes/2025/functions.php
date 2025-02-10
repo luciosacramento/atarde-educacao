@@ -2108,3 +2108,44 @@ function salvar_imagem_personalizada($post_id) {
 }
 add_action('save_post', 'salvar_imagem_personalizada');
 
+function barra_compartilhamento() {
+    ob_start(); ?>
+    <div class="container text-center mt-3 d-flex cont_compartilhe">
+        <span class="compartilhe d-inline-flex">COMPARTILHE <i class="fas fa-share-alt"></i></span>
+        
+        <div class="d-inline-flex">
+            <a href="#" class="social-btn twitter" target="_blank"><i class="fab fa-twitter"></i></a>
+            <a href="#" class="social-btn facebook" target="_blank"><i class="fab fa-facebook-f"></i></a>
+            <a href="#" class="social-btn pinterest" target="_blank"><i class="fab fa-pinterest"></i></a>
+            <a href="#" class="social-btn linkedin" target="_blank"><i class="fab fa-linkedin-in"></i></a>
+            <a href="#" class="social-btn buffer" target="_blank"><i class="fab fa-buffer"></i></a>
+            <a href="#" class="social-btn whatsapp" target="_blank"><i class="fab fa-whatsapp"></i></a>
+            <a href="#" class="social-btn tumblr" target="_blank"><i class="fab fa-tumblr"></i></a>
+            <a href="#" class="social-btn pocket" target="_blank"><i class="fab fa-get-pocket"></i></a>
+            <a href="#" class="social-btn telegram" target="_blank"><i class="fab fa-telegram-plane"></i></a>
+            <a href="#" class="social-btn hackernews" target="_blank"><i class="fab fa-y-combinator"></i></a>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            let pageUrl = encodeURIComponent(window.location.href);
+            let pageTitle = encodeURIComponent(document.title);
+
+            document.querySelector(".twitter").href = `https://twitter.com/intent/tweet?url=${pageUrl}&text=${pageTitle}`;
+            document.querySelector(".facebook").href = `https://www.facebook.com/sharer/sharer.php?u=${pageUrl}`;
+            document.querySelector(".pinterest").href = `https://pinterest.com/pin/create/button/?url=${pageUrl}&description=${pageTitle}`;
+            document.querySelector(".linkedin").href = `https://www.linkedin.com/sharing/share-offsite/?url=${pageUrl}`;
+            document.querySelector(".buffer").href = `https://buffer.com/add?url=${pageUrl}&text=${pageTitle}`;
+            document.querySelector(".whatsapp").href = `https://api.whatsapp.com/send?text=${pageTitle}%20${pageUrl}`;
+            document.querySelector(".tumblr").href = `https://www.tumblr.com/share/link?url=${pageUrl}&name=${pageTitle}`;
+            document.querySelector(".pocket").href = `https://getpocket.com/save?url=${pageUrl}&title=${pageTitle}`;
+            document.querySelector(".telegram").href = `https://t.me/share/url?url=${pageUrl}&text=${pageTitle}`;
+            document.querySelector(".hackernews").href = `https://news.ycombinator.com/submitlink?u=${pageUrl}&t=${pageTitle}`;
+        });
+    </script>
+    <?php
+    return ob_get_clean();
+}
+add_shortcode('social_share', 'barra_compartilhamento');
+
