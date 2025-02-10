@@ -97,11 +97,21 @@
     </header>
     <?php 
       global $post;
+      //$_POST["email"]
       if ($post->post_name != "home"){?>
       <section class="header-section">
           <div class="row align-items-center">
             <div class="col-md-12 cont-imagem no-padding-lr" >
-              <?php the_post_thumbnail('header-image', ['class' => ' header-image']); ?>
+              <?php 
+              if(!$_GET["s"]){the_post_thumbnail('header-image', ['class' => ' header-image']);}else{
+                
+                ?>
+                    <img class="header-image" src="<?php bloginfo('template_url'); ?>/img/header_padrao.jpg" >
+                <?php
+
+              } 
+              
+              ?>
               <img class="ondas" src="<?php bloginfo('template_url'); ?>/img/onda.png" alt="">
               <!--div class="ondas"></div-->
              

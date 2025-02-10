@@ -48,7 +48,7 @@
         </div>
         </div>
 
-        <h2 class="text-center">Mais eventos</h2>
+        <h2 class="text-center section-title bree-serif-regular linha-centralizada mb-5 mt-5">Mais eventos</h2>
 
         <div class="row mt-4" id="noticias-container">
 

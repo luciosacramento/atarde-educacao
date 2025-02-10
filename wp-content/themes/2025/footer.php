@@ -17,10 +17,17 @@
         <div class="col-md-3">
           <h5>Mapa do site</h5>
           <ul class="list-unstyled">
-            <li><a href="#" >Home</a></li>
-            <li><a href="#" >Cursos</a></li>
-            <li><a href="#" >Áreas de Atuação</a></li>
-            <li><a href="#" >Contato</a></li>
+            <?php
+                $menuItens = wp_get_nav_menu_items("Menu Principal");   
+
+                $str = "";
+
+                foreach ( $menuItens as $menuItem ) {
+                    $str .= "<li><a href='".$menuItem->url."'>".$menuItem->title."</a></li>";
+                }
+
+                echo $str;
+            ?>
           </ul>
         </div>
         <div class="col-md-3">

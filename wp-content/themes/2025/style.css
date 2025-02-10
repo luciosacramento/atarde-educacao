@@ -304,6 +304,7 @@ header{
 
 a{
   color: #77787A;
+  text-decoration: none;
 }
 /*Busca*/
 
@@ -322,6 +323,7 @@ a{
   background: #0972B3;
   text-align: right;
   font-weight: bold;
+  color: #fff;
 }
 
 .search-form .search-field::placeholder {
