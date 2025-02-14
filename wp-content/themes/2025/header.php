@@ -71,16 +71,46 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
           <ul class="navbar-nav ms-auto">
-            <?php
-                $menuItens = wp_get_nav_menu_items("Menu Principal");   
+          <?php
+            // Obtém os itens do menu "Menu Principal"
+            $menuItens = wp_get_nav_menu_items("Menu Principal");
 
+            // Função para construir o menu recursivamente
+            function build_menu($menuItens, $parent_id = 0) {
                 $str = "";
 
-                foreach ( $menuItens as $menuItem ) {
-                    $str .= "<li class='nav-item'><a class='nav-link' href='".$menuItem->url."'>".$menuItem->title."</a></li>";
+                foreach ($menuItens as $menuItem) {
+                    // Verifica se o item atual é filho do item pai atual
+                    if ($menuItem->menu_item_parent == $parent_id) {
+                        // Verifica se o item tem filhos
+                        $has_children = false;
+                        foreach ($menuItens as $subItem) {
+                            if ($subItem->menu_item_parent == $menuItem->ID) {
+                                $has_children = true;
+                                break;
+                            }
+                        }
+
+                        // Inicia o item do menu
+                        $str .= "<li class='nav-item" . ($has_children ? " dropdown" : "") . "'>";
+                        $str .= "<a class='nav-link" . ($has_children ? "' data-bs-toggle='dropdown'" : "'") . " href='" . $menuItem->url . "'>" . $menuItem->title . "</a>";
+
+                        // Se o item tem filhos, constrói o submenu
+                        if ($has_children) {
+                            $str .= "<ul class='dropdown-menu'>";
+                            $str .= build_menu($menuItens, $menuItem->ID); // Chama a função recursivamente para os filhos
+                            $str .= "</ul>";
+                        }
+
+                        $str .= "</li>";
+                    }
                 }
 
-                echo $str;
+                return $str;
+            }
+
+            // Exibe o menu
+            echo "<ul class='navbar-nav'>" . build_menu($menuItens) . "</ul>";
             ?>
           </ul>
           <?php get_search_form(); ?>
