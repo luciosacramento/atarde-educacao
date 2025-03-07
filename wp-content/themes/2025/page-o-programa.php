@@ -20,15 +20,15 @@
     <div class="container history-section">
     <h2 class="section-title bree-serif-regular">Nossa História</h2>
         <div class="row">
-            <div class="col-md-6 text-justify">
+            <div class="col-md-12 text-justify">
                 <?php echo get_the_content(); ?>
             </div>
             <?php
-                $imagem_destaque = get_the_post_thumbnail_url(get_the_ID(), 'full'); // URL da imagem em destaque (tamanho completo)
+                //$imagem_destaque = get_the_post_thumbnail_url(get_the_ID(), 'full'); // URL da imagem em destaque (tamanho completo)
             ?>
-            <div class="col-md-6">
+            <!--div class="col-md-6">
                 <img src="<?php echo  $imagem_destaque; ?>" alt="História">
-            </div>
+            </div-->
         </div>
         <?php $galeria = get_post_meta(get_the_ID(), 'galeria_fotos', true); 
         if (!empty($galeria)) {
@@ -139,7 +139,7 @@
     </div>
 
     <div class="container mission-section">
-        <h2 class="text-center section-title bree-serif-regular linha-centralizada mb-5">Parceitos</h2>
+        <h2 class="text-center section-title bree-serif-regular linha-centralizada mb-5">Parceiros</h2>
         <div class="parceiros-container">
 
         <?php

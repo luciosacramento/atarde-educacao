@@ -33,7 +33,7 @@
   font-family: "Bree Serif", serif;
   font-weight: 400;
   font-style: normal;
-  font-size: 17px;
+  font-size: 15px;
 }
 
 .navbar-nav {
@@ -714,10 +714,11 @@ footer h5{
 
 .navbar-brand{
   background: url(img/logo-header.png) no-repeat;
-  width: 254px;
+  width: 189px;
   height: 67px;
   overflow: hidden;
   text-indent: 500px;
+  background-size: 100%;
 }
 
 .header-section.home img{

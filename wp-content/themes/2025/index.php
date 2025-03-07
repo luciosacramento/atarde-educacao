@@ -32,7 +32,14 @@ get_header();
       <a href="#" class="btn btn-primary mt-3">Saiba Mais</a>
     </div>
 
-    <iframe class="video" width="499" height="319" src="https://www.youtube.com/embed/g43TplVtTKE?si=MllbbOiwG-VEJBzp" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+    <?php 
+    $video_url = get_option('video_nosso_objetivo');
+    if (!empty($video_url)) :
+    ?>
+
+    <iframe class="video" width="499" height="319" src="<?php echo esc_url(str_replace("watch?v=", "embed/", $video_url)); ?>" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
+    <?php endif; ?>
 
   </section>
 

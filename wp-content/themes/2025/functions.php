@@ -2149,3 +2149,34 @@ function barra_compartilhamento() {
 }
 add_shortcode('social_share', 'barra_compartilhamento');
 
+
+// Adicionar o campo na página de Configurações > Geral
+function adicionar_campo_video_nosso_objetivo() {
+    add_settings_section(
+        'video_nosso_objetivo_section', // ID da seção
+        'Configuração do Vídeo Nosso Objetivo', // Título da seção
+        '__return_false', // Nenhuma função de descrição necessária
+        'general' // Página de configurações "Geral"
+    );
+
+    add_settings_field(
+        'video_nosso_objetivo', // ID do campo
+        'Vídeo Nosso Objetivo (YouTube)', // Título do campo
+        'renderizar_campo_video_nosso_objetivo', // Função que exibe o campo
+        'general', // Página de configurações "Geral"
+        'video_nosso_objetivo_section' // Seção
+    );
+
+    register_setting('general', 'video_nosso_objetivo', array(
+        'type' => 'string',
+        'sanitize_callback' => 'esc_url'
+    ));
+}
+add_action('admin_init', 'adicionar_campo_video_nosso_objetivo');
+
+// Função que exibe o campo de input
+function renderizar_campo_video_nosso_objetivo() {
+    $valor = get_option('video_nosso_objetivo', ''); // Obtém o valor salvo
+    echo '<input type="url" id="video_nosso_objetivo" name="video_nosso_objetivo" value="' . esc_attr($valor) . '" class="regular-text" placeholder="https://www.youtube.com/watch?v=xxxxx">';
+}
+

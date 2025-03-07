@@ -133,13 +133,18 @@
           <div class="row align-items-center">
             <div class="col-md-12 cont-imagem no-padding-lr" >
               <?php 
-              if(!$_GET["s"]){the_post_thumbnail('header-image', ['class' => ' header-image']);}else{
-                
+              
+
+              // Verifica se o parâmetro "s" foi passado na URL
+              if (isset($_GET["s"])) {
                 ?>
                     <img class="header-image" src="<?php bloginfo('template_url'); ?>/img/header_padrao.jpg" >
                 <?php
+              } else {
+                the_post_thumbnail('header-image', ['class' => ' header-image']);
+              }
 
-              } 
+              
               
               ?>
               <img class="ondas" src="<?php bloginfo('template_url'); ?>/img/onda.png" alt="">
