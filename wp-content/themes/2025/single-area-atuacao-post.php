@@ -49,11 +49,9 @@
                 <?php
                         // Configuração da consulta para buscar os posts do tipo 'post'
                         $args = array(
-                            'post_type'      => 'noticias_post',      // Tipo de conteúdo 'post' (padrão para notícias)
-                            'posts_per_page' => 9,         // Quantidade de posts (notícias)
-                            'post_status'    => 'publish',  // Apenas posts publicados
-                            'orderby'        => 'date',     // Ordenar por data
-                            'order'          => 'DESC',     // Ordem decrescente (mais recentes primeiro)
+                            'post_type' => 'area-atuacao-post', // Tipo de post
+                            'posts_per_page' => -1, // Retorna todos os posts
+                            'order' => 'ASC', // Ordem crescente
                         );
 
                         // Executa a consulta
@@ -66,10 +64,12 @@
                             while ($query->have_posts()) {
                                 $query->the_post(); // Configura o post atual
 
-                                $imagem_destaque = get_the_post_thumbnail_url(get_the_ID(), 'full'); // URL da imagem em destaque (tamanho completo)
+                                $imagem_destaque = get_post_meta(get_the_ID(), '_imagem_personalizada', true);
                                 if (!$imagem_destaque) {
-                                    $imagem_destaque = 'https://placehold.co/600x400/png'; // URL padrão (imagem de placeholder)
-                                }
+                                    ?>
+
+                                    <?php
+                                }else{
 
                                 ?>
                                     <div class="col-md-4 p-3">
@@ -81,7 +81,6 @@
                                         <h5 class="card-title"><?php echo get_the_title(); ?></h5>
                                         <p class="card-text"><?php echo get_the_excerpt(); ?></p>
                                         <div class="row">
-                                            <em class="col-6"><?php echo get_the_date('d/m/Y'); ?></em>
                                             <a class="col-6 text-end btn btn-link" href="<?php echo get_permalink(); ?>" >Leia mais</a>
                                         </div>
                                         </div>
@@ -89,6 +88,7 @@
                                     </div>
 
                                 <?php
+                                }
 
                                 // Monta o array com as informações da notícia
                                 $noticias[] = array(
