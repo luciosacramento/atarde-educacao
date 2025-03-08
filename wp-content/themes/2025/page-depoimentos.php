@@ -127,7 +127,7 @@
   </section>
 
   <div id="modal" style="display: none;">
-    <div id="modal-content">
+    <div id="modal-content" style="width: 500px;">
         <span id="fechar-modal">&times;</span>
         <div id="modal-body">
             <!-- O conteúdo será carregado dinamicamente -->

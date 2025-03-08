@@ -72,18 +72,18 @@
                                 }else{
 
                                 ?>
-                                    <div class="col-md-4 p-3">
+                                    <div class="col-md-3 p-3">
                                     <div class="card">
                                         <a  href="<?php echo get_permalink(); ?>" >
                                             <img src="<?php echo $imagem_destaque;?>" class="card-img-top" alt="<?php echo get_the_title(); ?>">
                                         </a>
-                                        <div class="card-body">
-                                        <h5 class="card-title"><?php echo get_the_title(); ?></h5>
-                                        <p class="card-text"><?php echo get_the_excerpt(); ?></p>
-                                        <div class="row">
-                                            <a class="col-6 text-end btn btn-link" href="<?php echo get_permalink(); ?>" >Leia mais</a>
-                                        </div>
-                                        </div>
+                                        <!--div class="card-body">
+                                            <h5 class="card-title"><?php echo get_the_title(); ?></h5>
+                                            <p class="card-text"><?php echo get_the_excerpt(); ?></p>
+                                            <div class="row">
+                                                <a class="col-6 text-end btn btn-link" href="<?php echo get_permalink(); ?>" >Leia mais</a>
+                                            </div>
+                                        </div-->
                                     </div>
                                     </div>
 
@@ -103,12 +103,12 @@
                             wp_reset_postdata();
 
                         } else {
-                            return 'Sem notícias no momento'; // Nenhuma notícia encontrada
+                            return 'Sem Projetos no momento'; // Nenhuma notícia encontrada
                         }
                 ?>
 
             </div>
-            <button id="mais-noticias" data-paged="1">Carregar mais</button>
+            <!--button id="mais-noticias" data-paged="1">Carregar mais</button-->
             <script>
                 var ajaxurl = "<?php echo admin_url('admin-ajax.php'); ?>";
             </script>

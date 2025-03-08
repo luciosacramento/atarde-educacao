@@ -1,4 +1,3 @@
-console.log("oifhfghghfgf");
 jQuery(document).ready(function($) {
     $('#mais-noticias').on('click', function() {
         var botao = $(this);
@@ -46,6 +45,31 @@ jQuery(document).ready(function($) {
         });
     });
 
+    function ajustarPadding() {
+        console.log("ajustarPadding")
+        // Seleciona os elementos
+        const header = document.querySelector('.header-title-2');
+        const conteudo = document.getElementById('conteudo-noticia');
+        
+    
+        if (header && conteudo) {
+            // Obtém a altura do elemento .header-title-2
+            const alturaHeader = header.offsetHeight-200;
+
+            console.log(alturaHeader)
+    
+            // Define o padding-top do #conteudo-noticia com base na altura do .header-title-2
+            conteudo.style.paddingTop = `${alturaHeader}px`;
+            conteudo.style.paddingBottom = `3rem`;
+        }
+    }
+    
+    // Ajusta o padding ao carregar a página
+    window.addEventListener('load', ajustarPadding);
+    
+    // Ajusta o padding ao redimensionar a janela (caso o tamanho do header mude)
+    window.addEventListener('resize', ajustarPadding);
+
     // Quando o título for clicado
     $(document).on('click', '.abrir-modal', function() {
         var mediaUrl = $(this).data('url'); // Obtém o link do atributo data-url
@@ -57,8 +81,10 @@ jQuery(document).ready(function($) {
         // Verifica se é um link do YouTube ou uma imagem
         if (mediaUrl.includes('youtube') || mediaUrl.includes('youtu.be')) {
             console.log(mediaUrl);
+
+            const urlObj = new URL(mediaUrl);
             // Caso seja um vídeo do YouTube, cria um iframe
-            var videoEmbed = '<iframe width="560" height="315" src="' + mediaUrl + '" frameborder="0" allowfullscreen></iframe>';
+            var videoEmbed = '<iframe width="560" height="315" src="https://www.youtube.com/embed/' + urlObj.searchParams.get("v") + '" frameborder="0" allowfullscreen></iframe>';
             modalBody.html(videoEmbed);
         } else {
             // Caso contrário, assume que é uma imagem

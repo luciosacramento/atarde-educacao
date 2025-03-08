@@ -749,21 +749,21 @@ footer h5{
   color: #fff;
   -webkit-text-stroke: 10px #fff;
   -webkit-text-stroke-width: 21px;
-  font-size: 98px;
+  font-size: 70px;
   position: absolute;
   z-index: 4;
 }
 
 .header-title-2{
   color: #0972b2;
-  font-size: 98px;
+  font-size: 70px;
   position: absolute;
   z-index: 5;
 }
 
 .header-subtitle {
   font-family: "Open Sans", serif;
-  font-size: 24px;
+  font-size: 19px;
   color: #f58220;
   width: 530px;
 }
