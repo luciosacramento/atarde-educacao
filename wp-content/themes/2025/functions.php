@@ -452,6 +452,15 @@ function adicionar_metabox_cursos() {
         'normal', // Localização na tela de edição
         'default' // Prioridade
     );
+
+    add_meta_box(
+        'curso_video', // ID do metabox
+        'Link do Vídeo do Curso', // Título
+        'renderizar_metabox_cursos', // Callback para renderizar o campo
+        'curso_post', // Tipo de post
+        'normal', // Contexto
+        'default' // Prioridade
+    );
 }
 add_action('add_meta_boxes', 'adicionar_metabox_cursos');
 
@@ -465,8 +474,14 @@ function renderizar_metabox_cursos($post) {
     $publico = get_post_meta($post->ID, '_curso_publico', true);
     $nivel = get_post_meta($post->ID, '_curso_nivel', true);
     $categoria = get_post_meta($post->ID, '_curso_categoria', true);
+    $video_url = get_post_meta($post->ID, '_curso_video_url', true);
 
     // Campos do formulário
+
+    // Exibe o campo de entrada
+    echo '<label for="curso_video_url">Insira o link do vídeo do YouTube:</label>';
+    echo '<input type="text" id="curso_video_url" name="curso_video_url" value="' . esc_attr($video_url) . '" style="width:100%; margin-top:5px;" placeholder="https://www.youtube.com/watch?v=XXXXX">';
+    
     echo '<label for="curso_duracao">Duração:</label>';
     echo '<input type="text" id="curso_duracao" name="curso_duracao" value="' . esc_attr($duracao) . '" style="width:100%; margin-bottom:10px;" placeholder="Ex: 40 horas">';
 
@@ -478,6 +493,7 @@ function renderizar_metabox_cursos($post) {
 
     echo '<label for="curso_categoria">Categoria:</label>';
     echo '<input type="text" id="curso_categoria" name="curso_categoria" value="' . esc_attr($categoria) . '" style="width:100%; margin-bottom:10px;" >';
+
 }
 
 // Salvar os campos personalizados
@@ -503,8 +519,41 @@ function salvar_metabox_cursos($post_id) {
     if (isset($_POST['curso_categoria'])) {
         update_post_meta($post_id, '_curso_categoria', sanitize_text_field($_POST['curso_categoria']));
     }
+
+    if (isset($_POST['curso_video_url'])) {
+        update_post_meta($post_id, '_curso_video_url', esc_url($_POST['curso_video_url']));
+    } 
 }
 add_action('save_post', 'salvar_metabox_cursos');
+
+// Registrar Taxonomia para "Cursos"
+function registrar_taxonomia_cursos() {
+    $labels = array(
+        'name'              => 'Categorias de Cursos',
+        'singular_name'     => 'Categoria de Curso',
+        'search_items'      => 'Buscar Categorias',
+        'all_items'         => 'Todas as Categorias',
+        'parent_item'       => 'Categoria Pai',
+        'parent_item_colon' => 'Categoria Pai:',
+        'edit_item'         => 'Editar Categoria',
+        'update_item'       => 'Atualizar Categoria',
+        'add_new_item'      => 'Adicionar Nova Categoria',
+        'new_item_name'     => 'Nome da Nova Categoria',
+        'menu_name'         => 'Categorias de Cursos',
+    );
+
+    $args = array(
+        'hierarchical'      => true, // Comportamento de categorias (true) ou tags (false)
+        'labels'            => $labels,
+        'show_ui'           => true,
+        'show_admin_column' => true,
+        'query_var'         => true,
+        'rewrite'           => array('slug' => 'categoria-curso'),
+    );
+
+    register_taxonomy('categoria_curso', 'curso_post', $args);
+}
+add_action('init', 'registrar_taxonomia_cursos');
 
 /*Conteúdo:
 function criar_cursos_automaticamente() {
