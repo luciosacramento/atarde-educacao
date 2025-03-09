@@ -73,24 +73,35 @@ jQuery(document).ready(function($) {
     // Quando o título for clicado
     $(document).on('click', '.abrir-modal', function() {
         var mediaUrl = $(this).data('url'); // Obtém o link do atributo data-url
+        var mediaTitle = $(this).data('title'); 
+        var mediaContent = $(this).data('content');
         var modalBody = $('#modal-body'); // Corpo do modal
         modalBody.empty(); // Limpa o conteúdo anterior
 
         
+        var contEmbed = "";
 
+        if(mediaTitle){
+            contEmbed += '<h5>' + mediaTitle + '</h5>';
+         }
         // Verifica se é um link do YouTube ou uma imagem
         if (mediaUrl.includes('youtube') || mediaUrl.includes('youtu.be')) {
-            console.log(mediaUrl);
-
             const urlObj = new URL(mediaUrl);
             // Caso seja um vídeo do YouTube, cria um iframe
-            var videoEmbed = '<iframe width="560" height="315" src="https://www.youtube.com/embed/' + urlObj.searchParams.get("v") + '" frameborder="0" allowfullscreen></iframe>';
-            modalBody.html(videoEmbed);
+            contEmbed += '<iframe width="560" height="315" src="https://www.youtube.com/embed/' + urlObj.searchParams.get("v") + '" frameborder="0" allowfullscreen></iframe>';
+           // modalBody.html(videoEmbed);
         } else {
             // Caso contrário, assume que é uma imagem
-            var imageEmbed = '<img src="' + mediaUrl + '" alt="Mídia">';
-            modalBody.html(imageEmbed);
+            contEmbed += '<img src="' + mediaUrl + '" alt="Mídia">';
+           // modalBody.html(imageEmbed);
         }
+
+       
+        if(mediaContent){
+            contEmbed += '<p class="content">' + mediaContent + '</p>';
+         }
+
+        modalBody.html(contEmbed);
 
         // Exibe o modal
         $('#modal').fadeIn();

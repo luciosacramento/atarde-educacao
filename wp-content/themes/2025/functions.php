@@ -1345,7 +1345,7 @@ function registrar_tipo_conteudo_galeria_fotos() {
         'hierarchical'       => false,
         'menu_position'      => 5,
         'menu_icon'          => 'dashicons-format-gallery', // Ícone do menu
-        'supports'           => array('title', 'thumbnail'), // Título, descrição, imagem destacada
+        'supports'           => array('title', 'thumbnail' ,'editor'), // Título, descrição, imagem destacada
     );
 
     register_post_type('galeria_fotos', $args);
