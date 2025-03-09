@@ -75,6 +75,7 @@ jQuery(document).ready(function($) {
         var mediaUrl = $(this).data('url'); // Obtém o link do atributo data-url
         var mediaTitle = $(this).data('title'); 
         var mediaContent = $(this).data('content');
+        var mediaDepoimento = $(this).data('depoimento');
         var modalBody = $('#modal-body'); // Corpo do modal
         modalBody.empty(); // Limpa o conteúdo anterior
 
@@ -84,18 +85,24 @@ jQuery(document).ready(function($) {
         if(mediaTitle){
             contEmbed += '<h5>' + mediaTitle + '</h5>';
          }
-        // Verifica se é um link do YouTube ou uma imagem
-        if (mediaUrl.includes('youtube') || mediaUrl.includes('youtu.be')) {
-            const urlObj = new URL(mediaUrl);
-            // Caso seja um vídeo do YouTube, cria um iframe
-            contEmbed += '<iframe width="560" height="315" src="https://www.youtube.com/embed/' + urlObj.searchParams.get("v") + '" frameborder="0" allowfullscreen></iframe>';
-           // modalBody.html(videoEmbed);
-        } else {
-            // Caso contrário, assume que é uma imagem
-            contEmbed += '<img src="' + mediaUrl + '" alt="Mídia">';
-           // modalBody.html(imageEmbed);
-        }
 
+         if(mediaUrl){
+             // Verifica se é um link do YouTube ou uma imagem
+             if (mediaUrl.includes('youtube') || mediaUrl.includes('youtu.be')) {
+                 const urlObj = new URL(mediaUrl);
+                 // Caso seja um vídeo do YouTube, cria um iframe
+                 contEmbed += '<iframe width="560" height="315" src="https://www.youtube.com/embed/' + urlObj.searchParams.get("v") + '" frameborder="0" allowfullscreen></iframe>';
+                // modalBody.html(videoEmbed);
+             } else {
+                 // Caso contrário, assume que é uma imagem
+                 contEmbed += '<img src="' + mediaUrl + '" alt="Mídia">';
+                // modalBody.html(imageEmbed);
+             }
+         }
+
+         if(mediaDepoimento){
+            contEmbed += '<p>' + mediaDepoimento + '</p>';
+         }
        
         if(mediaContent){
             contEmbed += '<p class="content">' + mediaContent + '</p>';

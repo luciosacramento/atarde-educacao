@@ -63,7 +63,11 @@
                     <div class="row">
                         <div class="col-md-6">
                             <div class="depoimento-imagem">
-                                <div class="bg-placeholder"><img src="<?php echo esc_url($primeiro_imagem); ?>" class="img-fluid w-100"></div>
+                                <div class="bg-placeholder">
+                                    <a href="#"  data-title="<?php echo $primeiro_titulo; ?>" data-depoimento="<?php echo $descricao_completa; ?>" class="abrir-modal">
+                                        <img src="<?php echo esc_url($primeiro_imagem); ?>" class="img-fluid w-100">
+                                    </a>
+                                </div>
                                 <p class="depoimento-info"><?php echo $primeiro_escola; ?><br><?php echo $primeiro_cidade; ?></p>
                             </div>
                         </div>
@@ -100,7 +104,11 @@
                                 <?php }  ?>
                             </div>
                         <?php else : ?>
-                            <img class="w-100" src="<?php echo esc_url($imagem_destacada); ?>" class="card-img-top">
+                            <div class="card-img-top video-thumbnail">
+                                <a href="#"  data-title="<?php echo get_the_title(); ?>" data-depoimento="<?php echo get_the_content(); ?>" class="abrir-modal">
+                                    <img class="w-100" src="<?php echo esc_url($imagem_destacada); ?>" class="img-fluid">
+                                </a>
+                            </div>
                         <?php endif; ?>
 
                         <div class="card-body text-center">

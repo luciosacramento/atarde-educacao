@@ -30,7 +30,7 @@
 
 
         <!-- Imagem Principal -->
-        <?php the_post_thumbnail('topo-noticias', ['class' => 'img-fluid w-100']); ?>
+        <!--?php the_post_thumbnail('topo-noticias', ['class' => 'img-fluid w-100']); ?-->
 
 
         <div class="row mt-4">
