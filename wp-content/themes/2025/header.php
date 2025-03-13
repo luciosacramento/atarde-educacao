@@ -141,7 +141,14 @@
                     <img class="header-image" src="<?php bloginfo('template_url'); ?>/img/header_padrao.jpg" >
                 <?php
               } else {
-                the_post_thumbnail('header-image', ['class' => ' header-image']);
+
+                $imagem_url = get_post_meta($post->ID, '_imagem_topo', true);
+                if($imagem_url){
+                  echo '<img class="header-image" src="'. $imagem_url. '" alt="">';
+                }else{
+                  echo '<img class="header-image" src="'. get_stylesheet_directory_uri(). '/img/header_padrao.jpg" alt="">';
+                }
+                //the_post_thumbnail('header-image', ['class' => ' header-image']);
               }
 
               
@@ -163,6 +170,12 @@
         $titulo = 'Área de Atuação';
         $resumo = "";
       }
+
+      if($post->post_type == 'noticias_post'){
+        $titulo = 'Notícias';
+        $resumo = "";
+      }
+
       ?>
 
       <div class="container d-table bg-transparent titulo_icone_header">

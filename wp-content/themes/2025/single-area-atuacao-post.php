@@ -28,7 +28,7 @@
         </div>
 
         <!-- Imagem Principal -->
-        <?php the_post_thumbnail('topo-noticias', ['class' => 'img-fluid w-100']); ?>
+        <?php //the_post_thumbnail('topo-noticias', ['class' => 'img-fluid w-100']); ?>
 
         <!-- Texto da Notícia -->
          <div class="container-noticias">

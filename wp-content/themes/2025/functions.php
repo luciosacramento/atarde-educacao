@@ -1203,7 +1203,7 @@ function registrar_tipo_conteudo_faq() {
         'hierarchical'       => false,
         'menu_position'      => 6,
         'menu_icon'          => 'dashicons-editor-help', // Ícone do menu
-        'supports'           => array('title'), // Título e descrição
+        'supports'           => array('title','editor'), // Título e descrição
     );
 
     // Registrar o tipo de post FAQ
@@ -1400,6 +1400,112 @@ function registrar_tipo_conteudo_galeria_fotos() {
     register_post_type('galeria_fotos', $args);
 }
 add_action('init', 'registrar_tipo_conteudo_galeria_fotos');
+
+// Adicionar metabox para upload de imagens na Galeria de Fotos
+function adicionar_metabox_galeria() {
+    add_meta_box(
+        'galeria_imagens',            // ID do metabox
+        'Imagens da Galeria',         // Título do metabox
+        'renderizar_metabox_galeria', // Função de callback
+        'galeria_fotos',              // Tipo de post
+        'normal', 
+        'high'
+    );
+}
+add_action('add_meta_boxes', 'adicionar_metabox_galeria');
+
+// Função para exibir o campo de upload múltiplo
+function renderizar_metabox_galeria($post) {
+    wp_nonce_field('salvar_galeria_imagens', 'galeria_nonce');
+
+    $imagens = get_post_meta($post->ID, '_galeria_imagens', true);
+    print_r($imagens);
+    ?>
+
+    <div id="galeria-container">
+        <ul id="galeria-preview">
+            <?php
+
+           
+
+            if (!empty($imagens)) {
+                foreach ($imagens as $imagem_id) {
+                    $img_url = wp_get_attachment_image_url($imagem_id, 'thumbnail');
+                    echo '<li data-id="' . esc_attr($imagem_id) . '">
+                            <img src="' . esc_url($img_url) . '" width="100" height="100">
+                            <button class="remover-imagem">Remover</button>
+                          </li>';
+                }
+            }
+            ?>
+        </ul>
+        <input type="hidden" name="galeria_imagens" id="cont_galeria_imagens" value="<?php echo esc_attr(implode(',', (array) $imagens)); ?>">
+        <button type="button" id="adicionar-imagens" class="button">Adicionar Imagens</button>
+    </div>
+
+    <style>
+        #galeria-preview { list-style: none; padding: 0; display: flex; flex-wrap: wrap; gap: 10px; }
+        #galeria-preview li { position: relative; display: inline-block; }
+        .remover-imagem { position: absolute; top: 5px; right: 5px; background: red; color: white; border: none; cursor: pointer; }
+    </style>
+
+    <script>
+        jQuery(document).ready(function($){
+            var frame;
+            
+            $('#adicionar-imagens').click(function(e) {
+                e.preventDefault();
+                if (frame) {
+                    frame.open();
+                    return;
+                }
+                frame = wp.media({
+                    title: 'Selecione as Imagens',
+                    multiple: true,
+                    library: { type: 'image' },
+                    button: { text: 'Adicionar Imagens' }
+                });
+                frame.on('select', function() {
+                    var selection = frame.state().get('selection');
+                    var ids = [];
+                    var preview = $('#galeria-preview');
+                    preview.empty();
+
+                    selection.each(function(attachment) {
+                        ids.push(attachment.id);
+                        preview.append('<li data-id="'+attachment.id+'"><img src="'+attachment.attributes.sizes.thumbnail.url+'" width="100"><button class="remover-imagem">Remover</button></li>');
+                    });
+                    $('#cont_galeria_imagens').val(ids.join(','));
+                });
+                frame.open();
+            });
+
+            $('#galeria-preview').on('click', '.remover-imagem', function() {
+                $(this).parent().remove();
+                var ids = [];
+                $('#galeria-preview li').each(function() {
+                    ids.push($(this).attr('data-id'));
+                });
+                $('#galeria_imagens').val(ids.join(','));
+            });
+        });
+    </script>
+    <?php
+}
+
+// Salvar as imagens da galeria
+function salvar_galeria_imagens($post_id) {
+    if (!isset($_POST['galeria_nonce']) || !wp_verify_nonce($_POST['galeria_nonce'], 'salvar_galeria_imagens')) {
+        return;
+    }
+
+    if (isset($_POST['galeria_imagens'])) {
+        $imagens = array_map('intval', explode(',', $_POST['galeria_imagens']));
+        update_post_meta($post_id, '_galeria_imagens', $imagens);
+    }
+}
+add_action('save_post', 'salvar_galeria_imagens');
+
 
 /*Conteudo:
 function criar_galerias_de_fotos_automaticamente() {
@@ -2199,33 +2305,142 @@ function barra_compartilhamento() {
 add_shortcode('social_share', 'barra_compartilhamento');
 
 
-// Adicionar o campo na página de Configurações > Geral
-function adicionar_campo_video_nosso_objetivo() {
-    add_settings_section(
-        'video_nosso_objetivo_section', // ID da seção
-        'Configuração do Vídeo Nosso Objetivo', // Título da seção
-        '__return_false', // Nenhuma função de descrição necessária
-        'general' // Página de configurações "Geral"
-    );
-
-    add_settings_field(
-        'video_nosso_objetivo', // ID do campo
-        'Vídeo Nosso Objetivo (YouTube)', // Título do campo
-        'renderizar_campo_video_nosso_objetivo', // Função que exibe o campo
-        'general', // Página de configurações "Geral"
-        'video_nosso_objetivo_section' // Seção
-    );
-
-    register_setting('general', 'video_nosso_objetivo', array(
-        'type' => 'string',
-        'sanitize_callback' => 'esc_url'
-    ));
+// Adicionar o metabox apenas na página com slug 'home'
+function adicionar_metabox_video_home() {
+    global $post;
+    
+    // Verifica se a página atual tem o slug 'home'
+    if ($post && get_post_field('post_name', $post->ID) === 'home') {
+        add_meta_box(
+            'video_nosso_objetivo',          // ID do metabox
+            'Vídeo Nosso Objetivo (YouTube)', // Título do metabox
+            'renderizar_metabox_video_home', // Função de callback
+            'page',                           // Tipo de post (apenas páginas)
+            'normal',                         // Contexto
+            'high'                            // Prioridade
+        );
+    }
 }
-add_action('admin_init', 'adicionar_campo_video_nosso_objetivo');
+add_action('add_meta_boxes', 'adicionar_metabox_video_home');
+
+// Renderiza o campo de entrada para o vídeo
+function renderizar_metabox_video_home($post) {
+    $video_url = get_post_meta($post->ID, '_video_nosso_objetivo', true);
+
+    echo '<label for="video_nosso_objetivo">Insira o link do vídeo do YouTube:</label>';
+    echo '<input type="text" id="video_nosso_objetivo" name="video_nosso_objetivo" value="' . esc_attr($video_url) . '" style="width:100%;">';
+}
+
+// Salvar os dados do metabox
+function salvar_metabox_video_home($post_id) {
+    if (isset($_POST['video_nosso_objetivo'])) {
+        update_post_meta($post_id, '_video_nosso_objetivo', esc_url($_POST['video_nosso_objetivo']));
+    }
+}
+add_action('save_post', 'salvar_metabox_video_home');
+
+// Exibir o vídeo na página 'home'
+function exibir_video_home() {
+    if (is_page('home')) {
+        $video_url = get_post_meta(get_the_ID(), '_video_nosso_objetivo', true);
+        if ($video_url) {
+            echo '<div class="video-nosso-objetivo">';
+            echo '<iframe width="100%" height="400" src="' . esc_url($video_url) . '" frameborder="0" allowfullscreen></iframe>';
+            echo '</div>';
+        }
+    }
+}
+add_action('the_content', 'exibir_video_home');
 
 // Função que exibe o campo de input
 function renderizar_campo_video_nosso_objetivo() {
     $valor = get_option('video_nosso_objetivo', ''); // Obtém o valor salvo
     echo '<input type="url" id="video_nosso_objetivo" name="video_nosso_objetivo" value="' . esc_attr($valor) . '" class="regular-text" placeholder="https://www.youtube.com/watch?v=xxxxx">';
 }
+
+
+// Adicionar o Metabox para "Imagem do Topo" em todos os tipos de conteúdo
+function adicionar_campo_imagem_topo() {
+    $post_types = get_post_types(array('public' => true), 'names'); // Obtém todos os tipos de post públicos
+    foreach ($post_types as $post_type) {
+        add_meta_box(
+            'imagem_topo_meta_box', // ID do metabox
+            'Imagem do Topo', // Título
+            'renderizar_campo_imagem_topo', // Função para renderizar
+            $post_type, // Aplica a todos os tipos de post
+            'side', // Localização
+            'low' // Prioridade
+        );
+    }
+}
+add_action('add_meta_boxes', 'adicionar_campo_imagem_topo');
+
+// Renderizar o Campo
+function renderizar_campo_imagem_topo($post) {
+    wp_nonce_field('salvar_imagem_topo', 'imagem_topo_nonce');
+    $imagem_url = get_post_meta($post->ID, '_imagem_topo', true);
+    ?>
+    <div>
+        <img id="preview-imagem-topo" src="<?php echo esc_url($imagem_url); ?>" style="max-width:100%; height:auto; <?php echo empty($imagem_url) ? 'display:none;' : ''; ?>">
+        <input type="hidden" id="imagem_topo" name="imagem_topo" value="<?php echo esc_url($imagem_url); ?>">
+        <br>
+        <button type="button" class="button" id="upload-imagem-topo">Selecionar Imagem</button>
+        <button type="button" class="button" id="remover-imagem-topo" style="<?php echo empty($imagem_url) ? 'display:none;' : ''; ?>">Remover Imagem</button>
+    </div>
+
+    <script>
+        jQuery(document).ready(function($) {
+            var frame;
+            $('#upload-imagem-topo').on('click', function(e) {
+                e.preventDefault();
+                if (frame) {
+                    frame.open();
+                    return;
+                }
+                frame = wp.media({
+                    title: 'Selecionar Imagem',
+                    button: { text: 'Usar esta imagem' },
+                    multiple: false
+                });
+                frame.on('select', function() {
+                    var attachment = frame.state().get('selection').first().toJSON();
+                    $('#imagem_topo').val(attachment.url);
+                    $('#preview-imagem-topo').attr('src', attachment.url).show();
+                    $('#remover-imagem-topo').show();
+                });
+                frame.open();
+            });
+
+            $('#remover-imagem-topo').on('click', function() {
+                $('#imagem_topo').val('');
+                $('#preview-imagem-topo').hide();
+                $(this).hide();
+            });
+        });
+    </script>
+    <?php
+}
+
+// Salvar o Campo ao Salvar o Post
+function salvar_imagem_topo($post_id) {
+    if (!isset($_POST['imagem_topo_nonce']) || !wp_verify_nonce($_POST['imagem_topo_nonce'], 'salvar_imagem_topo')) {
+        return;
+    }
+
+    if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) {
+        return;
+    }
+
+    if (!current_user_can('edit_post', $post_id)) {
+        return;
+    }
+
+    if (isset($_POST['imagem_topo'])) {
+        update_post_meta($post_id, '_imagem_topo', esc_url($_POST['imagem_topo']));
+    } else {
+        delete_post_meta($post_id, '_imagem_topo');
+    }
+}
+add_action('save_post', 'salvar_imagem_topo');
+
 

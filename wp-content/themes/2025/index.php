@@ -33,7 +33,8 @@ get_header();
     </div>
 
     <?php 
-    $video_url = get_option('video_nosso_objetivo');
+    $homePage = get_page_by_path('home');
+    $video_url = get_post_meta( $homePage->ID, '_video_nosso_objetivo', true);
     if (!empty($video_url)) :
     ?>
 
