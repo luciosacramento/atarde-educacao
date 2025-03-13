@@ -51,7 +51,7 @@
                         ?>
                             <div class="col-md-4 p-3">
                             <div class="card">
-                                <a  href="#" class="abrir-modal" data-url="<?php echo esc_url($imagem_destaque); ?>" data-title="<?php echo get_the_title(); ?>" data-content="<?php echo get_the_content(); ?>" >
+                                <a target="_blank"  href="<?php echo get_the_permalink() ?>" >
                                     <img src="<?php echo $imagem_destaque;?>" class="card-img-top" alt="<?php echo get_the_title(); ?>">
                                 </a>                                
                             </div>
