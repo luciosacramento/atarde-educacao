@@ -14,31 +14,28 @@
             <a href="#" class=""><img src="<?php bloginfo('template_url'); ?>/img/icon_youtube_footer.png" alt="Facebook"></a>
           </div>
         </div>
-        <div class="col-md-3">
-          <h5>Mapa do site</h5>
-          <ul class="list-unstyled">
+        <div class="col-md-1"></div>
+        <div class="col-md-4">
+            <h5>Mapa do site</h5>
             <?php
                 $menuItens = wp_get_nav_menu_items("Menu Principal");   
+                $totalItens = count($menuItens);
+                $metade = ceil($totalItens / 2); // Divide a lista em duas partes
 
-                $str = "";
+                echo '<div class="row">';
+                echo '<div class="col-6"><ul class="list-unstyled">';
 
-                foreach ( $menuItens as $menuItem ) {
-                    $str .= "<li><a href='".$menuItem->url."'>".$menuItem->title."</a></li>";
+                foreach ($menuItens as $index => $menuItem) {
+                    if ($index == $metade) {
+                        echo '</ul></div><div class="col-6"><ul class="list-unstyled">';
+                    }
+                    echo "<li><a href='" . esc_url($menuItem->url) . "'>" . esc_html($menuItem->title) . "</a></li>";
                 }
 
-                echo $str;
+                echo '</ul></div></div>';
             ?>
-          </ul>
         </div>
-        <div class="col-md-3">
-          <h5>Título extra</h5>
-          <ul class="list-unstyled">
-            <li><a href="#" >Texto 1</a></li>
-            <li><a href="#" >Texto 2</a></li>
-            <li><a href="#" >Texto 3</a></li>
-            <li><a href="#" >Texto 4</a></li>
-          </ul>
-        </div>
+        <div class="col-md-1"></div>
         <div class="col-md-3">
           <h5>Nossa localização</h5>
           <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3151.835434509456!2d144.95373531565685!3d-37.81627944202145!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x6ad642af0f11fd81%3A0xf57715fd3c8f9937!2sExample+Location!5e0!3m2!1sen!2sbr!4v1618393056845!5m2!1sen!2sbr" width="100%" height="150" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
