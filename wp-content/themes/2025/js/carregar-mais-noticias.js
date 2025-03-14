@@ -70,49 +70,62 @@ jQuery(document).ready(function($) {
     // Ajusta o padding ao redimensionar a janela (caso o tamanho do header mude)
     window.addEventListener('resize', ajustarPadding);
 
+    var currentIndex = 0; 
+    var galleryImages = []; // Lista de imagens da galeria
+
     // Quando o título for clicado
     $(document).on('click', '.abrir-modal', function() {
-        var mediaUrl = $(this).data('url'); // Obtém o link do atributo data-url
-        var mediaTitle = $(this).data('title'); 
-        var mediaContent = $(this).data('content');
-        var mediaDepoimento = $(this).data('depoimento');
-        var modalBody = $('#modal-body'); // Corpo do modal
-        modalBody.empty(); // Limpa o conteúdo anterior
+        galleryImages = []; // Resetar a galeria ao abrir o modal
 
-        
-        var contEmbed = "";
+        // Captura todas as imagens da galeria para navegação
+        $('.abrir-modal').each(function() {
+            galleryImages.push({
+                url: $(this).data('url'),
+                title: $(this).data('title') || '',
+                content: $(this).data('content') || '',
+                depoimento: $(this).data('depoimento') || ''
+            });
+        });
 
-        if(mediaTitle){
-            contEmbed += '<h5>' + mediaTitle + '</h5>';
-         }
+        // Define o índice atual da imagem clicada
+        currentIndex = $(this).parent().index();
 
-         if(mediaUrl){
-             // Verifica se é um link do YouTube ou uma imagem
-             if (mediaUrl.includes('youtube') || mediaUrl.includes('youtu.be')) {
-                 const urlObj = new URL(mediaUrl);
-                 // Caso seja um vídeo do YouTube, cria um iframe
-                 contEmbed += '<iframe width="560" height="315" src="https://www.youtube.com/embed/' + urlObj.searchParams.get("v") + '" frameborder="0" allowfullscreen></iframe>';
-                // modalBody.html(videoEmbed);
-             } else {
-                 // Caso contrário, assume que é uma imagem
-                 contEmbed += '<img src="' + mediaUrl + '" alt="Mídia">';
-                // modalBody.html(imageEmbed);
-             }
-         }
-
-         if(mediaDepoimento){
-            contEmbed += '<p>' + mediaDepoimento + '</p>';
-         }
-       
-        if(mediaContent){
-            contEmbed += '<p class="content">' + mediaContent + '</p>';
-         }
-
-        modalBody.html(contEmbed);
+        // Exibir imagem no modal
+        showMedia(currentIndex);
 
         // Exibe o modal
         $('#modal').fadeIn();
     });
+
+    // Exibir mídia no modal
+    function showMedia(index) {
+        var media = galleryImages[index];
+        var modalBody = $('#modal-body');
+        var contEmbed = '';
+
+        if (media.title) {
+            contEmbed += '<h5>' + media.title + '</h5>';
+        }
+
+        if (media.url) {
+            if (media.url.includes('youtube') || media.url.includes('youtu.be')) {
+                const urlObj = new URL(media.url);
+                contEmbed += '<iframe width="560" height="315" src="https://www.youtube.com/embed/' + urlObj.searchParams.get("v") + '" frameborder="0" allowfullscreen></iframe>';
+            } else {
+                contEmbed += '<img src="' + media.url + '" alt="Mídia">';
+            }
+        }
+
+        if (media.depoimento) {
+            contEmbed += '<p>' + media.depoimento + '</p>';
+        }
+
+        if (media.content) {
+            contEmbed += '<p class="content">' + media.content + '</p>';
+        }
+
+        modalBody.html(contEmbed);
+    }
 
     // Fechar o modal
     $(document).on('click', '#fechar-modal', function() {
@@ -124,6 +137,26 @@ jQuery(document).ready(function($) {
         if ($(e.target).is('#modal')) {
             $('#modal').fadeOut();
         }
+    });
+
+    // Evento para navegar para a imagem anterior
+    $(document).on('click', '#prev', function(e) {
+        e.stopPropagation();
+        currentIndex--;
+        if (currentIndex < 0) {
+            currentIndex = galleryImages.length - 1;
+        }
+            showMedia(currentIndex);
+    });
+
+    // Evento para navegar para a próxima imagem
+    $(document).on('click', '#next', function(e) {
+        e.stopPropagation();
+        currentIndex++;
+        if (currentIndex > galleryImages.length - 1) {
+            currentIndex = 0;
+        }
+            showMedia(currentIndex);
     });
     
 });

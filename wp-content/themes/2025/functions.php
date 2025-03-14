@@ -1417,16 +1417,12 @@ add_action('add_meta_boxes', 'adicionar_metabox_galeria');
 // Função para exibir o campo de upload múltiplo
 function renderizar_metabox_galeria($post) {
     wp_nonce_field('salvar_galeria_imagens', 'galeria_nonce');
-
     $imagens = get_post_meta($post->ID, '_galeria_imagens', true);
-    print_r($imagens);
     ?>
 
     <div id="galeria-container">
         <ul id="galeria-preview">
             <?php
-
-           
 
             if (!empty($imagens)) {
                 foreach ($imagens as $imagem_id) {
@@ -2088,13 +2084,18 @@ function carregar_mais_noticias() {
             }elseif($tipo == 'galeria_fotos'){
 
                 ?>
-                    <div class="col-md-4 p-3 noticia">
+
+                    <div class="col-md-4 p-3">
                         <div class="card">
-                            <a  href="#" class="abrir-modal" data-url="<?php echo esc_url($imagem_destaque); ?>" >
+                            <a target="_blank"  href="<?php echo get_the_permalink() ?>" >
                                 <img src="<?php echo $imagem_destaque;?>" class="card-img-top" alt="<?php echo get_the_title(); ?>">
-                            </a>
+                            </a>   
+                            <div class="card-body">
+                                <h5 class="card-title"><?php echo get_the_title(); ?></h5>
+                            </div>                             
                         </div>
                     </div>
+
                 <?php
 
             }elseif($tipo == 'galeria_videos'){

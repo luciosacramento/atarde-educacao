@@ -41,7 +41,7 @@
                     while ($query->have_posts()) {
                         $query->the_post(); // Configura o post atual
 
-                        $imagem_destaque = get_the_post_thumbnail_url(get_the_ID(), 'full'); // URL da imagem em destaque (tamanho completo)
+                        $imagem_destaque = get_the_post_thumbnail_url(get_the_ID(), 'noticias-list'); // URL da imagem em destaque (tamanho completo)
                         if (!$imagem_destaque) {
                             $imagem_destaque = 'https://placehold.co/600x400/png'; // URL padrão (imagem de placeholder)
                         }
@@ -49,11 +49,16 @@
                         //$media_link = get_post_meta(get_the_ID(), 'media_link', true);
 
                         ?>
+
+                        
                             <div class="col-md-4 p-3">
                             <div class="card">
                                 <a target="_blank"  href="<?php echo get_the_permalink() ?>" >
                                     <img src="<?php echo $imagem_destaque;?>" class="card-img-top" alt="<?php echo get_the_title(); ?>">
-                                </a>                                
+                                </a>   
+                                <div class="card-body">
+                                    <h5 class="card-title"><?php echo get_the_title(); ?></h5>
+                                </div>                             
                             </div>
                             </div>
 
