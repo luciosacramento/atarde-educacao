@@ -143,6 +143,14 @@
               } else {
 
                 $imagem_url = get_post_meta($post->ID, '_imagem_topo', true);
+
+                if($post->post_type == 'noticias_post'){
+
+                  $pageNoticias = get_page_by_path('noticias');
+                  $imagem_url = get_post_meta($pageNoticias->ID, '_imagem_topo', true);
+
+                }
+
                 if($imagem_url){
                   echo '<img class="header-image" src="'. $imagem_url. '" alt="">';
                 }else{
