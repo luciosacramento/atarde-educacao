@@ -969,7 +969,7 @@ function adicionar_campos_personalizados_evento() {
         'campo_cidade_meta_box',
         'Informações do Evento',
         'renderizar_campos',
-        'evento',
+        'eventos_post',
         'normal',
         'high'
     );
