@@ -46,19 +46,18 @@
                     <?php
                 }else{
 
+                    $cor = get_post_meta(get_the_ID(), '_cor_area_atuacao', true);
+
                 ?>
-                    <div class="col-md-3 p-3">
+                    <div class="col-md-4 p-3">
                     <div class="card">
                         <a  href="<?php echo get_permalink(); ?>" >
                             <img src="<?php echo $imagem_destaque;?>" class="card-img-top" alt="<?php echo get_the_title(); ?>">
                         </a>
-                        <!--div class="card-body">
-                            <h5 class="card-title"><?php echo get_the_title(); ?></h5>
-                            <p class="card-text"><?php echo get_the_excerpt(); ?></p>
-                            <div class="row">
-                                <a class="col-6 text-end btn btn-link" href="<?php echo get_permalink(); ?>" >Leia mais</a>
-                            </div>
-                        </div-->
+                        <div class="card-body">
+                            <h5 class="card-title" style="background: transparent;" ><?php echo get_the_title(); ?></h5>
+                            <p class="card-text" style="background:<?php echo $cor; ?>; color:<?php echo $cor; ?>"><?php echo get_the_excerpt(); ?></p>
+                        </div>
                     </div>
                     </div>
 

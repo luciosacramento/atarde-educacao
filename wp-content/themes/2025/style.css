@@ -1104,3 +1104,9 @@ footer h5{
 .social-btn:hover {
   opacity: 0.8;
 }
+
+.bt-arrow{
+  background: transparent;
+  border: 0;
+  color: #fff;
+}

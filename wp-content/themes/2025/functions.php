@@ -1919,47 +1919,99 @@ add_action('the_content', 'exibir_campos_o_programa');
 
 /*******************FIM O PROGRAMA************************ */
 
-/*******************tipo de conteudo Area de Atuação************************ */
+/******************* Tipo de Conteúdo Área de Atuação ************************ */
 // Função para registrar o tipo de post personalizado "Área de Atuação"
-    function registrar_area_atuacao_post_type() {
-        $labels = array(
-            'name'               => 'Áreas de Atuação',
-            'singular_name'      => 'Área de Atuação',
-            'menu_name'          => 'Áreas de Atuação',
-            'name_admin_bar'     => 'Área de Atuação',
-            'add_new'            => 'Adicionar Nova',
-            'add_new_item'       => 'Adicionar Nova Área de Atuação',
-            'new_item'           => 'Nova Área de Atuação',
-            'edit_item'          => 'Editar Área de Atuação',
-            'view_item'          => 'Ver Área de Atuação',
-            'all_items'          => 'Todas as Áreas de Atuação',
-            'search_items'       => 'Buscar Áreas de Atuação',
-            'not_found'          => 'Nenhuma área de atuação encontrada.',
-            'not_found_in_trash' => 'Nenhuma área de atuação encontrada na lixeira.',
-        );
+function registrar_area_atuacao_post_type() {
+    $labels = array(
+        'name'               => 'Áreas de Atuação',
+        'singular_name'      => 'Área de Atuação',
+        'menu_name'          => 'Áreas de Atuação',
+        'name_admin_bar'     => 'Área de Atuação',
+        'add_new'            => 'Adicionar Nova',
+        'add_new_item'       => 'Adicionar Nova Área de Atuação',
+        'new_item'           => 'Nova Área de Atuação',
+        'edit_item'          => 'Editar Área de Atuação',
+        'view_item'          => 'Ver Área de Atuação',
+        'all_items'          => 'Todas as Áreas de Atuação',
+        'search_items'       => 'Buscar Áreas de Atuação',
+        'not_found'          => 'Nenhuma área de atuação encontrada.',
+        'not_found_in_trash' => 'Nenhuma área de atuação encontrada na lixeira.',
+    );
 
-        $args = array(
-            'labels'             => $labels,
-            'public'             => true,
-            'publicly_queryable' => true,
-            'show_ui'            => true,
-            'show_in_menu'       => true,
-            'query_var'          => true,
-            'rewrite'            => array('slug' => 'area-atuacao-post'),
-            'capability_type'    => 'post',
-            'has_archive'        => true,
-            'hierarchical'       => false,
-            'menu_position'      => 5,
-            'menu_icon'          => 'dashicons-portfolio', // Ícone do menu
-            'supports'           => array('title', 'editor', 'thumbnail', 'excerpt'),
-            'taxonomies'         => array('category', 'post_tag') // Usa categorias e tags padrões do WordPress
-        );
+    $args = array(
+        'labels'             => $labels,
+        'public'             => true,
+        'publicly_queryable' => true,
+        'show_ui'            => true,
+        'show_in_menu'       => true,
+        'query_var'          => true,
+        'rewrite'            => array('slug' => 'area-atuacao-post'),
+        'capability_type'    => 'post',
+        'has_archive'        => true,
+        'hierarchical'       => false,
+        'menu_position'      => 5,
+        'menu_icon'          => 'dashicons-portfolio',
+        'supports'           => array('title', 'editor', 'thumbnail', 'excerpt'),
+        'taxonomies'         => array('category', 'post_tag')
+    );
 
-        register_post_type('area-atuacao-post', $args);
+    register_post_type('area-atuacao-post', $args);
+}
+add_action('init', 'registrar_area_atuacao_post_type');
+
+/******************* Adiciona o Campo de Cor Hexadecimal ************************ */
+
+// Adiciona o metabox de cor ao editor de posts
+function adicionar_campo_cor_area_atuacao() {
+    add_meta_box(
+        'cor_area_atuacao', 
+        'Cor da Área de Atuação', 
+        'campo_cor_callback', 
+        'area-atuacao-post', 
+        'side', 
+        'default'
+    );
+}
+add_action('add_meta_boxes', 'adicionar_campo_cor_area_atuacao');
+
+// Callback do metabox
+function campo_cor_callback($post) {
+    wp_nonce_field('salvar_cor_area_atuacao', 'cor_area_atuacao_nonce');
+    
+    $cor_salva = get_post_meta($post->ID, '_cor_area_atuacao', true);
+    
+    echo '<input type="text" id="cor_area_atuacao" name="cor_area_atuacao" value="' . esc_attr($cor_salva) . '" class="cor-picker" />';
+}
+
+// Salva a cor no banco de dados
+function salvar_cor_area_atuacao($post_id) {
+    if (!isset($_POST['cor_area_atuacao_nonce']) || !wp_verify_nonce($_POST['cor_area_atuacao_nonce'], 'salvar_cor_area_atuacao')) {
+        return;
     }
-    add_action('init', 'registrar_area_atuacao_post_type');
+    
+    if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) {
+        return;
+    }
+    
+    if (!current_user_can('edit_post', $post_id)) {
+        return;
+    }
+    
+    if (isset($_POST['cor_area_atuacao'])) {
+        update_post_meta($post_id, '_cor_area_atuacao', sanitize_hex_color($_POST['cor_area_atuacao']));
+    }
+}
+add_action('save_post', 'salvar_cor_area_atuacao');
 
-/*******************FIM tipo de conteudo Area de Atuação************************ */
+// Carrega o script do seletor de cores do WordPress
+function carregar_wp_color_picker($hook) {
+    if ('post.php' === $hook || 'post-new.php' === $hook) {
+        wp_enqueue_style('wp-color-picker');
+        wp_enqueue_script('custom-color-picker', get_template_directory_uri() . '/js/custom-color-picker.js', array('wp-color-picker'), false, true);
+    }
+}
+add_action('admin_enqueue_scripts', 'carregar_wp_color_picker');
+
 
 
 /*******************tipo de conteudo Area de Atuação************************ */

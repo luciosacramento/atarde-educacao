@@ -74,8 +74,8 @@
 <div id="modal" style="display: none">
     <div id="modal-content" style="width:60%">
         <span id="fechar-modal">&times;</span>
-        <button id="prev" style="position: absolute; left: -34px; top:50%">&#10094;</button>
-        <button id="next" style="position: absolute; right: -34px; top: 50%;">&#10095;</button>
+        <button class="bt-arrow" id="prev" style="position: absolute; left: -34px; top:50%">&#10094;</button>
+        <button class="bt-arrow" id="next" style="position: absolute; right: -34px; top: 50%;">&#10095;</button>
         <div id="modal-body">
             <!-- O conteúdo será carregado dinamicamente -->
         </div>
