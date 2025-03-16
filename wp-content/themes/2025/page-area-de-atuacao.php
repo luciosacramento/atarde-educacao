@@ -56,7 +56,7 @@
                         </a>
                         <div class="card-body">
                             <h5 class="card-title" style="background: transparent;" ><?php echo get_the_title(); ?></h5>
-                            <p class="card-text" style="background:<?php echo $cor; ?>; color:<?php echo $cor; ?>"><?php echo get_the_excerpt(); ?></p>
+                            <p class="card-text" style="background:<?php echo $cor.'4D'; ?>; color:<?php echo $cor; ?>"><?php echo get_the_excerpt(); ?></p>
                         </div>
                     </div>
                     </div>
