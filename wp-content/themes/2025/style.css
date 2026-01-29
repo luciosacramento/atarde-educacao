@@ -1612,6 +1612,7 @@ footer h5 {
     background: rgba(255, 255, 255, 0.95);
     padding: 20px;
     border-radius: 12px;
+    margin-top: 339px;
   }
 
   .nosso-objetivo-area .cont-nossoobjetivo h2 {
@@ -1857,11 +1858,13 @@ footer h5 {
   /* Section Titles */
   .section-title {
     font-size: 1.3rem;
+    text-align: center;
   }
 
   .section-title::before {
     width: 60px;
     margin-bottom: 15px;
+    margin: 0 auto;
   }
 }
 
@@ -1875,7 +1878,7 @@ footer h5 {
   .header-title,
   .header-title-2 {
     font-size: 22px;
-    -webkit-text-stroke-width: 5px;
+    -webkit-text-stroke-width: 1px;
   }
 
   .header-title-2 {

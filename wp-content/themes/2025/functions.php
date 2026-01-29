@@ -1,18 +1,20 @@
 <?php
 
-function registrar_menus() {
+function registrar_menus()
+{
     // Registra o menu principal
     register_nav_menus(
         array(
             'menu-principal' => 'Menu Principal', // Nome interno para referência
-            'menu-footer'    => 'Menu do Rodapé'  // Nome interno para referência
+            'menu-footer' => 'Menu do Rodapé'  // Nome interno para referência
         )
     );
 }
 add_action('after_setup_theme', 'registrar_menus');
 
 // Adicionar tamanhos personalizados de imagens
-function registrar_cortes_personalizados_imagens() {
+function registrar_cortes_personalizados_imagens()
+{
     // 1166x455 - Topo Notícias
     add_image_size('topo-noticias', 1166, 455, true);
 
@@ -33,7 +35,8 @@ function registrar_cortes_personalizados_imagens() {
 }
 add_action('after_setup_theme', 'registrar_cortes_personalizados_imagens');
 
-function get_resized_image_url($original_url, $size = 'noticias-home-chamada') {
+function get_resized_image_url($original_url, $size = 'noticias-home-chamada')
+{
     global $wpdb;
 
     $query = $wpdb->prepare("
@@ -52,7 +55,8 @@ function get_resized_image_url($original_url, $size = 'noticias-home-chamada') {
 }
 
 // Tornar os tamanhos customizados disponíveis no editor (opcional)
-function adicionar_tamanhos_no_seletor_midia($sizes) {
+function adicionar_tamanhos_no_seletor_midia($sizes)
+{
     return array_merge($sizes, array(
         'topo-noticias' => __('Topo Notícias (1166x455)'),
         'galeria-noticias' => __('Galeria Notícias (270x200)'),
@@ -62,7 +66,7 @@ function adicionar_tamanhos_no_seletor_midia($sizes) {
 }
 add_filter('image_size_names_choose', 'adicionar_tamanhos_no_seletor_midia');
 
-add_filter('template_include', function($template) {
+add_filter('template_include', function ($template) {
     if (is_page('noticias')) { // Substitua "noticias" pelo slug da página
         $new_template = locate_template(array('page-noticias.php'));
         if (!empty($new_template)) {
@@ -72,71 +76,74 @@ add_filter('template_include', function($template) {
     return $template;
 });
 
-add_action( 'after_setup_theme', 'theme_setup' );
+add_action('after_setup_theme', 'theme_setup');
 
-function theme_setup() {
-    add_action( 'init', 'add_support_to_pages' );
+function theme_setup()
+{
+    add_action('init', 'add_support_to_pages');
 }
 
-function add_support_to_pages() {
-    add_post_type_support( 'page', 'excerpt' );
+function add_support_to_pages()
+{
+    add_post_type_support('page', 'excerpt');
 }
 
-add_theme_support( 'post-thumbnails' );
+add_theme_support('post-thumbnails');
 
 /*******************tipo de conteudo NOTICIA***************** */
 
-function registrar_custom_post_type_noticias() {
+function registrar_custom_post_type_noticias()
+{
     $labels = array(
-        'name'               => _x('Notícias', 'Post Type General Name', 'textdomain'),
-        'singular_name'      => _x('Notícia', 'Post Type Singular Name', 'textdomain'),
-        'menu_name'          => __('Notícias', 'textdomain'),
-        'name_admin_bar'     => __('Notícia', 'textdomain'),
-        'archives'           => __('Arquivos de Notícias', 'textdomain'),
-        'attributes'         => __('Atributos de Notícia', 'textdomain'),
-        'parent_item_colon'  => __('Notícia Parente:', 'textdomain'),
-        'all_items'          => __('Todas as Notícias', 'textdomain'),
-        'add_new_item'       => __('Adicionar Nova Notícia', 'textdomain'),
-        'add_new'            => __('Adicionar Nova', 'textdomain'),
-        'new_item'           => __('Nova Notícia', 'textdomain'),
-        'edit_item'          => __('Editar Notícia', 'textdomain'),
-        'update_item'        => __('Atualizar Notícia', 'textdomain'),
-        'view_item'          => __('Ver Notícia', 'textdomain'),
-        'view_items'         => __('Ver Notícias', 'textdomain'),
-        'search_items'       => __('Procurar Notícia', 'textdomain'),
-        'not_found'          => __('Não encontrado', 'textdomain'),
+        'name' => _x('Notícias', 'Post Type General Name', 'textdomain'),
+        'singular_name' => _x('Notícia', 'Post Type Singular Name', 'textdomain'),
+        'menu_name' => __('Notícias', 'textdomain'),
+        'name_admin_bar' => __('Notícia', 'textdomain'),
+        'archives' => __('Arquivos de Notícias', 'textdomain'),
+        'attributes' => __('Atributos de Notícia', 'textdomain'),
+        'parent_item_colon' => __('Notícia Parente:', 'textdomain'),
+        'all_items' => __('Todas as Notícias', 'textdomain'),
+        'add_new_item' => __('Adicionar Nova Notícia', 'textdomain'),
+        'add_new' => __('Adicionar Nova', 'textdomain'),
+        'new_item' => __('Nova Notícia', 'textdomain'),
+        'edit_item' => __('Editar Notícia', 'textdomain'),
+        'update_item' => __('Atualizar Notícia', 'textdomain'),
+        'view_item' => __('Ver Notícia', 'textdomain'),
+        'view_items' => __('Ver Notícias', 'textdomain'),
+        'search_items' => __('Procurar Notícia', 'textdomain'),
+        'not_found' => __('Não encontrado', 'textdomain'),
         'not_found_in_trash' => __('Não encontrado na lixeira', 'textdomain'),
-        'featured_image'     => __('Imagem Destacada', 'textdomain'),
+        'featured_image' => __('Imagem Destacada', 'textdomain'),
         'set_featured_image' => __('Definir imagem destacada', 'textdomain'),
         'remove_featured_image' => __('Remover imagem destacada', 'textdomain'),
         'use_featured_image' => __('Usar como imagem destacada', 'textdomain'),
-        'insert_into_item'   => __('Inserir na Notícia', 'textdomain'),
+        'insert_into_item' => __('Inserir na Notícia', 'textdomain'),
         'uploaded_to_this_item' => __('Enviado para esta Notícia', 'textdomain'),
-        'items_list'         => __('Lista de Notícias', 'textdomain'),
+        'items_list' => __('Lista de Notícias', 'textdomain'),
         'items_list_navigation' => __('Navegação da lista de Notícias', 'textdomain'),
-        'filter_items_list'  => __('Filtrar lista de Notícias', 'textdomain'),
+        'filter_items_list' => __('Filtrar lista de Notícias', 'textdomain'),
     );
 
     $args = array(
-        'label'               => __('Notícia', 'textdomain'),
-        'description'         => __('Post Type para Notícias', 'textdomain'),
-        'labels'              => $labels,
-        'supports'            => array('title', 'editor', 'thumbnail', 'excerpt', 'comments', 'author', 'custom-fields', 'revisions'), // Mesmos campos do post padrão
-        'taxonomies'          => array('category', 'post_tag'), // Categorias e Tags como em posts
-        'hierarchical'        => false,
-        'public'              => true,
-        'show_ui'             => true, // Exibe no painel de administração
-        'show_in_menu'        => true, // Exibe no menu
-        'menu_position'       => 1, // Próximo de Posts
-        'menu_icon'           => 'dashicons-megaphone', // Ícone do menu
-        'show_in_admin_bar'   => true,
-        'show_in_nav_menus'   => true,
-        'can_export'          => true,
-        'has_archive'         => true, // Habilita um arquivo para "Notícias"
+        'label' => __('Notícia', 'textdomain'),
+        'description' => __('Post Type para Notícias', 'textdomain'),
+        'labels' => $labels,
+        'supports' => array('title', 'editor', 'thumbnail', 'excerpt', 'comments', 'author', 'custom-fields', 'revisions'), // Mesmos campos do post padrão
+        'taxonomies' => array('category', 'post_tag'), // Categorias e Tags como em posts
+        'hierarchical' => false,
+        'public' => true,
+        'show_ui' => true, // Exibe no painel de administração
+        'show_in_menu' => true, // Exibe no menu
+        'menu_position' => 1, // Próximo de Posts
+        'menu_icon' => 'dashicons-megaphone', // Ícone do menu
+        'show_in_admin_bar' => true,
+        'show_in_nav_menus' => true,
+        'can_export' => true,
+        'has_archive' => true, // Habilita um arquivo para "Notícias"
         'exclude_from_search' => false,
-        'publicly_queryable'  => true,
-        'capability_type'     => 'post',
-        'show_in_rest'        => true, // Habilita o editor de blocos (Gutenberg)
+        'publicly_queryable' => true,
+        'capability_type' => 'post',
+        'show_in_rest' => true, // Habilita o editor de blocos (Gutenberg)
         'rewrite' => array('slug' => 'noticias_post'),
     );
 
@@ -151,57 +158,58 @@ add_action('init', 'registrar_custom_post_type_noticias');
 
 /*******************tipo de conteudo EQUIPE***************************************** */
 // Adicionar um tipo de conteúdo personalizado chamado "equipe"
-function criar_tipo_conteudo_equipe() {
+function criar_tipo_conteudo_equipe()
+{
     $labels = array(
-        'name'               => _x('Equipe', 'Post Type General Name', 'text_domain'),
-        'singular_name'      => _x('Membro', 'Post Type Singular Name', 'text_domain'),
-        'menu_name'          => __('Equipe', 'text_domain'),
-        'name_admin_bar'     => __('Membro da Equipe', 'text_domain'),
-        'archives'           => __('Arquivos de Membros', 'text_domain'),
-        'attributes'         => __('Atributos de Membros', 'text_domain'),
-        'parent_item_colon'  => __('Membro Principal:', 'text_domain'),
-        'all_items'          => __('Todos os Membros', 'text_domain'),
-        'add_new_item'       => __('Adicionar Novo Membro', 'text_domain'),
-        'add_new'            => __('Adicionar Novo', 'text_domain'),
-        'new_item'           => __('Novo Membro', 'text_domain'),
-        'edit_item'          => __('Editar Membro', 'text_domain'),
-        'update_item'        => __('Atualizar Membro', 'text_domain'),
-        'view_item'          => __('Visualizar Membro', 'text_domain'),
-        'view_items'         => __('Visualizar Equipe', 'text_domain'),
-        'search_items'       => __('Buscar Membro', 'text_domain'),
-        'not_found'          => __('Nenhum membro encontrado', 'text_domain'),
+        'name' => _x('Equipe', 'Post Type General Name', 'text_domain'),
+        'singular_name' => _x('Membro', 'Post Type Singular Name', 'text_domain'),
+        'menu_name' => __('Equipe', 'text_domain'),
+        'name_admin_bar' => __('Membro da Equipe', 'text_domain'),
+        'archives' => __('Arquivos de Membros', 'text_domain'),
+        'attributes' => __('Atributos de Membros', 'text_domain'),
+        'parent_item_colon' => __('Membro Principal:', 'text_domain'),
+        'all_items' => __('Todos os Membros', 'text_domain'),
+        'add_new_item' => __('Adicionar Novo Membro', 'text_domain'),
+        'add_new' => __('Adicionar Novo', 'text_domain'),
+        'new_item' => __('Novo Membro', 'text_domain'),
+        'edit_item' => __('Editar Membro', 'text_domain'),
+        'update_item' => __('Atualizar Membro', 'text_domain'),
+        'view_item' => __('Visualizar Membro', 'text_domain'),
+        'view_items' => __('Visualizar Equipe', 'text_domain'),
+        'search_items' => __('Buscar Membro', 'text_domain'),
+        'not_found' => __('Nenhum membro encontrado', 'text_domain'),
         'not_found_in_trash' => __('Nenhum membro encontrado na lixeira', 'text_domain'),
-        'featured_image'     => __('Imagem de Destaque', 'text_domain'),
+        'featured_image' => __('Imagem de Destaque', 'text_domain'),
         'set_featured_image' => __('Definir imagem de destaque', 'text_domain'),
         'remove_featured_image' => __('Remover imagem de destaque', 'text_domain'),
         'use_featured_image' => __('Usar como imagem de destaque', 'text_domain'),
-        'insert_into_item'   => __('Inserir no membro', 'text_domain'),
+        'insert_into_item' => __('Inserir no membro', 'text_domain'),
         'uploaded_to_this_item' => __('Enviado para este membro', 'text_domain'),
-        'items_list'         => __('Lista de membros', 'text_domain'),
+        'items_list' => __('Lista de membros', 'text_domain'),
         'items_list_navigation' => __('Navegação da lista de membros', 'text_domain'),
-        'filter_items_list'  => __('Filtrar lista de membros', 'text_domain'),
+        'filter_items_list' => __('Filtrar lista de membros', 'text_domain'),
     );
 
     $args = array(
-        'label'               => __('Equipe', 'text_domain'),
-        'description'         => __('Tipo de conteúdo para a equipe da organização.', 'text_domain'),
-        'labels'              => $labels,
-        'supports'            => array('title', 'editor', 'thumbnail', 'excerpt', 'comments', 'revisions', 'custom-fields', 'author'), // Mesmos campos de "post"
-        'taxonomies'          => array('category', 'post_tag'), // Categorias e tags padrão
-        'hierarchical'        => false, // Não permite hierarquia, como posts normais
-        'public'              => true,
-        'show_ui'             => true,
-        'show_in_menu'        => true,
-        'menu_position'       => 2, // Posição no menu do admin
-        'menu_icon'           => 'dashicons-groups', // Ícone do menu
-        'show_in_admin_bar'   => true,
-        'show_in_nav_menus'   => true,
-        'can_export'          => true,
-        'has_archive'         => true,
+        'label' => __('Equipe', 'text_domain'),
+        'description' => __('Tipo de conteúdo para a equipe da organização.', 'text_domain'),
+        'labels' => $labels,
+        'supports' => array('title', 'editor', 'thumbnail', 'excerpt', 'comments', 'revisions', 'custom-fields', 'author'), // Mesmos campos de "post"
+        'taxonomies' => array('category', 'post_tag'), // Categorias e tags padrão
+        'hierarchical' => false, // Não permite hierarquia, como posts normais
+        'public' => true,
+        'show_ui' => true,
+        'show_in_menu' => true,
+        'menu_position' => 2, // Posição no menu do admin
+        'menu_icon' => 'dashicons-groups', // Ícone do menu
+        'show_in_admin_bar' => true,
+        'show_in_nav_menus' => true,
+        'can_export' => true,
+        'has_archive' => true,
         'exclude_from_search' => false,
-        'publicly_queryable'  => true,
-        'capability_type'     => 'post', // Comportamento semelhante ao tipo "post"
-        'show_in_rest'        => true, // Habilita a API REST
+        'publicly_queryable' => true,
+        'capability_type' => 'post', // Comportamento semelhante ao tipo "post"
+        'show_in_rest' => true, // Habilita a API REST
         'rewrite' => array('slug' => 'equipe_post'),
     );
 
@@ -322,37 +330,38 @@ add_action('init', 'adicionar_posts_equipe');
 /*******************tipo de conteudo PARCEIRO************************ */
 
 // Função para registrar o tipo de conteúdo "parceiro"
-function registrar_tipo_conteudo_parceiro() {
+function registrar_tipo_conteudo_parceiro()
+{
     $labels = array(
-        'name'               => 'Parceiros',
-        'singular_name'      => 'Parceiro',
-        'menu_name'          => 'Parceiros',
-        'name_admin_bar'     => 'Parceiro',
-        'add_new'            => 'Adicionar Novo',
-        'add_new_item'       => 'Adicionar Novo Parceiro',
-        'new_item'           => 'Novo Parceiro',
-        'edit_item'          => 'Editar Parceiro',
-        'view_item'          => 'Visualizar Parceiro',
-        'all_items'          => 'Todos os Parceiros',
-        'search_items'       => 'Pesquisar Parceiros',
-        'not_found'          => 'Nenhum Parceiro encontrado.',
+        'name' => 'Parceiros',
+        'singular_name' => 'Parceiro',
+        'menu_name' => 'Parceiros',
+        'name_admin_bar' => 'Parceiro',
+        'add_new' => 'Adicionar Novo',
+        'add_new_item' => 'Adicionar Novo Parceiro',
+        'new_item' => 'Novo Parceiro',
+        'edit_item' => 'Editar Parceiro',
+        'view_item' => 'Visualizar Parceiro',
+        'all_items' => 'Todos os Parceiros',
+        'search_items' => 'Pesquisar Parceiros',
+        'not_found' => 'Nenhum Parceiro encontrado.',
         'not_found_in_trash' => 'Nenhum Parceiro encontrado na lixeira.'
     );
 
     $args = array(
-        'labels'             => $labels,
-        'public'             => true,
+        'labels' => $labels,
+        'public' => true,
         'publicly_queryable' => true,
-        'show_ui'            => true,
-        'show_in_menu'       => true,
-        'query_var'          => true,
-        'rewrite'            => array('slug' => 'parceiro_post'),
-        'capability_type'    => 'post',
-        'has_archive'        => true,
-        'hierarchical'       => false,
-        'menu_position'      => 3,
-        'menu_icon'          => 'dashicons-admin-links', // Ícone do menu
-        'supports'           => array('title', 'thumbnail'), // Suporte a título e imagem destacada
+        'show_ui' => true,
+        'show_in_menu' => true,
+        'query_var' => true,
+        'rewrite' => array('slug' => 'parceiro_post'),
+        'capability_type' => 'post',
+        'has_archive' => true,
+        'hierarchical' => false,
+        'menu_position' => 3,
+        'menu_icon' => 'dashicons-admin-links', // Ícone do menu
+        'supports' => array('title', 'thumbnail'), // Suporte a título e imagem destacada
     );
 
     register_post_type('parceiro_post', $args);
@@ -361,7 +370,8 @@ add_action('init', 'registrar_tipo_conteudo_parceiro');
 
 
 // Adicionar o metabox para o campo "Link"
-function adicionar_metabox_parceiro() {
+function adicionar_metabox_parceiro()
+{
     add_meta_box(
         'parceiro_link', // ID único
         'Link do Parceiro', // Título do Metabox
@@ -374,7 +384,8 @@ function adicionar_metabox_parceiro() {
 add_action('add_meta_boxes', 'adicionar_metabox_parceiro');
 
 // Renderizar o Metabox
-function renderizar_metabox_parceiro($post) {
+function renderizar_metabox_parceiro($post)
+{
     // Garante a segurança com nonce
     wp_nonce_field('salvar_metabox_parceiro', 'parceiro_link_nonce');
 
@@ -386,7 +397,8 @@ function renderizar_metabox_parceiro($post) {
 }
 
 // Salvar o valor do campo personalizado
-function salvar_metabox_parceiro($post_id) {
+function salvar_metabox_parceiro($post_id)
+{
     // Verifica o nonce para garantir a segurança
     if (!isset($_POST['parceiro_link_nonce']) || !wp_verify_nonce($_POST['parceiro_link_nonce'], 'salvar_metabox_parceiro')) {
         return;
@@ -404,37 +416,38 @@ add_action('save_post', 'salvar_metabox_parceiro');
 /*******************tipo de conteudo CURSO************************ */
 
 // Função para registrar o tipo de conteúdo "Cursos"
-function registrar_tipo_conteudo_cursos() {
+function registrar_tipo_conteudo_cursos()
+{
     $labels = array(
-        'name'               => 'Cursos',
-        'singular_name'      => 'Curso',
-        'menu_name'          => 'Cursos',
-        'name_admin_bar'     => 'Curso',
-        'add_new'            => 'Adicionar Novo',
-        'add_new_item'       => 'Adicionar Novo Curso',
-        'new_item'           => 'Novo Curso',
-        'edit_item'          => 'Editar Curso',
-        'view_item'          => 'Visualizar Curso',
-        'all_items'          => 'Todos os Cursos',
-        'search_items'       => 'Pesquisar Cursos',
-        'not_found'          => 'Nenhum Curso encontrado.',
+        'name' => 'Cursos',
+        'singular_name' => 'Curso',
+        'menu_name' => 'Cursos',
+        'name_admin_bar' => 'Curso',
+        'add_new' => 'Adicionar Novo',
+        'add_new_item' => 'Adicionar Novo Curso',
+        'new_item' => 'Novo Curso',
+        'edit_item' => 'Editar Curso',
+        'view_item' => 'Visualizar Curso',
+        'all_items' => 'Todos os Cursos',
+        'search_items' => 'Pesquisar Cursos',
+        'not_found' => 'Nenhum Curso encontrado.',
         'not_found_in_trash' => 'Nenhum Curso encontrado na lixeira.',
     );
 
     $args = array(
-        'labels'             => $labels,
-        'public'             => true,
+        'labels' => $labels,
+        'public' => true,
         'publicly_queryable' => true,
-        'show_ui'            => true,
-        'show_in_menu'       => true,
-        'query_var'          => true,
-        'rewrite'            => array('slug' => 'curso_post'),
-        'capability_type'    => 'post',
-        'has_archive'        => true,
-        'hierarchical'       => false,
-        'menu_position'      => 5,
-        'menu_icon'          => 'dashicons-welcome-learn-more', // Ícone para o menu
-        'supports'           => array('title', 'editor', 'thumbnail', 'excerpt'), // Suporte a título, descrição, imagem destacada e resumo
+        'show_ui' => true,
+        'show_in_menu' => true,
+        'query_var' => true,
+        'rewrite' => array('slug' => 'curso_post'),
+        'capability_type' => 'post',
+        'has_archive' => true,
+        'hierarchical' => false,
+        'menu_position' => 5,
+        'menu_icon' => 'dashicons-welcome-learn-more', // Ícone para o menu
+        'supports' => array('title', 'editor', 'thumbnail', 'excerpt'), // Suporte a título, descrição, imagem destacada e resumo
     );
 
     register_post_type('curso_post', $args);
@@ -443,7 +456,8 @@ add_action('init', 'registrar_tipo_conteudo_cursos');
 
 
 // Adicionar metaboxes para os campos personalizados
-function adicionar_metabox_cursos() {
+function adicionar_metabox_cursos()
+{
     add_meta_box(
         'curso_informacoes', // ID único do metabox
         'Informações do Curso', // Título do metabox
@@ -465,7 +479,8 @@ function adicionar_metabox_cursos() {
 add_action('add_meta_boxes', 'adicionar_metabox_cursos');
 
 // Renderizar o metabox
-function renderizar_metabox_cursos($post) {
+function renderizar_metabox_cursos($post)
+{
     // Garante a segurança com um nonce
     wp_nonce_field('salvar_metabox_cursos', 'curso_informacoes_nonce');
 
@@ -481,7 +496,7 @@ function renderizar_metabox_cursos($post) {
     // Exibe o campo de entrada
     echo '<label for="curso_video_url">Insira o link do vídeo do YouTube:</label>';
     echo '<input type="text" id="curso_video_url" name="curso_video_url" value="' . esc_attr($video_url) . '" style="width:100%; margin-top:5px;" placeholder="https://www.youtube.com/watch?v=XXXXX">';
-    
+
     echo '<label for="curso_duracao">Duração:</label>';
     echo '<input type="text" id="curso_duracao" name="curso_duracao" value="' . esc_attr($duracao) . '" style="width:100%; margin-bottom:10px;" placeholder="Ex: 40 horas">';
 
@@ -497,7 +512,8 @@ function renderizar_metabox_cursos($post) {
 }
 
 // Salvar os campos personalizados
-function salvar_metabox_cursos($post_id) {
+function salvar_metabox_cursos($post_id)
+{
     // Verifica o nonce para garantir a segurança
     if (!isset($_POST['curso_informacoes_nonce']) || !wp_verify_nonce($_POST['curso_informacoes_nonce'], 'salvar_metabox_cursos')) {
         return;
@@ -522,33 +538,34 @@ function salvar_metabox_cursos($post_id) {
 
     if (isset($_POST['curso_video_url'])) {
         update_post_meta($post_id, '_curso_video_url', esc_url($_POST['curso_video_url']));
-    } 
+    }
 }
 add_action('save_post', 'salvar_metabox_cursos');
 
 // Registrar Taxonomia para "Cursos"
-function registrar_taxonomia_cursos() {
+function registrar_taxonomia_cursos()
+{
     $labels = array(
-        'name'              => 'Categorias de Cursos',
-        'singular_name'     => 'Categoria de Curso',
-        'search_items'      => 'Buscar Categorias',
-        'all_items'         => 'Todas as Categorias',
-        'parent_item'       => 'Categoria Pai',
+        'name' => 'Categorias de Cursos',
+        'singular_name' => 'Categoria de Curso',
+        'search_items' => 'Buscar Categorias',
+        'all_items' => 'Todas as Categorias',
+        'parent_item' => 'Categoria Pai',
         'parent_item_colon' => 'Categoria Pai:',
-        'edit_item'         => 'Editar Categoria',
-        'update_item'       => 'Atualizar Categoria',
-        'add_new_item'      => 'Adicionar Nova Categoria',
-        'new_item_name'     => 'Nome da Nova Categoria',
-        'menu_name'         => 'Categorias de Cursos',
+        'edit_item' => 'Editar Categoria',
+        'update_item' => 'Atualizar Categoria',
+        'add_new_item' => 'Adicionar Nova Categoria',
+        'new_item_name' => 'Nome da Nova Categoria',
+        'menu_name' => 'Categorias de Cursos',
     );
 
     $args = array(
-        'hierarchical'      => true, // Comportamento de categorias (true) ou tags (false)
-        'labels'            => $labels,
-        'show_ui'           => true,
+        'hierarchical' => true, // Comportamento de categorias (true) ou tags (false)
+        'labels' => $labels,
+        'show_ui' => true,
         'show_admin_column' => true,
-        'query_var'         => true,
-        'rewrite'           => array('slug' => 'categoria-curso'),
+        'query_var' => true,
+        'rewrite' => array('slug' => 'categoria-curso'),
     );
 
     register_taxonomy('categoria_curso', 'curso_post', $args);
@@ -703,37 +720,38 @@ add_action('init', 'criar_cursos_automaticamente');
 /*******************tipo de conteudo DEPOIMENTO************************ */
 
 // Registrar o tipo de conteúdo "Depoimento"
-function registrar_tipo_conteudo_depoimento() {
+function registrar_tipo_conteudo_depoimento()
+{
     $labels = array(
-        'name'               => 'Depoimentos',
-        'singular_name'      => 'Depoimento',
-        'menu_name'          => 'Depoimentos',
-        'name_admin_bar'     => 'Depoimento',
-        'add_new'            => 'Adicionar Novo',
-        'add_new_item'       => 'Adicionar Novo Depoimento',
-        'new_item'           => 'Novo Depoimento',
-        'edit_item'          => 'Editar Depoimento',
-        'view_item'          => 'Ver Depoimento',
-        'all_items'          => 'Todos os Depoimentos',
-        'search_items'       => 'Buscar Depoimentos',
-        'not_found'          => 'Nenhum depoimento encontrado.',
+        'name' => 'Depoimentos',
+        'singular_name' => 'Depoimento',
+        'menu_name' => 'Depoimentos',
+        'name_admin_bar' => 'Depoimento',
+        'add_new' => 'Adicionar Novo',
+        'add_new_item' => 'Adicionar Novo Depoimento',
+        'new_item' => 'Novo Depoimento',
+        'edit_item' => 'Editar Depoimento',
+        'view_item' => 'Ver Depoimento',
+        'all_items' => 'Todos os Depoimentos',
+        'search_items' => 'Buscar Depoimentos',
+        'not_found' => 'Nenhum depoimento encontrado.',
         'not_found_in_trash' => 'Nenhum depoimento encontrado na lixeira.',
     );
 
     $args = array(
-        'labels'             => $labels,
-        'public'             => true,
+        'labels' => $labels,
+        'public' => true,
         'publicly_queryable' => true,
-        'show_ui'            => true,
-        'show_in_menu'       => true,
-        'query_var'          => true,
-        'rewrite'            => array('slug' => 'depoimentos_post'),
-        'capability_type'    => 'post',
-        'has_archive'        => true,
-        'hierarchical'       => false,
-        'menu_position'      => 6,
-        'menu_icon'          => 'dashicons-testimonial', // Ícone do menu
-        'supports'           => array('title', 'editor', 'excerpt', 'thumbnail'), // Título, descrição, resumo, imagem destacada
+        'show_ui' => true,
+        'show_in_menu' => true,
+        'query_var' => true,
+        'rewrite' => array('slug' => 'depoimentos_post'),
+        'capability_type' => 'post',
+        'has_archive' => true,
+        'hierarchical' => false,
+        'menu_position' => 6,
+        'menu_icon' => 'dashicons-testimonial', // Ícone do menu
+        'supports' => array('title', 'editor', 'excerpt', 'thumbnail'), // Título, descrição, resumo, imagem destacada
     );
 
     register_post_type('depoimentos_post', $args);
@@ -741,7 +759,8 @@ function registrar_tipo_conteudo_depoimento() {
 add_action('init', 'registrar_tipo_conteudo_depoimento');
 
 // Adicionar os campos personalizados
-function adicionar_campos_personalizados_depoimento() {
+function adicionar_campos_personalizados_depoimento()
+{
     add_meta_box(
         'detalhes_depoimento_meta_box',
         'Detalhes do Depoimento',
@@ -754,7 +773,8 @@ function adicionar_campos_personalizados_depoimento() {
 add_action('add_meta_boxes', 'adicionar_campos_personalizados_depoimento');
 
 // Renderizar os campos personalizados no painel administrativo
-function renderizar_campos_personalizados_depoimento($post) {
+function renderizar_campos_personalizados_depoimento($post)
+{
     // Recuperar valores salvos
     $link_video = get_post_meta($post->ID, '_link_video', true);
     $cidade = get_post_meta($post->ID, '_cidade', true);
@@ -762,22 +782,26 @@ function renderizar_campos_personalizados_depoimento($post) {
 
     ?>
     <label for="link_video"><strong>Link para Vídeo (YouTube, Vimeo, etc.):</strong></label>
-    <input type="url" id="link_video" name="link_video" value="<?php echo esc_attr($link_video); ?>" style="width: 100%; margin-top: 5px;" placeholder="https://www.youtube.com/watch?v=xxxxxx">
-    
+    <input type="url" id="link_video" name="link_video" value="<?php echo esc_attr($link_video); ?>"
+        style="width: 100%; margin-top: 5px;" placeholder="https://www.youtube.com/watch?v=xxxxxx">
+
     <br><br>
 
     <label for="cidade"><strong>Cidade:</strong></label>
-    <input type="text" id="cidade" name="cidade" value="<?php echo esc_attr($cidade); ?>" style="width: 100%; margin-top: 5px;" placeholder="Digite a cidade">
+    <input type="text" id="cidade" name="cidade" value="<?php echo esc_attr($cidade); ?>"
+        style="width: 100%; margin-top: 5px;" placeholder="Digite a cidade">
 
     <br><br>
 
     <label for="escola"><strong>Escola:</strong></label>
-    <input type="text" id="escola" name="escola" value="<?php echo esc_attr($escola); ?>" style="width: 100%; margin-top: 5px;" placeholder="Digite o nome da escola">
+    <input type="text" id="escola" name="escola" value="<?php echo esc_attr($escola); ?>"
+        style="width: 100%; margin-top: 5px;" placeholder="Digite o nome da escola">
     <?php
 }
 
 // Salvar os valores dos campos personalizados
-function salvar_campos_personalizados_depoimento($post_id) {
+function salvar_campos_personalizados_depoimento($post_id)
+{
     // Verifica se o campo foi enviado e salva os valores
     if (isset($_POST['link_video'])) {
         update_post_meta($post_id, '_link_video', sanitize_text_field($_POST['link_video']));
@@ -924,37 +948,38 @@ function inserir_imagem_destacada($imagem_url, $post_id) {
 
 /*******************tipo de conteudo EVENTO************************ */
 // Função para registrar o Tipo de Conteúdo "Evento"
-function registrar_tipo_conteudo_evento() {
+function registrar_tipo_conteudo_evento()
+{
     $labels = array(
-        'name'               => 'Eventos',
-        'singular_name'      => 'Evento',
-        'menu_name'          => 'Eventos',
-        'name_admin_bar'     => 'Evento',
-        'add_new'            => 'Adicionar Novo',
-        'add_new_item'       => 'Adicionar Novo Evento',
-        'new_item'           => 'Novo Evento',
-        'edit_item'          => 'Editar Evento',
-        'view_item'          => 'Ver Evento',
-        'all_items'          => 'Todos os Eventos',
-        'search_items'       => 'Buscar Eventos',
-        'not_found'          => 'Nenhum evento encontrado.',
+        'name' => 'Eventos',
+        'singular_name' => 'Evento',
+        'menu_name' => 'Eventos',
+        'name_admin_bar' => 'Evento',
+        'add_new' => 'Adicionar Novo',
+        'add_new_item' => 'Adicionar Novo Evento',
+        'new_item' => 'Novo Evento',
+        'edit_item' => 'Editar Evento',
+        'view_item' => 'Ver Evento',
+        'all_items' => 'Todos os Eventos',
+        'search_items' => 'Buscar Eventos',
+        'not_found' => 'Nenhum evento encontrado.',
         'not_found_in_trash' => 'Nenhum evento encontrado na lixeira.',
     );
 
     $args = array(
-        'labels'             => $labels,
-        'public'             => true,
+        'labels' => $labels,
+        'public' => true,
         'publicly_queryable' => true,
-        'show_ui'            => true,
-        'show_in_menu'       => true,
-        'query_var'          => true,
-        'rewrite'            => array('slug' => 'eventos_post'),
-        'capability_type'    => 'post',
-        'has_archive'        => true,
-        'hierarchical'       => false,
-        'menu_position'      => 5,
-        'menu_icon'          => 'dashicons-calendar', // Ícone do menu
-        'supports'           => array('title', 'editor', 'excerpt', 'thumbnail'), // Título, descrição, resumo, imagem destacada
+        'show_ui' => true,
+        'show_in_menu' => true,
+        'query_var' => true,
+        'rewrite' => array('slug' => 'eventos_post'),
+        'capability_type' => 'post',
+        'has_archive' => true,
+        'hierarchical' => false,
+        'menu_position' => 5,
+        'menu_icon' => 'dashicons-calendar', // Ícone do menu
+        'supports' => array('title', 'editor', 'excerpt', 'thumbnail'), // Título, descrição, resumo, imagem destacada
     );
 
     register_post_type('eventos_post', $args);
@@ -963,7 +988,8 @@ add_action('init', 'registrar_tipo_conteudo_evento');
 
 
 // Função para adicionar os campos personalizados ao tipo de conteúdo "Evento"
-function adicionar_campos_personalizados_evento() {
+function adicionar_campos_personalizados_evento()
+{
     // Adicionar Metaboxes para os campos personalizados
     add_meta_box(
         'campo_cidade_meta_box',
@@ -973,15 +999,16 @@ function adicionar_campos_personalizados_evento() {
         'normal',
         'high'
     );
-    
 
-    
+
+
 
 }
 add_action('add_meta_boxes', 'adicionar_campos_personalizados_evento');
 
 // Função para renderizar o campo "Cidade"
-function renderizar_campos($post) {
+function renderizar_campos($post)
+{
     $cidade = get_post_meta($post->ID, '_cidade', true);
     echo '<label for="cidade">Cidade:</label>';
     echo '<input type="text" id="cidade" name="cidade" value="' . esc_attr($cidade) . '" style="width: 100%;" placeholder="Cidade">';
@@ -1007,7 +1034,8 @@ function renderizar_campos($post) {
 
 
 // Função para salvar os campos personalizados
-function salvar_campos_personalizados_evento($post_id) {
+function salvar_campos_personalizados_evento($post_id)
+{
     // Verificar se o campo foi enviado e salvar
     if (isset($_POST['cidade'])) {
         update_post_meta($post_id, '_cidade', sanitize_text_field($_POST['cidade']));
@@ -1173,37 +1201,38 @@ adicionar_eventos_de_teste();
 /*******************tipo de conteudo FAQ************************ */
 
 // Função para registrar o tipo de conteúdo FAQ
-function registrar_tipo_conteudo_faq() {
+function registrar_tipo_conteudo_faq()
+{
     $labels = array(
-        'name'               => 'FAQs',
-        'singular_name'      => 'FAQ',
-        'menu_name'          => 'FAQs',
-        'name_admin_bar'     => 'FAQ',
-        'add_new'            => 'Adicionar Novo',
-        'add_new_item'       => 'Adicionar Nova FAQ',
-        'new_item'           => 'Nova FAQ',
-        'edit_item'          => 'Editar FAQ',
-        'view_item'          => 'Ver FAQ',
-        'all_items'          => 'Todas as FAQs',
-        'search_items'       => 'Buscar FAQs',
-        'not_found'          => 'Nenhuma FAQ encontrada.',
+        'name' => 'FAQs',
+        'singular_name' => 'FAQ',
+        'menu_name' => 'FAQs',
+        'name_admin_bar' => 'FAQ',
+        'add_new' => 'Adicionar Novo',
+        'add_new_item' => 'Adicionar Nova FAQ',
+        'new_item' => 'Nova FAQ',
+        'edit_item' => 'Editar FAQ',
+        'view_item' => 'Ver FAQ',
+        'all_items' => 'Todas as FAQs',
+        'search_items' => 'Buscar FAQs',
+        'not_found' => 'Nenhuma FAQ encontrada.',
         'not_found_in_trash' => 'Nenhuma FAQ encontrada na lixeira.',
     );
 
     $args = array(
-        'labels'             => $labels,
-        'public'             => true,
+        'labels' => $labels,
+        'public' => true,
         'publicly_queryable' => true,
-        'show_ui'            => true,
-        'show_in_menu'       => true,
-        'query_var'          => true,
-        'rewrite'            => array('slug' => 'faq_post'),
-        'capability_type'    => 'post',
-        'has_archive'        => true,
-        'hierarchical'       => false,
-        'menu_position'      => 6,
-        'menu_icon'          => 'dashicons-editor-help', // Ícone do menu
-        'supports'           => array('title','editor'), // Título e descrição
+        'show_ui' => true,
+        'show_in_menu' => true,
+        'query_var' => true,
+        'rewrite' => array('slug' => 'faq_post'),
+        'capability_type' => 'post',
+        'has_archive' => true,
+        'hierarchical' => false,
+        'menu_position' => 6,
+        'menu_icon' => 'dashicons-editor-help', // Ícone do menu
+        'supports' => array('title', 'editor'), // Título e descrição
     );
 
     // Registrar o tipo de post FAQ
@@ -1213,7 +1242,8 @@ add_action('init', 'registrar_tipo_conteudo_faq');
 
 
 // Função para adicionar o campo personalizado "Resposta"
-function adicionar_campos_personalizados_faq() {
+function adicionar_campos_personalizados_faq()
+{
     add_meta_box(
         'resposta_meta_box',
         'Resposta',
@@ -1226,7 +1256,8 @@ function adicionar_campos_personalizados_faq() {
 add_action('add_meta_boxes', 'adicionar_campos_personalizados_faq');
 
 // Função para renderizar o campo personalizado de resposta
-function renderizar_campo_resposta($post) {
+function renderizar_campo_resposta($post)
+{
     // Recupera o valor da resposta salva
     $resposta = get_post_meta($post->ID, '_resposta', true);
 
@@ -1236,7 +1267,8 @@ function renderizar_campo_resposta($post) {
 }
 
 // Função para salvar o valor do campo "Resposta"
-function salvar_campo_resposta($post_id) {
+function salvar_campo_resposta($post_id)
+{
     // Verifica se o campo 'resposta' foi enviado
     if (isset($_POST['resposta'])) {
         // Sanitiza e salva o valor do campo
@@ -1364,37 +1396,38 @@ add_action('init', 'adicionar_faqs_de_teste');
 /*******************tipo de conteudo GALERIA DE FOTOS************************ */
 
 // Função para registrar o tipo de conteúdo "Galeria de Fotos"
-function registrar_tipo_conteudo_galeria_fotos() {
+function registrar_tipo_conteudo_galeria_fotos()
+{
     $labels = array(
-        'name'               => 'Galerias de Fotos',
-        'singular_name'      => 'Galeria de Fotos',
-        'menu_name'          => 'Galerias de Fotos',
-        'name_admin_bar'     => 'Galeria de Fotos',
-        'add_new'            => 'Adicionar Nova',
-        'add_new_item'       => 'Adicionar Nova Galeria de Fotos',
-        'new_item'           => 'Nova Galeria de Fotos',
-        'edit_item'          => 'Editar Galeria de Fotos',
-        'view_item'          => 'Ver Galeria de Fotos',
-        'all_items'          => 'Todas as Galerias de Fotos',
-        'search_items'       => 'Buscar Galerias de Fotos',
-        'not_found'          => 'Nenhuma galeria de fotos encontrada.',
+        'name' => 'Galerias de Fotos',
+        'singular_name' => 'Galeria de Fotos',
+        'menu_name' => 'Galerias de Fotos',
+        'name_admin_bar' => 'Galeria de Fotos',
+        'add_new' => 'Adicionar Nova',
+        'add_new_item' => 'Adicionar Nova Galeria de Fotos',
+        'new_item' => 'Nova Galeria de Fotos',
+        'edit_item' => 'Editar Galeria de Fotos',
+        'view_item' => 'Ver Galeria de Fotos',
+        'all_items' => 'Todas as Galerias de Fotos',
+        'search_items' => 'Buscar Galerias de Fotos',
+        'not_found' => 'Nenhuma galeria de fotos encontrada.',
         'not_found_in_trash' => 'Nenhuma galeria de fotos encontrada na lixeira.',
     );
 
     $args = array(
-        'labels'             => $labels,
-        'public'             => true,
+        'labels' => $labels,
+        'public' => true,
         'publicly_queryable' => true,
-        'show_ui'            => true,
-        'show_in_menu'       => true,
-        'query_var'          => true,
-        'rewrite'            => array('slug' => 'galerias-de-fotos'),
-        'capability_type'    => 'post',
-        'has_archive'        => true,
-        'hierarchical'       => false,
-        'menu_position'      => 5,
-        'menu_icon'          => 'dashicons-format-gallery', // Ícone do menu
-        'supports'           => array('title', 'thumbnail' ,'editor'), // Título, descrição, imagem destacada
+        'show_ui' => true,
+        'show_in_menu' => true,
+        'query_var' => true,
+        'rewrite' => array('slug' => 'galerias-de-fotos'),
+        'capability_type' => 'post',
+        'has_archive' => true,
+        'hierarchical' => false,
+        'menu_position' => 5,
+        'menu_icon' => 'dashicons-format-gallery', // Ícone do menu
+        'supports' => array('title', 'thumbnail', 'editor'), // Título, descrição, imagem destacada
     );
 
     register_post_type('galeria_fotos', $args);
@@ -1402,20 +1435,22 @@ function registrar_tipo_conteudo_galeria_fotos() {
 add_action('init', 'registrar_tipo_conteudo_galeria_fotos');
 
 // Adicionar metabox para upload de imagens na Galeria de Fotos
-function adicionar_metabox_galeria() {
+function adicionar_metabox_galeria()
+{
     add_meta_box(
         'galeria_imagens',            // ID do metabox
         'Imagens da Galeria',         // Título do metabox
         'renderizar_metabox_galeria', // Função de callback
         'galeria_fotos',              // Tipo de post
-        'normal', 
+        'normal',
         'high'
     );
 }
 add_action('add_meta_boxes', 'adicionar_metabox_galeria');
 
 // Função para exibir o campo de upload múltiplo
-function renderizar_metabox_galeria($post) {
+function renderizar_metabox_galeria($post)
+{
     wp_nonce_field('salvar_galeria_imagens', 'galeria_nonce');
     $imagens = get_post_meta($post->ID, '_galeria_imagens', true);
     ?>
@@ -1435,21 +1470,41 @@ function renderizar_metabox_galeria($post) {
             }
             ?>
         </ul>
-        <input type="hidden" name="galeria_imagens" id="cont_galeria_imagens" value="<?php echo esc_attr(implode(',', (array) $imagens)); ?>">
+        <input type="hidden" name="galeria_imagens" id="cont_galeria_imagens"
+            value="<?php echo esc_attr(implode(',', (array) $imagens)); ?>">
         <button type="button" id="adicionar-imagens" class="button">Adicionar Imagens</button>
     </div>
 
     <style>
-        #galeria-preview { list-style: none; padding: 0; display: flex; flex-wrap: wrap; gap: 10px; }
-        #galeria-preview li { position: relative; display: inline-block; }
-        .remover-imagem { position: absolute; top: 5px; right: 5px; background: red; color: white; border: none; cursor: pointer; }
+        #galeria-preview {
+            list-style: none;
+            padding: 0;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        #galeria-preview li {
+            position: relative;
+            display: inline-block;
+        }
+
+        .remover-imagem {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background: red;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
     </style>
 
     <script>
-        jQuery(document).ready(function($){
+        jQuery(document).ready(function ($) {
             var frame;
-            
-            $('#adicionar-imagens').click(function(e) {
+
+            $('#adicionar-imagens').click(function (e) {
                 e.preventDefault();
                 if (frame) {
                     frame.open();
@@ -1461,25 +1516,25 @@ function renderizar_metabox_galeria($post) {
                     library: { type: 'image' },
                     button: { text: 'Adicionar Imagens' }
                 });
-                frame.on('select', function() {
+                frame.on('select', function () {
                     var selection = frame.state().get('selection');
                     var ids = [];
                     var preview = $('#galeria-preview');
                     preview.empty();
 
-                    selection.each(function(attachment) {
+                    selection.each(function (attachment) {
                         ids.push(attachment.id);
-                        preview.append('<li data-id="'+attachment.id+'"><img src="'+attachment.attributes.sizes.thumbnail.url+'" width="100"><button class="remover-imagem">Remover</button></li>');
+                        preview.append('<li data-id="' + attachment.id + '"><img src="' + attachment.attributes.sizes.thumbnail.url + '" width="100"><button class="remover-imagem">Remover</button></li>');
                     });
                     $('#cont_galeria_imagens').val(ids.join(','));
                 });
                 frame.open();
             });
 
-            $('#galeria-preview').on('click', '.remover-imagem', function() {
+            $('#galeria-preview').on('click', '.remover-imagem', function () {
                 $(this).parent().remove();
                 var ids = [];
-                $('#galeria-preview li').each(function() {
+                $('#galeria-preview li').each(function () {
                     ids.push($(this).attr('data-id'));
                 });
                 $('#galeria_imagens').val(ids.join(','));
@@ -1490,7 +1545,8 @@ function renderizar_metabox_galeria($post) {
 }
 
 // Salvar as imagens da galeria
-function salvar_galeria_imagens($post_id) {
+function salvar_galeria_imagens($post_id)
+{
     if (!isset($_POST['galeria_nonce']) || !wp_verify_nonce($_POST['galeria_nonce'], 'salvar_galeria_imagens')) {
         return;
     }
@@ -1601,37 +1657,38 @@ add_action('init', 'criar_galerias_de_fotos_automaticamente');
 /*******************tipo de conteudo GALERIA DE VIDEOS************************ */
 
 // Função para registrar o tipo de conteúdo "Galeria de Vídeos"
-function registrar_tipo_conteudo_galeria_videos() {
+function registrar_tipo_conteudo_galeria_videos()
+{
     $labels = array(
-        'name'               => 'Galerias de Vídeos',
-        'singular_name'      => 'Galeria de Vídeos',
-        'menu_name'          => 'Galeria de Vídeos',
-        'name_admin_bar'     => 'Galeria de Vídeos',
-        'add_new'            => 'Adicionar Nova',
-        'add_new_item'       => 'Adicionar Nova Galeria de Vídeos',
-        'new_item'           => 'Nova Galeria de Vídeos',
-        'edit_item'          => 'Editar Galeria de Vídeos',
-        'view_item'          => 'Ver Galeria de Vídeos',
-        'all_items'          => 'Todas as Galerias de Vídeos',
-        'search_items'       => 'Buscar Galerias de Vídeos',
-        'not_found'          => 'Nenhuma galeria de vídeos encontrada.',
+        'name' => 'Galerias de Vídeos',
+        'singular_name' => 'Galeria de Vídeos',
+        'menu_name' => 'Galeria de Vídeos',
+        'name_admin_bar' => 'Galeria de Vídeos',
+        'add_new' => 'Adicionar Nova',
+        'add_new_item' => 'Adicionar Nova Galeria de Vídeos',
+        'new_item' => 'Nova Galeria de Vídeos',
+        'edit_item' => 'Editar Galeria de Vídeos',
+        'view_item' => 'Ver Galeria de Vídeos',
+        'all_items' => 'Todas as Galerias de Vídeos',
+        'search_items' => 'Buscar Galerias de Vídeos',
+        'not_found' => 'Nenhuma galeria de vídeos encontrada.',
         'not_found_in_trash' => 'Nenhuma galeria de vídeos encontrada na lixeira.',
     );
 
     $args = array(
-        'labels'             => $labels,
-        'public'             => true,
+        'labels' => $labels,
+        'public' => true,
         'publicly_queryable' => true,
-        'show_ui'            => true,
-        'show_in_menu'       => true,
-        'query_var'          => true,
-        'rewrite'            => array('slug' => 'galeria-videos'),
-        'capability_type'    => 'post',
-        'has_archive'        => true,
-        'hierarchical'       => false,
-        'menu_position'      => 5,
-        'menu_icon'          => 'dashicons-video-alt3', // Ícone do menu
-        'supports'           => array('title', 'editor', 'thumbnail'), // Título, descrição e imagem destacada
+        'show_ui' => true,
+        'show_in_menu' => true,
+        'query_var' => true,
+        'rewrite' => array('slug' => 'galeria-videos'),
+        'capability_type' => 'post',
+        'has_archive' => true,
+        'hierarchical' => false,
+        'menu_position' => 5,
+        'menu_icon' => 'dashicons-video-alt3', // Ícone do menu
+        'supports' => array('title', 'editor', 'thumbnail'), // Título, descrição e imagem destacada
     );
 
     register_post_type('galeria_videos', $args);
@@ -1639,7 +1696,8 @@ function registrar_tipo_conteudo_galeria_videos() {
 add_action('init', 'registrar_tipo_conteudo_galeria_videos');
 
 // Função para adicionar o campo personalizado "Link do Vídeo"
-function adicionar_campo_personalizado_video() {
+function adicionar_campo_personalizado_video()
+{
     add_meta_box(
         'link_video_meta_box',
         'Link do Vídeo',
@@ -1652,7 +1710,8 @@ function adicionar_campo_personalizado_video() {
 add_action('add_meta_boxes', 'adicionar_campo_personalizado_video');
 
 // Função para renderizar o campo no editor do WordPress
-function renderizar_campo_link_video_GALERIA($post) {
+function renderizar_campo_link_video_GALERIA($post)
+{
     // Recupera o valor salvo anteriormente (se houver)
     $link_video = get_post_meta($post->ID, '_link_video', true);
 
@@ -1662,7 +1721,8 @@ function renderizar_campo_link_video_GALERIA($post) {
 }
 
 // Função para salvar o valor do campo personalizado
-function salvar_campo_personalizado_video($post_id) {
+function salvar_campo_personalizado_video($post_id)
+{
     // Verifica se o campo foi enviado e salva o valor
     if (isset($_POST['link_video'])) {
         $link_video = sanitize_text_field($_POST['link_video']);
@@ -1748,7 +1808,8 @@ add_action('init', 'criar_galerias_de_videos');
 /*******************O PROGRAMA************************ */
 
 // Adiciona os metaboxes à página "O Programa"
-function adicionar_campos_o_programa() {
+function adicionar_campos_o_programa()
+{
     global $post;
 
     if ($post && get_post($post)->post_name === 'o-programa') {
@@ -1783,7 +1844,8 @@ function adicionar_campos_o_programa() {
 add_action('add_meta_boxes', 'adicionar_campos_o_programa');
 
 // Exibir Galeria de Fotos
-function exibir_campo_galeria_fotos($post) {
+function exibir_campo_galeria_fotos($post)
+{
     $galeria = get_post_meta($post->ID, 'galeria_fotos', true);
     ?>
     <div>
@@ -1797,9 +1859,9 @@ function exibir_campo_galeria_fotos($post) {
         </ul>
     </div>
     <script>
-        jQuery(document).ready(function($) {
+        jQuery(document).ready(function ($) {
             var frame;
-            $('#adicionar-imagens').click(function(e) {
+            $('#adicionar-imagens').click(function (e) {
                 e.preventDefault();
                 if (frame) {
                     frame.open();
@@ -1810,16 +1872,16 @@ function exibir_campo_galeria_fotos($post) {
                     button: { text: 'Adicionar à Galeria' },
                     multiple: true
                 });
-                frame.on('select', function() {
+                frame.on('select', function () {
                     var selection = frame.state().get('selection');
-                    selection.map(function(attachment) {
+                    selection.map(function (attachment) {
                         attachment = attachment.toJSON();
-                        $('#galeria-preview').append('<li><img src="'+attachment.url+'" width="100"><input type="hidden" name="galeria_fotos[]" value="'+attachment.url+'"><button class="remover-imagem">X</button></li>');
+                        $('#galeria-preview').append('<li><img src="' + attachment.url + '" width="100"><input type="hidden" name="galeria_fotos[]" value="' + attachment.url + '"><button class="remover-imagem">X</button></li>');
                     });
                 });
                 frame.open();
             });
-            $(document).on('click', '.remover-imagem', function() {
+            $(document).on('click', '.remover-imagem', function () {
                 $(this).parent().remove();
             });
         });
@@ -1828,16 +1890,19 @@ function exibir_campo_galeria_fotos($post) {
 }
 
 // Exibir Nossa Missão (Campo de Texto)
-function exibir_campo_nossa_missao($post) {
+function exibir_campo_nossa_missao($post)
+{
     $missao = get_post_meta($post->ID, 'nossa_missao_texto', true);
     ?>
     <label for="nossa_missao_texto">Digite o conteúdo da missão:</label>
-    <textarea id="nossa_missao_texto" name="nossa_missao_texto" rows="5" style="width:100%;"><?php echo esc_textarea($missao); ?></textarea>
+    <textarea id="nossa_missao_texto" name="nossa_missao_texto" rows="5"
+        style="width:100%;"><?php echo esc_textarea($missao); ?></textarea>
     <?php
 }
 
 // Exibir Nossa Missão - Imagem de Destaque
-function exibir_campo_nossa_missao_imagem($post) {
+function exibir_campo_nossa_missao_imagem($post)
+{
     $imagem = get_post_meta($post->ID, 'nossa_missao_imagem', true);
     ?>
     <div>
@@ -1846,9 +1911,9 @@ function exibir_campo_nossa_missao_imagem($post) {
         <button class="button button-secondary" id="selecionar-imagem">Selecionar Imagem</button>
     </div>
     <script>
-        jQuery(document).ready(function($) {
+        jQuery(document).ready(function ($) {
             var frame;
-            $('#selecionar-imagem').click(function(e) {
+            $('#selecionar-imagem').click(function (e) {
                 e.preventDefault();
                 if (frame) {
                     frame.open();
@@ -1859,7 +1924,7 @@ function exibir_campo_nossa_missao_imagem($post) {
                     button: { text: 'Usar essa imagem' },
                     multiple: false
                 });
-                frame.on('select', function() {
+                frame.on('select', function () {
                     var attachment = frame.state().get('selection').first().toJSON();
                     $('#preview-imagem').attr('src', attachment.url);
                     $('#nossa_missao_imagem').val(attachment.url);
@@ -1872,8 +1937,10 @@ function exibir_campo_nossa_missao_imagem($post) {
 }
 
 // Salvar os campos personalizados
-function salvar_campos_o_programa($post_id) {
-    if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) return;
+function salvar_campos_o_programa($post_id)
+{
+    if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE)
+        return;
 
     if (isset($_POST['galeria_fotos'])) {
         update_post_meta($post_id, 'galeria_fotos', $_POST['galeria_fotos']);
@@ -1890,7 +1957,8 @@ function salvar_campos_o_programa($post_id) {
 add_action('save_post', 'salvar_campos_o_programa');
 
 // Exibir os campos personalizados na página
-function exibir_campos_o_programa() {
+function exibir_campos_o_programa()
+{
     if (is_page('o-programa')) {
         $missao_texto = get_post_meta(get_the_ID(), 'nossa_missao_texto', true);
         $missao_imagem = get_post_meta(get_the_ID(), 'nossa_missao_imagem', true);
@@ -1921,38 +1989,39 @@ add_action('the_content', 'exibir_campos_o_programa');
 
 /******************* Tipo de Conteúdo Área de Atuação ************************ */
 // Função para registrar o tipo de post personalizado "Área de Atuação"
-function registrar_area_atuacao_post_type() {
+function registrar_area_atuacao_post_type()
+{
     $labels = array(
-        'name'               => 'Áreas de Atuação',
-        'singular_name'      => 'Área de Atuação',
-        'menu_name'          => 'Áreas de Atuação',
-        'name_admin_bar'     => 'Área de Atuação',
-        'add_new'            => 'Adicionar Nova',
-        'add_new_item'       => 'Adicionar Nova Área de Atuação',
-        'new_item'           => 'Nova Área de Atuação',
-        'edit_item'          => 'Editar Área de Atuação',
-        'view_item'          => 'Ver Área de Atuação',
-        'all_items'          => 'Todas as Áreas de Atuação',
-        'search_items'       => 'Buscar Áreas de Atuação',
-        'not_found'          => 'Nenhuma área de atuação encontrada.',
+        'name' => 'Áreas de Atuação',
+        'singular_name' => 'Área de Atuação',
+        'menu_name' => 'Áreas de Atuação',
+        'name_admin_bar' => 'Área de Atuação',
+        'add_new' => 'Adicionar Nova',
+        'add_new_item' => 'Adicionar Nova Área de Atuação',
+        'new_item' => 'Nova Área de Atuação',
+        'edit_item' => 'Editar Área de Atuação',
+        'view_item' => 'Ver Área de Atuação',
+        'all_items' => 'Todas as Áreas de Atuação',
+        'search_items' => 'Buscar Áreas de Atuação',
+        'not_found' => 'Nenhuma área de atuação encontrada.',
         'not_found_in_trash' => 'Nenhuma área de atuação encontrada na lixeira.',
     );
 
     $args = array(
-        'labels'             => $labels,
-        'public'             => true,
+        'labels' => $labels,
+        'public' => true,
         'publicly_queryable' => true,
-        'show_ui'            => true,
-        'show_in_menu'       => true,
-        'query_var'          => true,
-        'rewrite'            => array('slug' => 'area-atuacao-post'),
-        'capability_type'    => 'post',
-        'has_archive'        => true,
-        'hierarchical'       => false,
-        'menu_position'      => 5,
-        'menu_icon'          => 'dashicons-portfolio',
-        'supports'           => array('title', 'editor', 'thumbnail', 'excerpt'),
-        'taxonomies'         => array('category', 'post_tag')
+        'show_ui' => true,
+        'show_in_menu' => true,
+        'query_var' => true,
+        'rewrite' => array('slug' => 'area-atuacao-post'),
+        'capability_type' => 'post',
+        'has_archive' => true,
+        'hierarchical' => false,
+        'menu_position' => 5,
+        'menu_icon' => 'dashicons-portfolio',
+        'supports' => array('title', 'editor', 'thumbnail', 'excerpt'),
+        'taxonomies' => array('category', 'post_tag')
     );
 
     register_post_type('area-atuacao-post', $args);
@@ -1962,41 +2031,44 @@ add_action('init', 'registrar_area_atuacao_post_type');
 /******************* Adiciona o Campo de Cor Hexadecimal ************************ */
 
 // Adiciona o metabox de cor ao editor de posts
-function adicionar_campo_cor_area_atuacao() {
+function adicionar_campo_cor_area_atuacao()
+{
     add_meta_box(
-        'cor_area_atuacao', 
-        'Cor da Área de Atuação', 
-        'campo_cor_callback', 
-        'area-atuacao-post', 
-        'side', 
+        'cor_area_atuacao',
+        'Cor da Área de Atuação',
+        'campo_cor_callback',
+        'area-atuacao-post',
+        'side',
         'default'
     );
 }
 add_action('add_meta_boxes', 'adicionar_campo_cor_area_atuacao');
 
 // Callback do metabox
-function campo_cor_callback($post) {
+function campo_cor_callback($post)
+{
     wp_nonce_field('salvar_cor_area_atuacao', 'cor_area_atuacao_nonce');
-    
+
     $cor_salva = get_post_meta($post->ID, '_cor_area_atuacao', true);
-    
+
     echo '<input type="text" id="cor_area_atuacao" name="cor_area_atuacao" value="' . esc_attr($cor_salva) . '" class="cor-picker" />';
 }
 
 // Salva a cor no banco de dados
-function salvar_cor_area_atuacao($post_id) {
+function salvar_cor_area_atuacao($post_id)
+{
     if (!isset($_POST['cor_area_atuacao_nonce']) || !wp_verify_nonce($_POST['cor_area_atuacao_nonce'], 'salvar_cor_area_atuacao')) {
         return;
     }
-    
+
     if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) {
         return;
     }
-    
+
     if (!current_user_can('edit_post', $post_id)) {
         return;
     }
-    
+
     if (isset($_POST['cor_area_atuacao'])) {
         update_post_meta($post_id, '_cor_area_atuacao', sanitize_hex_color($_POST['cor_area_atuacao']));
     }
@@ -2004,7 +2076,8 @@ function salvar_cor_area_atuacao($post_id) {
 add_action('save_post', 'salvar_cor_area_atuacao');
 
 // Carrega o script do seletor de cores do WordPress
-function carregar_wp_color_picker($hook) {
+function carregar_wp_color_picker($hook)
+{
     if ('post.php' === $hook || 'post-new.php' === $hook) {
         wp_enqueue_style('wp-color-picker');
         wp_enqueue_script('custom-color-picker', get_template_directory_uri() . '/js/custom-color-picker.js', array('wp-color-picker'), false, true);
@@ -2016,38 +2089,39 @@ add_action('admin_enqueue_scripts', 'carregar_wp_color_picker');
 
 /*******************tipo de conteudo Area de Atuação************************ */
 // Função para registrar o tipo de post personalizado "Área de Atuação"
-function registrar_numero_programa_post_type() {
+function registrar_numero_programa_post_type()
+{
     $labels = array(
-        'name'               => 'Números do Programa',
-        'singular_name'      => 'Número do programa',
-        'menu_name'          => 'Números do Programa',
-        'name_admin_bar'     => 'Número do programa',
-        'add_new'            => 'Adicionar Nova',
-        'add_new_item'       => 'Adicionar Nova Número do programa',
-        'new_item'           => 'Nova Número do programa',
-        'edit_item'          => 'Editar Número do programa',
-        'view_item'          => 'Ver Número do programa',
-        'all_items'          => 'Todas as Números do Programa',
-        'search_items'       => 'Buscar Números do Programa',
-        'not_found'          => 'Nenhuma Número do programa encontrada.',
+        'name' => 'Números do Programa',
+        'singular_name' => 'Número do programa',
+        'menu_name' => 'Números do Programa',
+        'name_admin_bar' => 'Número do programa',
+        'add_new' => 'Adicionar Nova',
+        'add_new_item' => 'Adicionar Nova Número do programa',
+        'new_item' => 'Nova Número do programa',
+        'edit_item' => 'Editar Número do programa',
+        'view_item' => 'Ver Número do programa',
+        'all_items' => 'Todas as Números do Programa',
+        'search_items' => 'Buscar Números do Programa',
+        'not_found' => 'Nenhuma Número do programa encontrada.',
         'not_found_in_trash' => 'Nenhuma Número do programa encontrada na lixeira.',
     );
 
     $args = array(
-        'labels'             => $labels,
-        'public'             => true,
+        'labels' => $labels,
+        'public' => true,
         'publicly_queryable' => true,
-        'show_ui'            => true,
-        'show_in_menu'       => true,
-        'query_var'          => true,
-        'rewrite'            => array('slug' => 'numero-programa-post'),
-        'capability_type'    => 'post',
-        'has_archive'        => true,
-        'hierarchical'       => false,
-        'menu_position'      => 5,
-        'menu_icon'          => 'dashicons-portfolio', // Ícone do menu
-        'supports'           => array('title', 'editor', 'thumbnail'),
-        'taxonomies'         => array('category', 'post_tag') // Usa categorias e tags padrões do WordPress
+        'show_ui' => true,
+        'show_in_menu' => true,
+        'query_var' => true,
+        'rewrite' => array('slug' => 'numero-programa-post'),
+        'capability_type' => 'post',
+        'has_archive' => true,
+        'hierarchical' => false,
+        'menu_position' => 5,
+        'menu_icon' => 'dashicons-portfolio', // Ícone do menu
+        'supports' => array('title', 'editor', 'thumbnail'),
+        'taxonomies' => array('category', 'post_tag') // Usa categorias e tags padrões do WordPress
     );
 
     register_post_type('numero-programa-post', $args);
@@ -2059,14 +2133,16 @@ add_action('init', 'registrar_numero_programa_post_type');
 /*************************************AJAX INFINITE SCROOL**********************************************/
 // Adicionar o script para AJAX
 
-function carregar_jquery_no_tema() {
+function carregar_jquery_no_tema()
+{
     wp_enqueue_script('jquery');
 }
 add_action('wp_enqueue_scripts', 'carregar_jquery_no_tema');
 
 
 // Função AJAX para carregar mais notícias
-function carregar_mais_noticias() {
+function carregar_mais_noticias()
+{
     // Verifique se a página está sendo passada
     if (isset($_POST['paged'])) {
         $paged = intval($_POST['paged']);
@@ -2084,22 +2160,22 @@ function carregar_mais_noticias() {
 
     //curso
 
-    if($tipo == "galeria_fotos"){
+    if ($tipo == "galeria_fotos") {
         $posts_per_page = 18;
-    }elseif($tipo == "curso_post"){
+    } elseif ($tipo == "curso_post") {
         $posts_per_page = 12;
-    }elseif($tipo == "eventos_post"){
+    } elseif ($tipo == "eventos_post") {
         $posts_per_page = 6;
-    }elseif($tipo == "depoimentos_post"){
+    } elseif ($tipo == "depoimentos_post") {
         $posts_per_page = 6;
     }
-    
+
 
     // Consulta de posts
     $args = array(
-        'post_type'      => $tipo,
+        'post_type' => $tipo,
         'posts_per_page' => $posts_per_page,
-        'paged'          => $paged,
+        'paged' => $paged,
     );
 
     $query = new WP_Query($args);
@@ -2109,90 +2185,90 @@ function carregar_mais_noticias() {
         while ($query->have_posts()) {
             $query->the_post();
             $imagem_destaque = get_the_post_thumbnail_url(get_the_ID(), 'full'); // URL da imagem em destaque (tamanho completo)
-        if (!$imagem_destaque) {
-            $imagem_destaque = 'https://placehold.co/600x400/png'; // URL padrão (imagem de placeholder)
-        }
+            if (!$imagem_destaque) {
+                $imagem_destaque = 'https://placehold.co/600x400/png'; // URL padrão (imagem de placeholder)
+            }
 
-            if($tipo == 'noticias_post' || $tipo == 'eventos_post'){
-            
-            ?>
+            if ($tipo == 'noticias_post' || $tipo == 'eventos_post') {
+
+                ?>
 
                 <div class="col-md-4 p-3 noticia">
-                                <div class="card">
-                                    <a  href="<?php echo get_permalink(); ?>" >
-                                        <img src="<?php echo $imagem_destaque;?>" class="card-img-top" alt="<?php echo get_the_title(); ?>">
-                                    </a>
-                                    <div class="card-body">
-                                    <h5 class="card-title"><?php echo get_the_title(); ?></h5>
-                                    <p class="card-text"><?php echo get_the_excerpt(); ?></p>
-                                    <div class="row">
-                                        <em class="col-6"><?php echo get_the_date('d/m/Y'); ?></em>
-                                        <a class="col-6 text-end" href="<?php echo get_permalink(); ?>" class="btn btn-link">Leia mais</a>
-                                    </div>
-                                    </div>
-                                </div>
-                </div>
-                <?php
-            }elseif($tipo == 'galeria_fotos'){
-
-                ?>
-
-                    <div class="col-md-4 p-3">
-                        <div class="card">
-                            <a target="_blank"  href="<?php echo get_the_permalink() ?>" >
-                                <img src="<?php echo $imagem_destaque;?>" class="card-img-top" alt="<?php echo get_the_title(); ?>">
-                            </a>   
-                            <div class="card-body">
-                                <h5 class="card-title"><?php echo get_the_title(); ?></h5>
-                            </div>                             
-                        </div>
-                    </div>
-
-                <?php
-
-            }elseif($tipo == 'galeria_videos'){
-
-                ?>
-                    <div class="col-md-4 p-3 noticia">
-                        <div class="card">
-                            <a  href="<?php echo get_permalink(); ?>" >
-                                <img src="<?php echo $imagem_destaque;?>" class="card-img-top" alt="<?php echo get_the_title(); ?>">
-                            </a>
-                            <div class="card-body">
-                                <h5 class="card-title"><?php echo get_the_title(); ?></h5>
-                                <p class="card-text"><?php echo get_the_excerpt(); ?></p>
+                    <div class="card">
+                        <a href="<?php echo get_permalink(); ?>">
+                            <img src="<?php echo $imagem_destaque; ?>" class="card-img-top" alt="<?php echo get_the_title(); ?>">
+                        </a>
+                        <div class="card-body">
+                            <h5 class="card-title"><?php echo get_the_title(); ?></h5>
+                            <p class="card-text"><?php echo get_the_excerpt(); ?></p>
+                            <div class="row">
+                                <em class="col-6"><?php echo get_the_date('d/m/Y'); ?></em>
+                                <a class="col-6 text-end" href="<?php echo get_permalink(); ?>" class="btn btn-link">Leia mais</a>
                             </div>
                         </div>
                     </div>
+                </div>
                 <?php
-
-            }elseif($tipo == 'curso_post'){
+            } elseif ($tipo == 'galeria_fotos') {
 
                 ?>
-                   <div class="col-md-3 p-3">
-                        <div class="video-card">
-                            <img src="<?php echo $imagem_destaque;?>" alt="<?php echo get_the_title(); ?>">
-                            <div class="card-body">
-                                <h5 class="card-title"><?php echo get_the_title(); ?></h5>
-                                <p class="category"><?php echo get_post_meta(get_the_ID(), '_curso_categoria', true) ?></p>
-                                <div class="details">
+
+                <div class="col-md-4 p-3">
+                    <div class="card">
+                        <a target="_blank" href="<?php echo get_the_permalink() ?>">
+                            <img src="<?php echo $imagem_destaque; ?>" class="card-img-top" alt="<?php echo get_the_title(); ?>">
+                        </a>
+                        <div class="card-body">
+                            <h5 class="card-title"><?php echo get_the_title(); ?></h5>
+                        </div>
+                    </div>
+                </div>
+
+                <?php
+
+            } elseif ($tipo == 'galeria_videos') {
+
+                ?>
+                <div class="col-md-4 p-3 noticia">
+                    <div class="card">
+                        <a href="<?php echo get_permalink(); ?>">
+                            <img src="<?php echo $imagem_destaque; ?>" class="card-img-top" alt="<?php echo get_the_title(); ?>">
+                        </a>
+                        <div class="card-body">
+                            <h5 class="card-title"><?php echo get_the_title(); ?></h5>
+                            <p class="card-text"><?php echo get_the_excerpt(); ?></p>
+                        </div>
+                    </div>
+                </div>
+                <?php
+
+            } elseif ($tipo == 'curso_post') {
+
+                ?>
+                <div class="col-md-3 p-3">
+                    <div class="video-card">
+                        <img src="<?php echo $imagem_destaque; ?>" alt="<?php echo get_the_title(); ?>">
+                        <div class="card-body">
+                            <h5 class="card-title"><?php echo get_the_title(); ?></h5>
+                            <p class="category"><?php echo get_post_meta(get_the_ID(), '_curso_categoria', true) ?></p>
+                            <div class="details">
                                 <p><i class="bi bi-clock"></i><?php echo get_post_meta(get_the_ID(), '_curso_duracao', true) ?></p>
                                 <p><i class="bi bi-people"></i><?php echo get_post_meta(get_the_ID(), '_curso_publico', true) ?></p>
                                 <p><i class="bi bi-bar-chart"></i><?php echo get_post_meta(get_the_ID(), '_curso_nivel', true) ?></p>
-                                </div>
-                                <p class="description">
-                                    <?php echo get_the_excerpt(); ?>
-                                </p>
                             </div>
+                            <p class="description">
+                                <?php echo get_the_excerpt(); ?>
+                            </p>
                         </div>
                     </div>
+                </div>
 
                 <?php
 
-            }elseif($tipo == 'depoimentos_post'){
+            } elseif ($tipo == 'depoimentos_post') {
 
-                
-                    // Obtém os campos personalizados
+
+                // Obtém os campos personalizados
                 $cidade = get_post_meta(get_the_ID(), '_cidade', true);
                 $escola = get_post_meta(get_the_ID(), '_escola', true);
                 $link_video = get_post_meta(get_the_ID(), '_link_video', true);
@@ -2201,14 +2277,14 @@ function carregar_mais_noticias() {
 
                 <div class="col-md-4">
                     <div class="card">
-                        <?php if ($link_video) : ?>
+                        <?php if ($link_video): ?>
                             <div class="card-img-top video-thumbnail">
                                 <img class="w-100" src="<?php echo esc_url($imagem_destacada); ?>" class="img-fluid">
-                                <?php if (!empty(trim($link_video))) {  ?>
-                                <a href="#"  data-url="<?php  echo esc_url($link_video);  ?>" class="play-button abrir-modal">▶</a>
-                                <?php }  ?>
+                                <?php if (!empty(trim($link_video))) { ?>
+                                    <a href="#" data-url="<?php echo esc_url($link_video); ?>" class="play-button abrir-modal">▶</a>
+                                <?php } ?>
                             </div>
-                        <?php else : ?>
+                        <?php else: ?>
                             <img class="w-100" src="<?php echo esc_url($imagem_destacada); ?>" class="card-img-top">
                         <?php endif; ?>
 
@@ -2236,7 +2312,8 @@ add_action('wp_ajax_nopriv_carregar_mais_noticias', 'carregar_mais_noticias');
 
 /**ADICIONAR MAIS UM CAMPO DE IMAGEM DE DESTAQUE  */
 
-function adicionar_campo_imagem_personalizada() {
+function adicionar_campo_imagem_personalizada()
+{
     add_meta_box(
         'imagem_personalizada_meta_box', // ID do metabox
         'Imagem Personalizada', // Título do metabox
@@ -2248,24 +2325,28 @@ function adicionar_campo_imagem_personalizada() {
 }
 add_action('add_meta_boxes', 'adicionar_campo_imagem_personalizada');
 
-function renderizar_campo_imagem_personalizada($post) {
+function renderizar_campo_imagem_personalizada($post)
+{
     wp_nonce_field('salvar_imagem_personalizada', 'imagem_personalizada_nonce');
 
     $imagem_url = get_post_meta($post->ID, '_imagem_personalizada', true);
 
     ?>
     <div>
-        <img id="preview-imagem-personalizada" src="<?php echo esc_url($imagem_url); ?>" style="max-width:100%; height:auto; <?php echo empty($imagem_url) ? 'display:none;' : ''; ?>">
-        <input type="hidden" id="imagem_personalizada" name="imagem_personalizada" value="<?php echo esc_url($imagem_url); ?>">
+        <img id="preview-imagem-personalizada" src="<?php echo esc_url($imagem_url); ?>"
+            style="max-width:100%; height:auto; <?php echo empty($imagem_url) ? 'display:none;' : ''; ?>">
+        <input type="hidden" id="imagem_personalizada" name="imagem_personalizada"
+            value="<?php echo esc_url($imagem_url); ?>">
         <br>
         <button type="button" class="button" id="upload-imagem-personalizada">Selecionar Imagem</button>
-        <button type="button" class="button" id="remover-imagem-personalizada" style="<?php echo empty($imagem_url) ? 'display:none;' : ''; ?>">Remover Imagem</button>
+        <button type="button" class="button" id="remover-imagem-personalizada"
+            style="<?php echo empty($imagem_url) ? 'display:none;' : ''; ?>">Remover Imagem</button>
     </div>
 
     <script>
-        jQuery(document).ready(function($) {
+        jQuery(document).ready(function ($) {
             var frame;
-            $('#upload-imagem-personalizada').on('click', function(e) {
+            $('#upload-imagem-personalizada').on('click', function (e) {
                 e.preventDefault();
                 if (frame) {
                     frame.open();
@@ -2276,7 +2357,7 @@ function renderizar_campo_imagem_personalizada($post) {
                     button: { text: 'Usar esta imagem' },
                     multiple: false
                 });
-                frame.on('select', function() {
+                frame.on('select', function () {
                     var attachment = frame.state().get('selection').first().toJSON();
                     $('#imagem_personalizada').val(attachment.url);
                     $('#preview-imagem-personalizada').attr('src', attachment.url).show();
@@ -2285,7 +2366,7 @@ function renderizar_campo_imagem_personalizada($post) {
                 frame.open();
             });
 
-            $('#remover-imagem-personalizada').on('click', function() {
+            $('#remover-imagem-personalizada').on('click', function () {
                 $('#imagem_personalizada').val('');
                 $('#preview-imagem-personalizada').hide();
                 $(this).hide();
@@ -2295,7 +2376,8 @@ function renderizar_campo_imagem_personalizada($post) {
     <?php
 }
 
-function salvar_imagem_personalizada($post_id) {
+function salvar_imagem_personalizada($post_id)
+{
     if (!isset($_POST['imagem_personalizada_nonce']) || !wp_verify_nonce($_POST['imagem_personalizada_nonce'], 'salvar_imagem_personalizada')) {
         return;
     }
@@ -2316,11 +2398,12 @@ function salvar_imagem_personalizada($post_id) {
 }
 add_action('save_post', 'salvar_imagem_personalizada');
 
-function barra_compartilhamento() {
+function barra_compartilhamento()
+{
     ob_start(); ?>
     <div class="container text-center mt-3 d-flex cont_compartilhe">
         <span class="compartilhe d-inline-flex">COMPARTILHE <i class="fas fa-share-alt"></i></span>
-        
+
         <div class="d-inline-flex">
             <a href="#" class="social-btn twitter" target="_blank"><i class="fab fa-twitter"></i></a>
             <a href="#" class="social-btn facebook" target="_blank"><i class="fab fa-facebook-f"></i></a>
@@ -2336,7 +2419,7 @@ function barra_compartilhamento() {
     </div>
 
     <script>
-        document.addEventListener("DOMContentLoaded", function() {
+        document.addEventListener("DOMContentLoaded", function () {
             let pageUrl = encodeURIComponent(window.location.href);
             let pageTitle = encodeURIComponent(document.title);
 
@@ -2359,9 +2442,10 @@ add_shortcode('social_share', 'barra_compartilhamento');
 
 
 // Adicionar o metabox apenas na página com slug 'home'
-function adicionar_metabox_video_home() {
+function adicionar_metabox_video_home()
+{
     global $post;
-    
+
     // Verifica se a página atual tem o slug 'home'
     if ($post && get_post_field('post_name', $post->ID) === 'home') {
         add_meta_box(
@@ -2377,7 +2461,8 @@ function adicionar_metabox_video_home() {
 add_action('add_meta_boxes', 'adicionar_metabox_video_home');
 
 // Renderiza o campo de entrada para o vídeo
-function renderizar_metabox_video_home($post) {
+function renderizar_metabox_video_home($post)
+{
     $video_url = get_post_meta($post->ID, '_video_nosso_objetivo', true);
 
     echo '<label for="video_nosso_objetivo">Insira o link do vídeo do YouTube:</label>';
@@ -2385,7 +2470,8 @@ function renderizar_metabox_video_home($post) {
 }
 
 // Salvar os dados do metabox
-function salvar_metabox_video_home($post_id) {
+function salvar_metabox_video_home($post_id)
+{
     if (isset($_POST['video_nosso_objetivo'])) {
         update_post_meta($post_id, '_video_nosso_objetivo', esc_url($_POST['video_nosso_objetivo']));
     }
@@ -2393,7 +2479,8 @@ function salvar_metabox_video_home($post_id) {
 add_action('save_post', 'salvar_metabox_video_home');
 
 // Exibir o vídeo na página 'home'
-function exibir_video_home() {
+function exibir_video_home()
+{
     if (is_page('home')) {
         $video_url = get_post_meta(get_the_ID(), '_video_nosso_objetivo', true);
         if ($video_url) {
@@ -2406,14 +2493,16 @@ function exibir_video_home() {
 add_action('the_content', 'exibir_video_home');
 
 // Função que exibe o campo de input
-function renderizar_campo_video_nosso_objetivo() {
+function renderizar_campo_video_nosso_objetivo()
+{
     $valor = get_option('video_nosso_objetivo', ''); // Obtém o valor salvo
     echo '<input type="url" id="video_nosso_objetivo" name="video_nosso_objetivo" value="' . esc_attr($valor) . '" class="regular-text" placeholder="https://www.youtube.com/watch?v=xxxxx">';
 }
 
 
 // Adicionar o Metabox para "Imagem do Topo" em todos os tipos de conteúdo
-function adicionar_campo_imagem_topo() {
+function adicionar_campo_imagem_topo()
+{
     $post_types = get_post_types(array('public' => true), 'names'); // Obtém todos os tipos de post públicos
     foreach ($post_types as $post_type) {
         add_meta_box(
@@ -2429,22 +2518,25 @@ function adicionar_campo_imagem_topo() {
 add_action('add_meta_boxes', 'adicionar_campo_imagem_topo');
 
 // Renderizar o Campo
-function renderizar_campo_imagem_topo($post) {
+function renderizar_campo_imagem_topo($post)
+{
     wp_nonce_field('salvar_imagem_topo', 'imagem_topo_nonce');
     $imagem_url = get_post_meta($post->ID, '_imagem_topo', true);
     ?>
     <div>
-        <img id="preview-imagem-topo" src="<?php echo esc_url($imagem_url); ?>" style="max-width:100%; height:auto; <?php echo empty($imagem_url) ? 'display:none;' : ''; ?>">
+        <img id="preview-imagem-topo" src="<?php echo esc_url($imagem_url); ?>"
+            style="max-width:100%; height:auto; <?php echo empty($imagem_url) ? 'display:none;' : ''; ?>">
         <input type="hidden" id="imagem_topo" name="imagem_topo" value="<?php echo esc_url($imagem_url); ?>">
         <br>
         <button type="button" class="button" id="upload-imagem-topo">Selecionar Imagem</button>
-        <button type="button" class="button" id="remover-imagem-topo" style="<?php echo empty($imagem_url) ? 'display:none;' : ''; ?>">Remover Imagem</button>
+        <button type="button" class="button" id="remover-imagem-topo"
+            style="<?php echo empty($imagem_url) ? 'display:none;' : ''; ?>">Remover Imagem</button>
     </div>
 
     <script>
-        jQuery(document).ready(function($) {
+        jQuery(document).ready(function ($) {
             var frame;
-            $('#upload-imagem-topo').on('click', function(e) {
+            $('#upload-imagem-topo').on('click', function (e) {
                 e.preventDefault();
                 if (frame) {
                     frame.open();
@@ -2455,7 +2547,7 @@ function renderizar_campo_imagem_topo($post) {
                     button: { text: 'Usar esta imagem' },
                     multiple: false
                 });
-                frame.on('select', function() {
+                frame.on('select', function () {
                     var attachment = frame.state().get('selection').first().toJSON();
                     $('#imagem_topo').val(attachment.url);
                     $('#preview-imagem-topo').attr('src', attachment.url).show();
@@ -2464,7 +2556,7 @@ function renderizar_campo_imagem_topo($post) {
                 frame.open();
             });
 
-            $('#remover-imagem-topo').on('click', function() {
+            $('#remover-imagem-topo').on('click', function () {
                 $('#imagem_topo').val('');
                 $('#preview-imagem-topo').hide();
                 $(this).hide();
@@ -2475,7 +2567,8 @@ function renderizar_campo_imagem_topo($post) {
 }
 
 // Salvar o Campo ao Salvar o Post
-function salvar_imagem_topo($post_id) {
+function salvar_imagem_topo($post_id)
+{
     if (!isset($_POST['imagem_topo_nonce']) || !wp_verify_nonce($_POST['imagem_topo_nonce'], 'salvar_imagem_topo')) {
         return;
     }
