@@ -16,7 +16,7 @@ wp_reset_query();
 ?>
 
 <!-- Conteúdo -->
-<section class="py-5">
+<section>
     <div class="container my-5">
 
 

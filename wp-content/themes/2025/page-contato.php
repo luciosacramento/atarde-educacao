@@ -9,15 +9,15 @@
  * @since A tarde Educação 1.0
  */
 
- get_header();
+get_header();
 
- wp_reset_query();
+wp_reset_query();
 
- ?>
+?>
 
- <!-- Conteúdo -->
- <section class="py-5">
- <div class="container contato-container">
+<!-- Conteúdo -->
+<section>
+    <div class="container contato-container">
         <div class="text-center">
 
             <?php
@@ -35,16 +35,16 @@
                     'secret' => $recaptcha_secret,
                     'response' => $recaptcha_response
                 ];
-                
+
                 $options = [
                     'http' => [
-                        'method'  => 'POST',
-                        'header'  => "Content-Type: application/x-www-form-urlencoded\r\n",
+                        'method' => 'POST',
+                        'header' => "Content-Type: application/x-www-form-urlencoded\r\n",
                         'content' => http_build_query($recaptcha_data)
                     ]
                 ];
-                
-                $context  = stream_context_create($options);
+
+                $context = stream_context_create($options);
                 $verify = file_get_contents($recaptcha_url, false, $context);
                 $captcha_success = json_decode($verify);
 
@@ -62,16 +62,16 @@
                 } else {
                     echo "Erro na verificação do reCAPTCHA.";
                 }
-            } 
+            }
             ?>
 
             <p class="descricao">
-                Gostaríamos de saber mais sobre as suas ideias, dúvidas e outros questionamentos. 
+                Gostaríamos de saber mais sobre as suas ideias, dúvidas e outros questionamentos.
                 Entre em contato com a gente e iremos responder em breve.
             </p>
 
             <form action="#" method="POST">
-                
+
 
                 <div class="row">
                     <div class="mb-3 col-12">
@@ -84,11 +84,12 @@
                         <input type="tel" class="form-control" name="telefone" placeholder="Telefone">
                     </div>
                     <div class="mb-3 col-12">
-                        <textarea class="form-control" name="mensagem" rows="4" placeholder="Mensagem" required></textarea>
+                        <textarea class="form-control" name="mensagem" rows="4" placeholder="Mensagem"
+                            required></textarea>
                     </div>
                 </div>
 
-                
+
 
                 <div class="g-recaptcha mb-3" data-sitekey="SUA_CHAVE_SITE_RECAPTCHA"></div>
 
@@ -96,8 +97,8 @@
             </form>
         </div>
     </div>
-  </section>
-  
+</section>
 
-  <!-- Fim Conteúdo -->
+
+<!-- Fim Conteúdo -->
 <?php get_footer(); ?>

@@ -17,7 +17,7 @@ wp_reset_query();
 
 
 <!-- Conteúdo -->
-<section class="py-5">
+<section>
     <div class="container">
         <div class="row mt-4" id="noticias-container">
 
