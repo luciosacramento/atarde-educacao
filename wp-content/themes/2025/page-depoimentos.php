@@ -9,24 +9,24 @@
  * @since A tarde Educação 1.0
  */
 
- get_header();
+get_header();
 
- wp_reset_query();
+wp_reset_query();
 
- ?>
+?>
 
- <!-- Conteúdo -->
- <section class="py-5">
- <div class="container my-5">
-        
+<!-- Conteúdo -->
+<section class="py-5">
+    <div class="container my-5">
 
-        
+
+
         <?php
         // Query para obter os depoimentos
         $args = array(
-            'post_type'      => 'depoimentos_post',
+            'post_type' => 'depoimentos_post',
             'posts_per_page' => 7, // Traz todos os depoimentos
-            'post_status'    => 'publish',
+            'post_status' => 'publish',
         );
         $query = new WP_Query($args);
 
@@ -41,8 +41,9 @@
         $is_first = true;
 
         // Loop pelos depoimentos
-        if ($query->have_posts()) :
-            while ($query->have_posts()) : $query->the_post();
+        if ($query->have_posts()):
+            while ($query->have_posts()):
+                $query->the_post();
                 // Obtém os campos personalizados
                 $titulo = get_the_title();
                 $descricao_completa = get_the_content();
@@ -50,7 +51,7 @@
                 $escola = get_post_meta(get_the_ID(), '_escola', true);
                 $link_video = get_post_meta(get_the_ID(), '_link_video', true);
                 $imagem_destacada = get_the_post_thumbnail_url(get_the_ID(), 'noticias-list'); // Obtém a imagem destacada
-
+        
                 if ($is_first) {
                     $primeiro_titulo = $titulo;
                     $primeiro_cidade = $cidade;
@@ -64,7 +65,8 @@
                         <div class="col-md-6">
                             <div class="depoimento-imagem">
                                 <div class="bg-placeholder">
-                                    <a href="#"  data-title="<?php echo $primeiro_titulo; ?>" data-depoimento="<?php echo $descricao_completa; ?>" class="abrir-modal">
+                                    <a href="#" data-title="<?php echo esc_attr($primeiro_titulo); ?>"
+                                        data-depoimento="<?php echo esc_attr($descricao_completa); ?>" class="abrir-modal">
                                         <img src="<?php echo esc_url($primeiro_imagem); ?>" class="img-fluid w-100">
                                     </a>
                                 </div>
@@ -86,55 +88,57 @@
                     <!-- Cards de Alunos/Professores -->
                     <div class="row mt-5" id="noticias-container">
 
-                    <?php
-                    
-                    $is_first = false; // Define que o primeiro já foi processado
-                    continue; // Pula para o próximo item no loop
+                        <?php
+
+                        $is_first = false; // Define que o primeiro já foi processado
+                        continue; // Pula para o próximo item no loop
                 }
 
                 ?>
 
-                <div class="col-md-4">
-                    <div class="card">
-                        <?php if ($link_video) : ?>
-                            <div class="card-img-top video-thumbnail">
-                                <img class="w-100" src="<?php echo esc_url($imagem_destacada); ?>" class="img-fluid">
-                                <?php if (!empty(trim($link_video))) {  ?>
-                                <a href="#"  data-url="<?php  echo esc_url($link_video);  ?>" class="play-button abrir-modal">▶</a>
-                                <?php }  ?>
-                            </div>
-                        <?php else : ?>
-                            <div class="card-img-top video-thumbnail">
-                                <a href="#"  data-title="<?php echo get_the_title(); ?>" data-depoimento="<?php echo get_the_content(); ?>" class="abrir-modal">
+                    <div class="col-md-4">
+                        <div class="card">
+                            <?php if ($link_video): ?>
+                                <div class="card-img-top video-thumbnail">
                                     <img class="w-100" src="<?php echo esc_url($imagem_destacada); ?>" class="img-fluid">
-                                </a>
-                            </div>
-                        <?php endif; ?>
+                                    <?php if (!empty(trim($link_video))) { ?>
+                                        <a href="#" data-title="<?php echo esc_attr($titulo); ?>"
+                                            data-url="<?php echo esc_url($link_video); ?>" class="play-button abrir-modal">▶</a>
+                                    <?php } ?>
+                                </div>
+                            <?php else: ?>
+                                <div class="card-img-top video-thumbnail">
+                                    <a href="#" data-title="<?php echo esc_attr(get_the_title()); ?>"
+                                        data-depoimento="<?php echo esc_attr(get_the_content()); ?>" class="abrir-modal">
+                                        <img class="w-100" src="<?php echo esc_url($imagem_destacada); ?>" class="img-fluid">
+                                    </a>
+                                </div>
+                            <?php endif; ?>
 
-                        <div class="card-body text-center">
-                            <h5 class="card-title"><?php the_title(); ?></h5>
-                            <p class="card-text"><?php echo esc_html($cidade); ?><br><?php echo esc_html($escola); ?></p>
+                            <div class="card-body text-center">
+                                <h5 class="card-title"><?php the_title(); ?></h5>
+                                <p class="card-text"><?php echo esc_html($cidade); ?><br><?php echo esc_html($escola); ?></p>
+                            </div>
                         </div>
                     </div>
-                </div>
 
-            <?php endwhile;
+                <?php endwhile;
             wp_reset_postdata();
-        else : ?>
-            <p>Nenhum depoimento encontrado.</p>
-        <?php endif; ?>
-    </div>
+        else: ?>
+                <p>Nenhum depoimento encontrado.</p>
+            <?php endif; ?>
+        </div>
 
         <!-- Botão Carregar Mais -->
-        <button id="mais-noticias"data-paged="1" tipo="depoimentos_post" >Carregar mais</button>
+        <button id="mais-noticias" data-paged="1" tipo="depoimentos_post">Carregar mais</button>
         <script>
-         var ajaxurl = "<?php echo admin_url('admin-ajax.php'); ?>";
-      </script>
+            var ajaxurl = "<?php echo admin_url('admin-ajax.php'); ?>";
+        </script>
 
     </div>
-  </section>
+</section>
 
-  <div id="modal" style="display: none;">
+<div id="modal" style="display: none;">
     <div id="modal-content" style="width: 500px;">
         <span id="fechar-modal">&times;</span>
         <div id="modal-body">
@@ -142,7 +146,7 @@
         </div>
     </div>
 </div>
-  
 
-  <!-- Fim Conteúdo -->
+
+<!-- Fim Conteúdo -->
 <?php get_footer(); ?>
