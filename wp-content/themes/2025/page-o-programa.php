@@ -160,18 +160,28 @@ wp_reset_query();
                 // echo '<div class="parceiros-container">'; // Inicia o container
             
                 while ($query->have_posts()) {
-                    $query->the_post(); // Configura o post atual
-            
-                    // Recupera a imagem em destaque (thumbnail)
-                    $imagem_destaque = get_the_post_thumbnail_url(get_the_ID(), 'full');
+                    $query->the_post();
 
-                    // Exibe a imagem, se existir
+                    $imagem_destaque = get_the_post_thumbnail_url(get_the_ID(), 'full');
+                    $link_parceiro = get_post_meta(get_the_ID(), '_parceiro_link', true);
+
                     if ($imagem_destaque) {
                         echo '<div class="parceiro-item">';
+
+                        if ($link_parceiro) {
+                            echo '<a href="' . esc_url($link_parceiro) . '" target="_blank" rel="noopener noreferrer">';
+                        }
+
                         echo '<img src="' . esc_url($imagem_destaque) . '" alt="' . esc_attr(get_the_title()) . '" />';
+
+                        if ($link_parceiro) {
+                            echo '</a>';
+                        }
+
                         echo '</div>';
                     }
                 }
+
 
                 // echo '</div>'; // Fecha o container
             } else {

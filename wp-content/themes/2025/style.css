@@ -13,6 +13,12 @@
   color: #6e808a;
 }
 
+.fa-brands,
+.fab {
+  font-weight: 400;
+  color: #fff;
+}
+
 .bree-serif-regular {
   font-family: "Bree Serif", serif;
   font-weight: 400;
@@ -1143,6 +1149,11 @@ footer h5 {
   font-size: 1.2em;
   font-weight: bold;
   margin-right: 10px;
+}
+
+.compartilhe i {
+  padding-top: 6px;
+  padding-left: 7px;
 }
 
 .cont_compartilhe .social-btn:first-child {

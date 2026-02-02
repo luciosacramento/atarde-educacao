@@ -12,6 +12,15 @@ function registrar_menus()
 }
 add_action('after_setup_theme', 'registrar_menus');
 
+add_action('wp_enqueue_scripts', function () {
+    wp_enqueue_style(
+        'font-awesome',
+        'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css',
+        [],
+        '6.5.1'
+    );
+});
+
 // Adicionar tamanhos personalizados de imagens
 function registrar_cortes_personalizados_imagens()
 {
@@ -327,9 +336,11 @@ add_action('init', 'adicionar_posts_equipe');
 
 /*******************FIM  tipo de conteudo EQUIPE********************** */
 
-/*******************tipo de conteudo PARCEIRO************************ */
+/******************* TIPO DE CONTEÚDO PARCEIRO ************************ */
 
-// Função para registrar o tipo de conteúdo "parceiro"
+/**
+ * Registrar o post type Parceiro
+ */
 function registrar_tipo_conteudo_parceiro()
 {
     $labels = array(
@@ -355,13 +366,13 @@ function registrar_tipo_conteudo_parceiro()
         'show_ui' => true,
         'show_in_menu' => true,
         'query_var' => true,
-        'rewrite' => array('slug' => 'parceiro_post'),
+        'rewrite' => array('slug' => 'parceiros'),
         'capability_type' => 'post',
         'has_archive' => true,
         'hierarchical' => false,
         'menu_position' => 3,
-        'menu_icon' => 'dashicons-admin-links', // Ícone do menu
-        'supports' => array('title', 'thumbnail'), // Suporte a título e imagem destacada
+        'menu_icon' => 'dashicons-admin-links',
+        'supports' => array('title', 'thumbnail'),
     );
 
     register_post_type('parceiro_post', $args);
@@ -369,49 +380,77 @@ function registrar_tipo_conteudo_parceiro()
 add_action('init', 'registrar_tipo_conteudo_parceiro');
 
 
-// Adicionar o metabox para o campo "Link"
+/**
+ * Adicionar Metabox de Link
+ */
 function adicionar_metabox_parceiro()
 {
     add_meta_box(
-        'parceiro_link', // ID único
-        'Link do Parceiro', // Título do Metabox
-        'renderizar_metabox_parceiro', // Função de callback
-        'parceiro', // Tipo de conteúdo
-        'normal', // Contexto
-        'default' // Prioridade
+        'parceiro_link',
+        'Link do Parceiro',
+        'renderizar_metabox_parceiro',
+        'parceiro_post', // ✅ CORRETO
+        'normal',
+        'default'
     );
 }
 add_action('add_meta_boxes', 'adicionar_metabox_parceiro');
 
-// Renderizar o Metabox
+
+/**
+ * Renderizar Metabox
+ */
 function renderizar_metabox_parceiro($post)
 {
-    // Garante a segurança com nonce
     wp_nonce_field('salvar_metabox_parceiro', 'parceiro_link_nonce');
 
-    // Obtém o valor salvo, se existir
     $link = get_post_meta($post->ID, '_parceiro_link', true);
-
-    echo '<label for="parceiro_link">Insira o link do parceiro:</label>';
-    echo '<input type="url" id="parceiro_link" name="parceiro_link" value="' . esc_attr($link) . '" style="width:100%; margin-top:10px;" placeholder="https://exemplo.com">';
+    ?>
+    <p>
+        <label for="parceiro_link"><strong>Link do parceiro</strong></label>
+        <input type="url" id="parceiro_link" name="parceiro_link" value="<?php echo esc_attr($link); ?>"
+            style="width:100%; margin-top:8px;" placeholder="https://www.exemplo.com">
+    </p>
+    <?php
 }
 
-// Salvar o valor do campo personalizado
+
+/**
+ * Salvar Metabox
+ */
 function salvar_metabox_parceiro($post_id)
 {
-    // Verifica o nonce para garantir a segurança
-    if (!isset($_POST['parceiro_link_nonce']) || !wp_verify_nonce($_POST['parceiro_link_nonce'], 'salvar_metabox_parceiro')) {
+    // Evita autosave
+    if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) {
         return;
     }
 
-    // Verifica se o campo foi enviado e salva o valor
+    // Verifica nonce
+    if (
+        !isset($_POST['parceiro_link_nonce']) ||
+        !wp_verify_nonce($_POST['parceiro_link_nonce'], 'salvar_metabox_parceiro')
+    ) {
+        return;
+    }
+
+    // Verifica permissão
+    if (!current_user_can('edit_post', $post_id)) {
+        return;
+    }
+
+    // Salva o campo
     if (isset($_POST['parceiro_link'])) {
-        update_post_meta($post_id, '_parceiro_link', esc_url_raw($_POST['parceiro_link']));
+        update_post_meta(
+            $post_id,
+            '_parceiro_link',
+            esc_url_raw($_POST['parceiro_link'])
+        );
     }
 }
-add_action('save_post', 'salvar_metabox_parceiro');
+add_action('save_post_parceiro_post', 'salvar_metabox_parceiro');
 
-/*******************FIM tipo de conteudo PARCEIRO************************ */
+/******************* FIM PARCEIRO ************************ */
+
 
 /*******************tipo de conteudo CURSO************************ */
 
@@ -2589,4 +2628,115 @@ function salvar_imagem_topo($post_id)
 }
 add_action('save_post', 'salvar_imagem_topo');
 
+
+/**
+ * Submenu Configurações - Redes Sociais A Tarde
+ */
+
+/**
+ * 1. Adiciona submenu em Configurações
+ */
+add_action('admin_menu', function () {
+    add_options_page(
+        'Redes Sociais A Tarde',          // Título da página
+        'Redes Sociais A Tarde',          // Título do menu
+        'manage_options',                // Capacidade
+        'redes-sociais-atarde',           // Slug
+        'atarde_render_redes_sociais_page'// Callback
+    );
+});
+
+/**
+ * 2. Registra as configurações
+ */
+add_action('admin_init', function () {
+
+    // Grupo de opções
+    register_setting('atarde_redes_sociais_group', 'atarde_ava_link');
+    register_setting('atarde_redes_sociais_group', 'atarde_instagram_link');
+    register_setting('atarde_redes_sociais_group', 'atarde_facebook_link');
+    register_setting('atarde_redes_sociais_group', 'atarde_youtube_link');
+
+    // Seção
+    add_settings_section(
+        'atarde_redes_sociais_section',
+        'Links das Redes Sociais',
+        '__return_false',
+        'redes-sociais-atarde'
+    );
+
+    // Campos
+    add_settings_field(
+        'atarde_ava_link',
+        'AVA',
+        'atarde_render_input',
+        'redes-sociais-atarde',
+        'atarde_redes_sociais_section',
+        ['option' => 'atarde_ava_link']
+    );
+
+    add_settings_field(
+        'atarde_instagram_link',
+        'Instagram',
+        'atarde_render_input',
+        'redes-sociais-atarde',
+        'atarde_redes_sociais_section',
+        ['option' => 'atarde_instagram_link']
+    );
+
+    add_settings_field(
+        'atarde_facebook_link',
+        'Facebook',
+        'atarde_render_input',
+        'redes-sociais-atarde',
+        'atarde_redes_sociais_section',
+        ['option' => 'atarde_facebook_link']
+    );
+
+    add_settings_field(
+        'atarde_youtube_link',
+        'YouTube',
+        'atarde_render_input',
+        'redes-sociais-atarde',
+        'atarde_redes_sociais_section',
+        ['option' => 'atarde_youtube_link']
+    );
+});
+
+/**
+ * 3. Renderiza campo input
+ */
+function atarde_render_input($args)
+{
+    $option = $args['option'];
+    $value = esc_attr(get_option($option, ''));
+
+    echo "<input 
+            type='url' 
+            name='{$option}' 
+            value='{$value}' 
+            class='regular-text' 
+            placeholder='https://'
+        />";
+}
+
+/**
+ * 4. Renderiza a página
+ */
+function atarde_render_redes_sociais_page()
+{
+    ?>
+        <div class="wrap">
+            <h1>Redes Sociais A Tarde</h1>
+
+            <form method="post" action="options.php">
+                <?php
+                settings_fields('atarde_redes_sociais_group');
+                do_settings_sections('redes-sociais-atarde');
+                submit_button();
+                ?>
+            </form>
+        </div>
+        <?php
+}
 

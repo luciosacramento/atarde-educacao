@@ -52,8 +52,8 @@ wp_reset_query();
                     <div class="col-md-4 p-3">
                         <div class="card">
                             <a href="#" class="abrir-modal" data-url="<?php echo $link; ?>">
-                                <img src="<?php echo $imagem_destaque; ?>" class="card-img-top"
-                                    alt="<?php echo get_the_title(); ?>">
+                                <img style="width: 400px; height: 400px;" src="<?php echo $imagem_destaque; ?>"
+                                    class="card-img-top" alt="<?php echo get_the_title(); ?>">
                             </a>
                             <div class="card-body">
                                 <h5 class="card-title"><?php echo get_the_title(); ?></h5>

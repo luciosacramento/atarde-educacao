@@ -9,12 +9,23 @@
         <p>Email: exemplo@atardeeducacao.com</p>
         <p>Telefone: +55 85 9876 1234</p>
         <div class="mt-3">
-          <a href="#" class=" me-3"><img src="<?php bloginfo('template_url'); ?>/img/icon_insta_footer.png"
-              alt="Facebook"></a>
-          <a href="#" class=" me-3"><img src="<?php bloginfo('template_url'); ?>/img/icon_face_footer.png"
-              alt="Facebook"></a>
-          <a href="#" class=""><img src="<?php bloginfo('template_url'); ?>/img/icon_youtube_footer.png"
-              alt="Facebook"></a>
+          <?php if ($instagram = get_option('atarde_instagram_link')): ?>
+            <a href="<?php echo esc_url($instagram); ?>" class="me-3" target="_blank" rel="noopener">
+              <img src="<?php bloginfo('template_url'); ?>/img/icon_insta_footer.png" alt="Instagram">
+            </a>
+          <?php endif; ?>
+
+          <?php if ($facebook = get_option('atarde_facebook_link')): ?>
+            <a href="<?php echo esc_url($facebook); ?>" class="me-3" target="_blank" rel="noopener">
+              <img src="<?php bloginfo('template_url'); ?>/img/icon_face_footer.png" alt="Facebook">
+            </a>
+          <?php endif; ?>
+
+          <?php if ($youtube = get_option('atarde_youtube_link')): ?>
+            <a href="<?php echo esc_url($youtube); ?>" target="_blank" rel="noopener">
+              <img src="<?php bloginfo('template_url'); ?>/img/icon_youtube_footer.png" alt="YouTube">
+            </a>
+          <?php endif; ?>
         </div>
       </div>
       <div class="col-md-1"></div>
